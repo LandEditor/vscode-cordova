@@ -695,7 +695,7 @@
 		"sinon": "^9.1.0",
 		"ts-loader": "^8.1.0",
 		"typescript": "^3.8.3",
-		"typescript-esbuild": "latest",
+		"typescript-esbuild": "0.4.5",
 		"vscode-nls-dev": "^4.0.4",
 		"webpack": "^5.76.0",
 		"webpack-bundle-analyzer": "^4.4.0"
