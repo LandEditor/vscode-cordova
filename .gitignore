@@ -1,5 +1,7 @@
+.DS_Store
 .idea
 *.vsix
+node_modules/
 out/
 dist/
 test/resources/testCordovaProject/.vscode/
