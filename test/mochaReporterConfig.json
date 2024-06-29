@@ -1,0 +1,11 @@
+{
+    "reporterEnabled": "spec, mocha-junit-reporter, mochawesome",
+    "mochaJunitReporterReporterOptions": {
+        "mochaFile": "./ExtensionTests.xml"
+    },
+    "mochawesomeReporterOptions": {
+        "reportDir": "../mochawesome-report",
+        "reportFilename": "Cordova-Test-Report",
+        "quiet": true
+    }
+}
