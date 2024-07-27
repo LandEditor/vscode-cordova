@@ -4,10 +4,10 @@
 
 const child_process = require("child_process");
 const fs = require("fs");
-const log = require('fancy-log');
-const colors = require('ansi-colors');
+const log = require("fancy-log");
+const colors = require("ansi-colors");
 const path = require("path");
-const PluginError = require('plugin-error');
+const PluginError = require("plugin-error");
 const through = require("through2");
 
 /**
@@ -17,39 +17,50 @@ const through = require("through2");
  * @param {string} message The error message to display
  */
 function logError(pluginName, file, message) {
-    const sourcePath = path.relative(__dirname, file.path).replace("../", ""); // CodeQL [js/incomplete-sanitization] Debugging extension has no need to use global replacement in file path string
-    log(`[${colors.cyan(pluginName)}] ${colors.red("error")} ${sourcePath}: ${message}`);
+	const sourcePath = path.relative(__dirname, file.path).replace("../", ""); // CodeQL [js/incomplete-sanitization] Debugging extension has no need to use global replacement in file path string
+	log(
+		`[${colors.cyan(pluginName)}] ${colors.red("error")} ${sourcePath}: ${message}`,
+	);
 }
 
 /**
  * Plugin to verify the Microsoft copyright notice is present
  */
 function checkCopyright() {
-    const pluginName = "check-copyright";
-    let hadErrors = false;
-    const copyrightNotice = "// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT license. See LICENSE file in the project root for details.";
+	const pluginName = "check-copyright";
+	let hadErrors = false;
+	const copyrightNotice =
+		"// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT license. See LICENSE file in the project root for details.";
 
-    return through.obj(function (file, encoding, callback) {
-        if (file.isBuffer()) {
-            let fileContents = file.contents.toString(encoding);
-            fileContents = fileContents.replace("\r\n", "\n");
-            fileContents = fileContents.replace("\"use strict\";\n", "");
-            fileContents = fileContents.replace("Object.defineProperty(exports, \"__esModule\", { value: true });\n", "");
+	return through.obj(
+		function (file, encoding, callback) {
+			if (file.isBuffer()) {
+				let fileContents = file.contents.toString(encoding);
+				fileContents = fileContents.replace("\r\n", "\n");
+				fileContents = fileContents.replace('"use strict";\n', "");
+				fileContents = fileContents.replace(
+					'Object.defineProperty(exports, "__esModule", { value: true });\n',
+					"",
+				);
 
-            if (fileContents.indexOf(copyrightNotice) !== 0) {
-                logError(pluginName, file, "missing copyright notice");
-                hadErrors = true;
-            }
-        }
+				if (fileContents.indexOf(copyrightNotice) !== 0) {
+					logError(pluginName, file, "missing copyright notice");
+					hadErrors = true;
+				}
+			}
 
-        callback(null, file);
-    },
-        function (callback) {
-            if (hadErrors) {
-                return this.emit("error", new PluginError(pluginName, "Failed copyright check"));
-            }
-            callback();
-        });
+			callback(null, file);
+		},
+		function (callback) {
+			if (hadErrors) {
+				return this.emit(
+					"error",
+					new PluginError(pluginName, "Failed copyright check"),
+				);
+			}
+			callback();
+		},
+	);
 }
 
 /**
@@ -58,44 +69,48 @@ function checkCopyright() {
  * @returns {boolean} If the path exists case sensitive
  */
 function existsCaseSensitive(filePath) {
-    if (fs.existsSync(filePath)) {
-        const fileName = path.basename(filePath);
-        return fs.readdirSync(path.dirname(filePath)).indexOf(fileName) !== -1;
-    }
+	if (fs.existsSync(filePath)) {
+		const fileName = path.basename(filePath);
+		return fs.readdirSync(path.dirname(filePath)).indexOf(fileName) !== -1;
+	}
 
-    return false;
+	return false;
 }
 
 function executeCommand(command, args, callback, opts) {
-    const proc = child_process.spawn(command + (process.platform === "win32" ? ".cmd" : ""), args, opts);
-    let errorSignaled = false;
+	const proc = child_process.spawn(
+		command + (process.platform === "win32" ? ".cmd" : ""),
+		args,
+		opts,
+	);
+	let errorSignaled = false;
 
-    proc.stdout.on("data", (data) => {
-        log(`${data}`);
-    });
+	proc.stdout.on("data", (data) => {
+		log(`${data}`);
+	});
 
-    proc.stderr.on("data", (data) => {
-        log.error(`${data}`);
-    });
+	proc.stderr.on("data", (data) => {
+		log.error(`${data}`);
+	});
 
-    proc.on("error", (error) => {
-        if (!errorSignaled) {
-            callback(`An error occurred. ${error}`);
-            errorSignaled = true;
-        }
-    });
+	proc.on("error", (error) => {
+		if (!errorSignaled) {
+			callback(`An error occurred. ${error}`);
+			errorSignaled = true;
+		}
+	});
 
-    proc.on("exit", (code) => {
-        if (code === 0) {
-            callback();
-        } else if (!errorSignaled) {
-            callback(`Error code: ${code}`);
-            errorSignaled = true;
-        }
-    });
+	proc.on("exit", (code) => {
+		if (code === 0) {
+			callback();
+		} else if (!errorSignaled) {
+			callback(`Error code: ${code}`);
+			errorSignaled = true;
+		}
+	});
 }
 
 module.exports = {
-    checkCopyright,
-    executeCommand
-}
+	checkCopyright,
+	executeCommand,
+};
