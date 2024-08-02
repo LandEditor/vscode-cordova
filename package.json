@@ -618,6 +618,539 @@
 					"when": "isCordovaDebugging && debugType == 'pwa-chrome' || isCordovaDebugging && debugType == 'pwa-node' || isCordovaDebugging && debugType == 'cordova'"
 				}
 			]
+		},
+		"breakpoints": [
+			{
+				"language": "javascript"
+			},
+			{
+				"language": "typescript"
+			},
+			{
+				"language": "javascriptreact"
+			},
+			{
+				"language": "typescriptreact"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "cordova",
+				"label": "Cordova",
+				"runtime": "node",
+				"configurationSnippets": [
+					{
+						"label": "Cordova: Debug Android on device",
+						"description": "%cordova.snippets.androidRunOnDevice%",
+						"body": {
+							"name": "Debug Android on device",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "android",
+							"target": "device",
+							"port": 9222,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Debug Android on emulator",
+						"description": "%cordova.snippets.androidRunOnEmulator%",
+						"body": {
+							"name": "Debug Android on emulator",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "android",
+							"target": "emulator",
+							"port": 9222,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Debug on iOS device - experimental",
+						"description": "%cordova.snippets.iOSRunOnDevice%",
+						"body": {
+							"name": "Debug iOS on device - experimental",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "ios",
+							"target": "device",
+							"port": 9220,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Debug on iOS simulator - experimental",
+						"description": "%cordova.snippets.iOSRunOnSimulator%",
+						"body": {
+							"name": "Debug iOS on simulator - experimental",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "ios",
+							"target": "emulator",
+							"port": 9220,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Attach to running Android on device",
+						"description": "%cordova.snippets.androidAttachOnDevice%",
+						"body": {
+							"name": "Attach to running Android on device",
+							"type": "cordova",
+							"request": "attach",
+							"platform": "android",
+							"target": "device",
+							"port": 9222,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Attach to running Android on emulator",
+						"description": "%cordova.snippets.androidAttachOnEmulator%",
+						"body": {
+							"name": "Attach to running Android on emulator",
+							"type": "cordova",
+							"request": "attach",
+							"platform": "android",
+							"target": "emulator",
+							"port": 9222,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Attach to running iOS on device - experimental",
+						"description": "%cordova.snippets.iOSAttachOnDevice%",
+						"body": {
+							"name": "Attach to running iOS on device - experimental",
+							"type": "cordova",
+							"request": "attach",
+							"platform": "ios",
+							"target": "device",
+							"port": 9220,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Attach to running iOS on simulator - experimental",
+						"description": "%cordova.snippets.iOSAttachOnSimulator%",
+						"body": {
+							"name": "Attach to running iOS on simulator - experimental",
+							"type": "cordova",
+							"request": "attach",
+							"platform": "ios",
+							"target": "emulator",
+							"port": 9220,
+							"sourceMaps": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Serve",
+						"description": "%cordova.snippets.ionicServe%",
+						"body": {
+							"name": "Serve to the browser (Ionic Serve)",
+							"type": "cordova",
+							"request": "launch",
+							"target": "chrome",
+							"platform": "serve",
+							"devServerAddress": "${1:localhost}",
+							"sourceMaps": true,
+							"ionicLiveReload": true,
+							"cwd": "^\"\\${workspaceFolder}\""
+						}
+					},
+					{
+						"label": "Cordova: Simulate Android in browser",
+						"description": "%cordova.snippets.simulateAndroid%",
+						"body": {
+							"name": "Simulate Android in browser",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "android",
+							"target": "chrome",
+							"simulatePort": 8000,
+							"livereload": true,
+							"cwd": "^\"\\${workspaceFolder}\"",
+							"sourceMaps": true
+						}
+					},
+					{
+						"label": "Cordova: Simulate iOS in browser",
+						"description": "%cordova.snippets.simulateiOS%",
+						"body": {
+							"name": "Simulate iOS in browser",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "ios",
+							"target": "chrome",
+							"simulatePort": 8000,
+							"livereload": true,
+							"cwd": "^\"\\${workspaceFolder}\"",
+							"sourceMaps": true
+						}
+					},
+					{
+						"label": "Cordova: Debug on Browser",
+						"description": "%cordova.snippets.simulateBrowser%",
+						"body": {
+							"name": "Debug on Browser",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "browser",
+							"target": "chrome",
+							"simulatePort": 8000,
+							"livereload": true,
+							"cwd": "^\"\\${workspaceFolder}\"",
+							"sourceMaps": true
+						}
+					},
+					{
+						"label": "Cordova: Debug on Electron - experimental",
+						"description": "%cordova.snippets.simulateElectron%",
+						"body": {
+							"name": "Debug on Electron - Experimental",
+							"type": "cordova",
+							"request": "launch",
+							"platform": "browser",
+							"target": "electron",
+							"simulatePort": 8000,
+							"electronPort": 9223,
+							"livereload": true,
+							"cwd": "^\"\\${workspaceFolder}\"",
+							"sourceMaps": true
+						}
+					}
+				],
+				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"platform",
+							"cwd"
+						],
+						"properties": {
+							"platform": {
+								"type": "string",
+								"description": "%cordova.properties.launch.platform%"
+							},
+							"cwd": {
+								"type": "string",
+								"description": "%cordova.properties.launch.cwd%"
+							},
+							"target": {
+								"description": "%cordova.properties.launch.target%",
+								"anyOf": [
+									{
+										"type": "string",
+										"enum": [
+											"device",
+											"emulator"
+										]
+									},
+									{
+										"type": "string"
+									}
+								],
+								"default": "emulator"
+							},
+							"sourceMaps": {
+								"type": "boolean",
+								"description": "%cordova.properties.launch.sourceMaps%",
+								"default": false
+							},
+							"trace": {
+								"type": "boolean",
+								"default": true,
+								"description": "%cordova.properties.launch.trace%"
+							},
+							"port": {
+								"type": "number",
+								"description": "%cordova.properties.launch.port%",
+								"default": 9222
+							},
+							"webkitRangeMin": {
+								"type": "number",
+								"description": "%cordova.properties.launch.webkitRangeMin%",
+								"default": 9223
+							},
+							"webkitRangeMax": {
+								"type": "number",
+								"description": "",
+								"default": 9322
+							},
+							"attachAttempts": {
+								"type": "number",
+								"description": "%cordova.properties.launch.attachAttempts%",
+								"default": 5
+							},
+							"attachDelay": {
+								"type": "number",
+								"description": "%cordova.properties.launch.attachDelay%",
+								"default": 1000
+							},
+							"attachTimeout": {
+								"type": "number",
+								"description": "%cordova.properties.launch.attachTimeout%",
+								"default": 10000
+							},
+							"iosDebugProxyPort": {
+								"type": "number",
+								"description": "%cordova.properties.launch.iosDebugProxyPort%",
+								"default": 9221
+							},
+							"ionicLiveReload": {
+								"type": "boolean",
+								"description": "%cordova.properties.launch.ionicLiveReload%",
+								"default": false
+							},
+							"devServerPort": {
+								"type": "number",
+								"description": "%cordova.properties.launch.devServerPort%"
+							},
+							"devServerAddress": {
+								"type": "string",
+								"description": "%cordova.properties.launch.devServerAddress%"
+							},
+							"devServerTimeout": {
+								"type": "number",
+								"description": "%cordova.properties.launch.devServerTimeout%",
+								"default": 60000
+							},
+							"simulatePort": {
+								"type": "number",
+								"description": "%cordova.properties.launch.simulatePort%",
+								"default": 8000
+							},
+							"livereload": {
+								"type": "boolean",
+								"description": "%cordova.properties.launch.livereload%"
+							},
+							"livereloadDelay": {
+								"type": "number",
+								"description": "%cordova.properties.launch.livereloadDelay%",
+								"default": 200
+							},
+							"forcePrepare": {
+								"type": "boolean",
+								"description": "%cordova.properties.launch.forcePrepare%"
+							},
+							"simulateTempDir": {
+								"type": "string",
+								"description": "%cordova.properties.launch.simulateTempDir%",
+								"default": "${workspaceFolder}/.vscode/simulation"
+							},
+							"corsProxy": {
+								"type": "boolean",
+								"description": "%cordova.properties.launch.corsProxy%",
+								"default": true
+							},
+							"runArguments": {
+								"type": "array",
+								"description": "%cordova.properties.launch.runArguments%"
+							},
+							"cordovaExecutable": {
+								"type": "string",
+								"description": "%cordova.properties.launch.cordovaExecutable%"
+							},
+							"env": {
+								"type": "object",
+								"additionalProperties": {
+									"type": "string"
+								},
+								"description": "%cordova.properties.launch.env%",
+								"default": {}
+							},
+							"envFile": {
+								"type": "string",
+								"description": "%cordova.properties.launch.envFile%",
+								"default": "${workspaceFolder}/.env"
+							},
+							"skipFiles": {
+								"type": "array",
+								"description": "%cordova.properties.launch.skipFiles%",
+								"default": []
+							},
+							"pathMapping": {
+								"type": "object",
+								"description": "%cordova.properties.launch.pathMapping%",
+								"default": {
+									"/": "${workspaceFolder}"
+								}
+							},
+							"runtimeVersion": {
+								"type": "string",
+								"description": "%cordova.properties.launch.runtimeVersion%"
+							},
+							"sourceMapPathOverrides": {
+								"type": "object",
+								"description": "%cordova.properties.launch.sourceMapPathOverrides%",
+								"default": {
+									"webpack:///./*": "${cwd}/*",
+									"webpack:///src/*": "${cwd}/*",
+									"webpack:///*": "*",
+									"webpack:///./~/*": "${cwd}/node_modules/*",
+									"./*": "${cwd}/*"
+								}
+							},
+							"spaUrlRewrites": {
+								"type": "boolean",
+								"description": "%cordova.properties.launch.spaUrlRewrites%",
+								"default": false
+							},
+							"hostname": {
+								"type": "string",
+								"description": "%cordova.properties.launch.hostname%",
+								"default": "localhost"
+							},
+							"electronPort": {
+								"type": "number",
+								"description": "%cordova.properties.launch.electronPort%",
+								"default": 9223
+							}
+						}
+					},
+					"attach": {
+						"required": [
+							"platform",
+							"cwd"
+						],
+						"properties": {
+							"platform": {
+								"type": "string",
+								"description": "%cordova.properties.attach.platform%"
+							},
+							"cwd": {
+								"type": "string",
+								"description": "%cordova.properties.attach.cwd%"
+							},
+							"target": {
+								"type": "string",
+								"description": "%cordova.properties.attach.target%",
+								"default": "emulator"
+							},
+							"sourceMaps": {
+								"type": "boolean",
+								"description": "%cordova.properties.attach.sourceMaps%",
+								"default": false
+							},
+							"port": {
+								"type": "number",
+								"description": "%cordova.properties.attach.port%",
+								"default": 9222
+							},
+							"trace": {
+								"type": "boolean",
+								"default": true,
+								"description": "%cordova.properties.attach.trace%"
+							},
+							"webkitRangeMin": {
+								"type": "number",
+								"description": "%cordova.properties.attach.webkitRangeMin%",
+								"default": 9223
+							},
+							"webkitRangeMax": {
+								"type": "number",
+								"description": "%cordova.properties.attach.webkitRangeMax%",
+								"default": 9322
+							},
+							"attachAttempts": {
+								"type": "number",
+								"description": "%cordova.properties.attach.attachAttempts%",
+								"default": 5
+							},
+							"attachDelay": {
+								"type": "number",
+								"description": "%cordova.properties.attach.attachDelay%",
+								"default": 1000
+							},
+							"attachTimeout": {
+								"type": "number",
+								"description": "%cordova.properties.attach.attachTimeout%",
+								"default": 10000
+							},
+							"skipFiles": {
+								"type": "array",
+								"description": "%cordova.properties.attach.skipFiles%",
+								"default": []
+							},
+							"pathMapping": {
+								"type": "object",
+								"description": "%cordova.properties.attach.pathMapping%",
+								"default": {
+									"/": "${workspaceFolder}"
+								}
+							},
+							"ionicLiveReload": {
+								"type": "boolean",
+								"description": "%cordova.properties.attach.ionicLiveReload%",
+								"default": false
+							},
+							"sourceMapPathOverrides": {
+								"type": "object",
+								"description": "%cordova.properties.attach.sourceMapPathOverrides%",
+								"default": {
+									"webpack:///./*": "${cwd}/*",
+									"webpack:///src/*": "${cwd}/*",
+									"webpack:///*": "*",
+									"webpack:///./~/*": "${cwd}/node_modules/*",
+									"./*": "${cwd}/*"
+								}
+							},
+							"hostname": {
+								"type": "string",
+								"description": "%cordova.properties.launch.hostname%",
+								"default": "localhost"
+							}
+						}
+					}
+				}
+			}
+		],
+		"configuration": [
+			{
+				"title": "Cordova Tools",
+				"properties": {
+					"cordova.runArguments": {
+						"type": "array",
+						"default": [],
+						"description": "%cordova.configuration.properties.cordova.runArguments%",
+						"scope": "resource"
+					},
+					"cordova.cordovaExecutable": {
+						"type": "string",
+						"default": "",
+						"description": "%cordova.configuration.properties.cordova.cordovaExecutable%",
+						"scope": "resource"
+					},
+					"cordova.env": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "string"
+						},
+						"description": "%cordova.configuration.properties.cordova.env%",
+						"default": {},
+						"scope": "resource"
+					},
+					"cordova.envFile": {
+						"type": "string",
+						"description": "%cordova.configuration.properties.cordova.envFile%",
+						"scope": "resource"
+					}
+				}
+			}
+		]
+	},
+	"capabilities": {
+		"virtualWorkspaces": false,
+		"untrustedWorkspaces": {
+			"supported": "limited",
+			"description": "%cordova.workspaceTrust.description%"
 		}
 	},
 	"dependencies": {
@@ -657,20 +1190,5 @@
 	"displayName": "Cordova Tools",
 	"extensionDependencies": [
 		"ms-vscode.js-debug"
-	],
-	"extensionKind": [
-		"workspace"
-	],
-	"galleryBanner": {
-		"color": "#feb943",
-		"theme": "dark"
-	},
-	"icon": "images/icon.png",
-	"main": "./src/extension/cordova-extension",
-	"name": "cordova-tools",
-	"scripts": {
-		"build": "gulp build",
-		"prepare": "husky install",
-		"test-localization": "node ./test/localization/runTest.js"
-	}
+	]
 }
