@@ -24,8 +24,11 @@ with any Cordova-based project.
     - Open a Terminal and run
       `brew install ideviceinstaller ios-webkit-debug-proxy`
 
-4. If you're planning on targeting Android devices, set up your machine by following instructions at [Android Platform Guide from Apache Cordova](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html)
-5. If you're planning to targeting Electron app, install Electron using `npm install electron`.
+4. If you're planning on targeting Android devices, set up your machine by
+   following instructions at
+   [Android Platform Guide from Apache Cordova](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html)
+5. If you're planning to targeting Electron app, install Electron using
+   `npm install electron`.
 
 ## Add a platform to your Cordova project
 
@@ -233,7 +236,10 @@ feature. If you have feature requests or suggestions, please reach out to us
 
 ## Support for Electron
 
-You can now launch and debug your Electron application using the `Debug on Electron` configuration. This requires Electron to be installed in your project to run its browser. You can install it by running `npm install electron`.
+You can now launch and debug your Electron application using the
+`Debug on Electron` configuration. This requires Electron to be installed in
+your project to run its browser. You can install it by running
+`npm install electron`.
 
 ## Use IntelliSense with Plugin APIs
 
