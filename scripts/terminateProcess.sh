@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 terminateTree() {
 	for cpid in $(/usr/bin/pgrep -P $1); do
