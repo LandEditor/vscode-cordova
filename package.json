@@ -402,8 +402,7 @@
 							},
 							"webkitRangeMax": {
 								"default": 9322,
-								"description": "",
-								"type": "number"
+															"type": "number"
 							},
 							"webkitRangeMin": {
 								"default": 9223,
