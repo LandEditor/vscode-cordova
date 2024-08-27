@@ -1,0 +1,476 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta name="keywords" content="@playform/document"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@codeeditorland/foundation - v0.0.1</title><meta name="description" content="Documentation for @codeeditorland/foundation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><link rel="stylesheet" href="assets/custom.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@codeeditorland/foundation - v0.0.1</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>@codeeditorland/foundation - v0.0.1</h2></div><div class="tsd-panel tsd-typography"><a id="md:cordova-tools-extension" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Cordova Tools Extension<a href="#md:cordova-tools-extension" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p><a href="https://dev.azure.com/vscode-webdiag-extensions/VS%20Code%20WebDiag%20extensions/_build/latest?definitionId=62&amp;branchName=master"><img src="https://dev.azure.com/vscode-webdiag-extensions/VS%20Code%20WebDiag%20extensions/_apis/build/status/vscode-cordova%20%5Bmaster%5D?branchName=master" alt="Build Status"></a></p>
+<p><img src="https://img.shields.io/visual-studio-marketplace/v/msjsdiag.cordova-tools?color=deep%20green&amp;label=Version" alt="Visual Studio Marketplace Version">
+<img src="https://img.shields.io/visual-studio-marketplace/stars/msjsdiag.cordova-tools?label=Rating" alt="Visual Studio Marketplace Rating (Stars)"></p>
+<p>Debug your code, find commands in the Command Palette, and use IntelliSense to
+browse objects, functions, and parameters in plugin APIs. This extension works
+with any Cordova-based project.</p>
+<p><img src="media/overview.png" alt="Choose Cordova debugger"></p>
+<a id="md:install-it" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Install it<a href="#md:install-it" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ol start="0">
+<li>
+<p>Install <a href="https://nodejs.org">NodeJS</a></p>
+</li>
+<li>
+<p>Open a Terminal (on a Mac) or a Command Prompt (on a Windows computer).</p>
+</li>
+<li>
+<p>Run <code>npm install -g cordova</code></p>
+</li>
+<li>
+<p>If you're planning on targeting iOS devices,</p>
+<ul>
+<li>Set up your machine by following instructions at
+<a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html">iOS Platform Guide from Apache Cordova</a></li>
+<li>Install <a href="http://brew.sh/">HomeBrew</a> on your Mac.</li>
+<li>Open a Terminal and run
+<code>brew install ideviceinstaller ios-webkit-debug-proxy</code></li>
+</ul>
+</li>
+<li>
+<p>If you're planning on targeting Android devices, set up your machine by
+following instructions at
+<a href="https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html">Android Platform Guide from Apache Cordova</a></p>
+</li>
+<li>
+<p>If you're planning to targeting Electron app, install Electron using
+<code>npm install electron</code>.</p>
+</li>
+</ol>
+<a id="md:add-a-platform-to-your-cordova-project" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Add a platform to your Cordova project<a href="#md:add-a-platform-to-your-cordova-project" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Open a Terminal or a Command Prompt and run the following command in the root
+directory of your project</p>
+<p><code>cordova platform add android</code></p>
+<p>Supported platforms: <code>android, ios, electron</code></p>
+<a id="md:choose-the-cordova-debug-environment" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Choose the Cordova debug environment<a href="#md:choose-the-cordova-debug-environment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Click the debug icon (<img src="media/debug-view-icon.png" alt="Choose Cordova debugger">) in
+the View bar, and then click the configure gear icon
+(<img src="media/configure-gear-icon.png" alt="Configure-gear">) to choose the Cordova debug
+environment.</p>
+<p><img src="media/choose-debugger.png" alt="Choose Cordova debugger"></p>
+<p>The launch configuration file appears. It contains some default configurations
+such as what is shown below.</p>
+<p><img src="media/launch-config.png" alt="Cordova launch configuration file"></p>
+<p>You can modify these configurations or add new ones to the list. Just don't add
+a Windows configuration as it is not supported yet.</p>
+<p>You can use other fields in these configurations as well. Here's the complete
+list:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Defaults</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>port</code></td>
+<td>The port number that the debugger uses to connect to a device or emulator.<br><strong>Type:</strong> <code>number</code></td>
+<td>9222</td>
+</tr>
+<tr>
+<td><code>platform</code></td>
+<td>The target platform to run for (either <code>ios</code>, <code>android</code>, <code>browser</code> or <code>serve</code>; other platforms are not currently supported).<br><strong>Type:</strong> <code>string</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td>Target to run on. Possible values: <code>emulator</code>, <code>device</code>, <code>&lt;name or id of your target emulator or device&gt;</code>,. For simulation in the browser, you can use <code>chrome</code>, <code>edge</code>. If the value is <code>emulator</code> the quick pick window will be expanded with the names of the available Android virtual devices (for iOS virtual targets the list of available system versions of the target will be shown first, and after that another quick pick window will be expanded with the list of iOS simulators names with the selected version of the system), then the target value in <code>launch.json</code> will be changed to the AVD name/iOS Simulator udid of the selected virtual device. If you have only one virtual device available, it will be selected automatically.<br><em>Note: If you're using Android emulator targets, please, make sure the <code>emulator</code> utility is added to <code>PATH</code>.</em><br><strong>Type:</strong> <code>string</code></td>
+<td>emulator</td>
+</tr>
+<tr>
+<td><code>trace</code></td>
+<td>Trace may be set to <code>true</code> to print diagnostic logs of the extension to the console and write diagnostic logs of the Javascript debugger to the disk.<br><strong>Type:</strong> <code>boolean</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>sourceMaps</code></td>
+<td>Set this field to <code>true</code> if you want the debugger to use javascript sourcemaps (if they exist).<br><strong>Type:</strong> <code>boolean</code></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>sourceMapPathOverrides</code></td>
+<td>A set of mappings for rewriting the locations of source files from what the sourcemap says, to their locations on disk. <br><strong>Type:</strong> <code>object</code></td>
+<td>{<br><code>&quot;webpack:///./*&quot;: &quot;${cwd}/*&quot;,</code><br><code>&quot;webpack:///src/*&quot;: &quot;${cwd}/*&quot;,</code><br><code>&quot;webpack:///*&quot;: &quot;*&quot;,</code><br><code>&quot;webpack:///./~/*&quot;: &quot;${cwd}/node_modules/*&quot;</code>,<br><code>&quot;./*&quot;: &quot;${cwd}/*&quot;</code><br>}</td>
+</tr>
+<tr>
+<td><code>webkitRangeMin</code>, <code>webkitRangeMax</code></td>
+<td>Combines to specify the port range that you want the debugger to use to find the specific device or simulator described in the configuration.<br><strong>Type:</strong> <code>number</code></td>
+<td>9223, 9322</td>
+</tr>
+<tr>
+<td><code>attachAttempts</code></td>
+<td>The maximum number of times that you want the debugger to attempt to attach to a running iOS app.<br><strong>Type:</strong> <code>number</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>attachDelay</code></td>
+<td>The time in milliseconds between each attempt to attach to a running iOS application.<br><strong>Type:</strong> <code>number</code></td>
+<td>1000</td>
+</tr>
+<tr>
+<td><code>attachTimeout</code></td>
+<td>Time in milliseconds to wait before the debugger is attached to the debug session.<br><strong>Type:</strong> <code>number</code></td>
+<td>10000</td>
+</tr>
+<tr>
+<td><code>iosDebugProxyPort</code></td>
+<td>The port number that you want the debugger to use when it launches iOS applications on a device.<br><strong>Type:</strong> <code>number</code></td>
+<td>9221</td>
+</tr>
+<tr>
+<td><code>electronPort</code></td>
+<td>The port number that you want the debugger to use when it launches Electron applications.<br><strong>Type:</strong> <code>number</code></td>
+<td>9223</td>
+</tr>
+<tr>
+<td><code>ionicLiveReload</code></td>
+<td>Set to true to enable Ionic live reload.<br><strong>Type:</strong> <code>boolean</code></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>devServerAddress</code></td>
+<td>For Ionic live reload scenario specify the IP address the device can use to contact the Ionic server.<br><strong>Type:</strong> <code>string</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>devServerPort</code></td>
+<td>For Ionic live reload scenario specify the port the device can use to contact the Ionic server.<br><strong>Type:</strong> <code>number</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>devServerTimeout</code></td>
+<td>Timeout in milliseconds for starting the Ionic dev server when serving to the browser or running with Ionic live reload enabled.<br><strong>Type:</strong> <code>number</code></td>
+<td>20000</td>
+</tr>
+<tr>
+<td><code>simulatePort</code></td>
+<td>Port to use for connecting to the local Cordova Simulate server.<br><strong>Type:</strong> <code>number</code></td>
+<td>8000</td>
+</tr>
+<tr>
+<td><code>livereload</code></td>
+<td>When simulating in the browser, determines whether live reload is enabled.<br><strong>Type:</strong> <code>boolean</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>forcePrepare</code></td>
+<td>When simulating in the browser, determines whether a file change triggers a cordova prepare before live reloading.<br><strong>Type:</strong> <code>boolean</code></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>corsProxy</code></td>
+<td>When simulating in the browser, determines whether XHR requests are proxied to appear as though they originate from the same domain as the target.<br><strong>Type:</strong> <code>boolean</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>livereloadDelay</code></td>
+<td>When simulating in the browser, set the delay in milliseconds between saving of a modified file and the application page reloading.<br><strong>Type:</strong> <code>number</code></td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>simulateTempDir</code></td>
+<td>The directory where temporary browser simulation files are hosted.<br><strong>Type:</strong> <code>string</code></td>
+<td><code>${workspaceRoot}</code>/.vscode/simulation</td>
+</tr>
+<tr>
+<td><code>runArguments</code></td>
+<td>Run arguments (array) to be passed to <code>cordova run/build &lt;platform&gt;</code> or <code>ionic serve</code> command (Override all other configuration params).<br><strong>Type:</strong> <code>array</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>cordovaExecutable</code></td>
+<td>The path to the local Cordova/Ionic executable. For example:<ul><li>macOS - <code>./node_modules/.bin/cordova</code></li><li>Windows - <code>.\\node_modules\\.bin\\cordova.cmd</code></li></ul><strong>Type:</strong> <code>string</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>Environment variables passed to the program.<br><strong>Type:</strong> <code>object</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>envFile</code></td>
+<td>Absolute path to a file containing environment variable definitions.<br><strong>Type:</strong> <code>string</code></td>
+<td><code>${workspaceFolder}/.env</code></td>
+</tr>
+<tr>
+<td><code>skipFiles</code></td>
+<td>An array of file or folder names, or path globs, to skip when debugging.<br><strong>Type:</strong> <code>array</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>pathMapping</code></td>
+<td>A mapping of URLs/paths to local folders, to resolve scripts in app webroot to scripts on disk.<br><strong>Type:</strong> <code>object</code></td>
+<td>{<br><code>&quot;/&quot;: &quot;${workspaceFolder}&quot;</code><br>}</td>
+</tr>
+<tr>
+<td><code>runtimeVersion</code></td>
+<td>If <code>nvm</code> (or <code>nvm-windows</code>) or <code>nvs</code> is used for managing Node.js versions, this attribute can be used to select a specific version of Node.js.<br><strong>Type:</strong> <code>string</code></td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<a id="md:debug-your-cordova-based-project" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Debug your Cordova-based project<a href="#md:debug-your-cordova-based-project" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>To start the debugger, choose a target from the target drop-down list, and then
+either click the start button (<img src="media/debug-icon.png" alt="Configure-gear">) or
+press F5.</p>
+<p><img src="media/debug-targets.png" alt="Cordova launch targets"></p>
+<p>To restart a Cordova application debugging correctly click on the
+<code>Restart Cordova debugging</code> button. In case of a <code>launch</code> debug scenario the
+application will be rebuild otherwise the debugger will reattach to the
+application.</p>
+<p><img src="media/restart-cordova-debugging-button.png" alt="Restart Cordova debugging button"></p>
+<p>You can debug your app on an Android emulator or an Android/iOS device. If you
+have your app running in one already, you can attach the debugger to it. The
+debugger uses the application ID of your project to locate the running instance.</p>
+<blockquote>
+<p><strong>Visual Studio Emulator for Android:</strong> To deploy your app to the Visual
+Studio Emulator for Android using our extension, you first need to manually
+launch the emulator. Once it is running, select the <code>Debug Android on Device</code>
+debug target rather than the emulator target. If <em>ADB</em> didn't automatically
+recognize the VS Android emulator when you launched it, you will need to run
+<code>adb connect [EMULATOR'S IP]</code> on the command prompt before trying to deploy.
+To find out the IP address of your emulator, click the double arrow icon at
+the bottom of the emulator's side-menu to open the &quot;Additional Tools&quot; window,
+and go to the &quot;Network&quot; tab. Use the IP of an appropriate network adapter in
+the list.</p>
+</blockquote>
+<p>We won't go into all of the great things that you can do with the Visual Studio
+Code debugger, but you can read about it
+<a href="https://code.visualstudio.com/docs/editor/debugging">here</a>.</p>
+<blockquote>
+<p><strong>Troubleshooting tip:</strong> If you receive an error stating that ADB is not
+recognized as an internal or external command, you'll have to update your path
+variable to include the location of your <em>ADB</em> executable file. The <em>ADB</em>
+executable file is located in a subfolder along with your other Android SDK
+files. For example, on a Windows computer, the location of the <em>ADB</em>
+executable file would likely be here:
+<code>C:\Program Files (x86)\Android\android-sdk\platform-tools</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>Troubleshooting tip:</strong> If you press debug button, but nothing happens and
+you can see only pending spinner for a long time, make sure that Cordova
+project is opened as a workspace root. If, for instance, you have one parent
+directory, and your Cordova project is in a subdirectory, it is recommended to
+use a
+<a href="https://code.visualstudio.com/docs/editor/multi-root-workspaces">multi-root workspace approach</a>,
+so that the debugger can find the necessary Cordova files properly.</p>
+</blockquote>
+<a id="md:find-cordova-commands-in-the-command-palette" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Find Cordova commands in the Command Palette<a href="#md:find-cordova-commands-in-the-command-palette" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>In the Command Palette, type <code>Cordova</code> and choose a command.</p>
+<p><img src="media/command-palette.png" alt="Cordova commands"></p>
+<p>The <strong>Build</strong> command triggers <code>cordova build</code> and builds for all platforms that
+you've added to the project.</p>
+<p>Since all platforms are built you may receive errors for incompatible
+configurations. For example, if you're on a Windows computer, and you've added
+an iOS platform to your project, you'll get an error because you need a Mac to
+build for iOS platforms. You can't build an iOS app on a Mac by using VSCode on
+a Windows computer.</p>
+<p>The <strong>Prepare</strong> command triggers <code>cordova prepare</code>, which transforms
+<code>config.xml</code> metadata to platform-specific manifest files, copies icons &amp;
+splashscreens, copies plugin files for specified platforms so that the project
+is ready to build with each native SDK.</p>
+<p>The <strong>Run</strong> command triggers <code>cordova run</code> and starts your app without debugging
+and just like the <strong>Build</strong> command, it runs <em>all</em> platforms that you've added
+to your project.</p>
+<p>The <strong>Simulate Android in browser</strong> and <strong>Simulate iOS in browser</strong> launch your
+application in the browser and they are described in the next section.</p>
+<p>The full list of commands is:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Command ID</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cordova: Build</td>
+<td><code>cordova.build</code></td>
+<td>Build all platforms in project</td>
+</tr>
+<tr>
+<td>Cordova: Prepare</td>
+<td><code>cordova.prepare</code></td>
+<td>Copy files into platform for building</td>
+</tr>
+<tr>
+<td>Cordova: Run</td>
+<td><code>cordova.run</code></td>
+<td>Starts your app without debugging for each platform</td>
+</tr>
+<tr>
+<td>Cordova: Clean</td>
+<td><code>cordova.clean</code></td>
+<td>Cleanup project from build artifacts</td>
+</tr>
+<tr>
+<td>Ionic: Build</td>
+<td><code>ionic.build</code></td>
+<td>Build web assets and prepare your app for any platform targets</td>
+</tr>
+<tr>
+<td>Ionic: Prepare</td>
+<td><code>ionic.prepare</code></td>
+<td>Copies assets to Cordova platforms, preparing them for native builds</td>
+</tr>
+<tr>
+<td>Ionic: Clean</td>
+<td><code>ionic.run</code></td>
+<td>Run an Ionic project on a connected device</td>
+</tr>
+<tr>
+<td>Cordova: Simulate Android in browser</td>
+<td><code>cordova.simulate.android</code></td>
+<td>Simulate and launch android application in the browser using cordova-simulate</td>
+</tr>
+<tr>
+<td>Cordova: Simulate iOS in browser</td>
+<td><code>cordova.simulate.ios</code></td>
+<td>Simulate and launch ios application in the browser using cordova-simulate</td>
+</tr>
+</tbody>
+</table>
+<a id="md:simulate-your-app-in-the-browser" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Simulate your app in the browser<a href="#md:simulate-your-app-in-the-browser" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The debugging target list includes two additional targets:
+<code>Simulate Android in browser</code> and <code>Simulate iOS in browser</code>. If you don't see
+these targets in your debugging target list, you might have to remove your
+<code>.vscode/launch.json</code> configuration file and regenerate it by following the
+steps described in the
+<a href="#md:choose-the-cordova-debug-environment">Choose the Cordova debug environment</a>
+section.</p>
+<p>If you just want to run the application in the browser without debugging, two
+commands with the same names are available in the Command Palette.</p>
+<p>If you launch the application using one of these debug targets or commands, the
+application will launch in Chrome, and Visual Studio Code will display an
+additional panel that controls the simulation for the core plugins added to your
+project. Here are some of the new features:</p>
+<ul>
+<li>support for the majority of core plugins</li>
+<li>live reload</li>
+<li>event firing</li>
+<li>device screen resizing (while debugging only)</li>
+</ul>
+<p><img src="media/simulate-debugging.png" alt="Cordova Simulate"></p>
+<blockquote>
+<p><strong>Note</strong>: If the simulate panel is closed accidentally when you navigate to a
+new file in your editor, it can be reopened by using <code>Ctrl+Tab</code>. This is the
+same command you use for navigating through your open documents.</p>
+</blockquote>
+<p>Here is a <a href="https://www.youtube.com/watch?v=LdFT6xxhSbw">video demo</a> of the
+feature. If you have feature requests or suggestions, please reach out to us
+<a href="https://github.com/Microsoft/vscode-cordova/issues/new">here</a>.</p>
+<a id="md:support-for-ionic" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Support for Ionic<a href="#md:support-for-ionic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>
+<p>The debug target includes the ability to serve to the browser for use with
+Ionic projects. You can now deploy and debug directly to Chrome, live reload
+is enabled by default.</p>
+</li>
+<li>
+<p>We've included a number of useful JavaScript and HTML code snippets for your
+project, try typing <code>ion_</code> in the editor to see what's available.</p>
+</li>
+</ul>
+<p><img src="media/ionic_javascript_snippet.png" alt="JavaScript snippets">
+<img src="media/ionic_html_snippet.png" alt="HTML snippets"></p>
+<ul>
+<li>
+<p>New Ionic commands have also been added to the Command Palette, type <code>Ionic</code>
+in the palette to see the full list.</p>
+</li>
+<li>
+<p>Ionic live reload is supported on devices and emulators.</p>
+</li>
+<li>
+<p>Additional IntelliSense has been added for Ionic, Angular and JQuery.</p>
+</li>
+</ul>
+<a id="md:support-for-electron" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Support for Electron<a href="#md:support-for-electron" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>You can now launch and debug your Electron application using the
+<code>Debug on Electron</code> configuration. This requires Electron to be installed in
+your project to run its browser. You can install it by running
+<code>npm install electron</code>.</p>
+<a id="md:use-intellisense-with-plugin-apis" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Use IntelliSense with Plugin APIs<a href="#md:use-intellisense-with-plugin-apis" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Intellisense helps you discover objects, functions, and parameters in libraries
+that your project consumes. Now you can use it for the more popularly used
+<em>core</em> plugins.</p>
+<p><img src="media/intellisense.png" alt="IntelliSense"></p>
+<p>IntelliSense appears only for plugins that you've added to your project, but it
+doesn't matter whether you add the plugin before or after you install this
+extension.</p>
+<p>Just start typing in the code editor to see the objects, functions, and
+parameters of your plugin's API.</p>
+<p>By default, this extension supports the typings for the following plugins. To
+add typings for other plugins, place the appropriate <code>.d.ts</code> file(s) in your
+project's <code>.vscode/typings</code> folder.</p>
+<ul>
+<li>cordova-plugin-battery-status</li>
+<li>cordova-plugin-camera</li>
+<li>cordova-plugin-contacts</li>
+<li>cordova-plugin-device</li>
+<li>cordova-plugin-device-motion</li>
+<li>cordova-plugin-device-orientation</li>
+<li>cordova-plugin-dialogs</li>
+<li>cordova-plugin-file</li>
+<li>cordova-plugin-file-transfer</li>
+<li>cordova-plugin-globalization</li>
+<li>cordova-plugin-inappbrowser</li>
+<li>cordova-plugin-media</li>
+<li>cordova-plugin-media-capture</li>
+<li>cordova-plugin-network-information</li>
+<li>cordova-plugin-splashscreen</li>
+<li>cordova-plugin-statusbar</li>
+<li>cordova-plugin-vibration</li>
+<li>cordova-plugin-websql</li>
+<li>cordova-plugin-x-toast</li>
+<li>ionic-plugin-keyboard</li>
+<li>phonegap-plugin-barcodescanner</li>
+<li>phonegap-plugin-push</li>
+</ul>
+<a id="md:use-intellisense-with-injected-ionic-and-angular-services" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Use IntelliSense with injected Ionic and Angular services<a href="#md:use-intellisense-with-injected-ionic-and-angular-services" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>While IntelliSense is also available for Ionic and Angular, these frameworks use
+a dependency injection model for built-in services that VSCode's language
+service cannot understand by default.</p>
+<p>To properly enable IntelliSense in these scenarios, you will need to use
+<a href="http://usejsdoc.org/about-getting-started.html">JSDoc headers</a>.</p>
+<p><img src="media/ionic-intellisense.png" alt="IntelliSense for Angular and Ionic services"></p>
+<p>Our extension will provide the typings for you, so all you have to do is create
+the JSDoc headers above the functions you wish to receive IntelliSense for.</p>
+<blockquote>
+<p><strong>Note:</strong> JSDoc headers may not be supported (for IntelliSense purposes) in
+old VSCode versions.</p>
+</blockquote>
+<p>For Ionic services, the service type will be in the following format:
+<code>ionic.[service].Ionic[Service]Service</code>, where <code>[service]</code> and <code>[Service]</code>
+should be replaced with the service's name, without the <code>$ionic</code> prefix. For
+example:</p>
+<p><code>@param {ionic.popup.IonicPopupService} $ionicPopup - The $ionicPopup service</code></p>
+<p><code>@param {ionic.modal.IonicModalService} $ionicModal - The $ionicModal service</code></p>
+<p>For Angular services, the service type will be in the following format:
+<code>angular.I[Service]Service</code>, where <code>[Service]</code> should be replaced with the
+capitalized service's name, without the <code>$</code> prefix. For example:</p>
+<p><code>@param {angular.ITimeoutService} $timeout - The Angular $timeout service</code></p>
+<p><code>@param {angular.IHttpService} $http - The Angular $http service</code></p>
+<p>For a list of supported services for IntelliSense, see the <code>angular.d.ts</code> and
+<code>ionic.d.ts</code> typing files, which our extension places by default under
+<code>.vscode/typings</code> in your project.</p>
+<a id="md:how-to-disable-telemetry-reporting" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How to disable telemetry reporting<a href="#md:how-to-disable-telemetry-reporting" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>VS Code Cordova extension collects usage data and sends it to Microsoft to help
+improve our products and services. Read our
+<a href="https://www.visualstudio.com/en-us/dn948229">privacy statement</a> to learn more.</p>
+<p>If you don’t wish to send usage data to Microsoft, please follow the
+instructions below to disable its collection.</p>
+<a id="md:windows" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Windows<a href="#md:windows" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>Edit VSCodeTelemetrySettings.json file at <code>%appdata%\vscode-cordova</code> and add
+&quot;optIn&quot;:false.</li>
+</ul>
+<a id="md:os-x--linux" class="tsd-anchor"></a><h3 class="tsd-anchor-link">OS X / Linux<a href="#md:os-x--linux" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>Edit VSCodeTelemetrySettings.json file at <code>~/.vscode-cordova</code> and add
+&quot;optIn&quot;:false.</li>
+</ul>
+<a id="md:known-issues" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Known Issues<a href="#md:known-issues" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="md:error-debugger-cant-detect-any-webview-or-attach-application-failed-on-macos" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Error <code>Debugger can't detect any webview</code> or <code>Attach application failed on MacOS</code><a href="#md:error-debugger-cant-detect-any-webview-or-attach-application-failed-on-macos" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>We used
+<a href="https://github.com/google/ios-webkit-debug-proxy">ios-webkit-debug-proxy</a> for
+the iOS debugging. For the tool limitation in chrome-devtools, the iOS debugging
+is not working on some new iOS version both on real device and simulator. If you
+have this issue in development, we suggest that you can use safari direct
+debugging on MacOS. You can get reference
+<a href="https://github.com/google/ios-webkit-debug-proxy/issues/413">here</a>.</p>
+<a id="md:error-cannot-connect-to-runtime-process-timeout-after-0-ms---reason-1-_timeout-_error-occured-while-running-debug-scenarios" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Error <code>'Cannot connect to runtime process, timeout after {0} ms - (reason: {1}).', '{_timeout}', '{_error}'</code> occured while running debug scenarios<a href="#md:error-cannot-connect-to-runtime-process-timeout-after-0-ms---reason-1-_timeout-_error-occured-while-running-debug-scenarios" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Try to increase attach timeout by adding <code>attachTimeout</code> configuration
+parameter.</p>
+<a id="md:error-error-running-android-while-running-ionic-4-project-for-android-platform" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Error <code>Error running android</code> while running Ionic 4 project for android platform<a href="#md:error-error-running-android-while-running-ionic-4-project-for-android-platform" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>It caused by
+<a href="https://github.com/ionic-team/ionic-cli/issues/3376">ionic cli bug</a>. As
+workaround, you can use Node JS v10+.</p>
+<a id="md:after-running-ionic-4-project-on-native-platform-i-get-white-screen-in-application-and-error-intermediate-valuefill-is-not-a-function-in-debug-console" class="tsd-anchor"></a><h3 class="tsd-anchor-link">After running Ionic 4 project on native platform I get white screen in application and error <code>(intermediate value).fill is not a function</code> in Debug Console.<a href="#md:after-running-ionic-4-project-on-native-platform-i-get-white-screen-in-application-and-error-intermediate-valuefill-is-not-a-function-in-debug-console" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p><a href="https://github.com/ionic-team/ionic-cli/issues/3709#issuecomment-457603038">Explanation and solution for it</a>.</p>
+<a id="md:i-try-to-attach-to-ionic-4-app-running-with-livereload-but-breakpoints-are-not-being-hit-or-being-placed-to-incorrect-positions" class="tsd-anchor"></a><h3 class="tsd-anchor-link">I try to attach to Ionic 4 app running with livereload but breakpoints are not being hit or being placed to incorrect positions<a href="#md:i-try-to-attach-to-ionic-4-app-running-with-livereload-but-breakpoints-are-not-being-hit-or-being-placed-to-incorrect-positions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Add <code>&quot;ionicLiveReload&quot;: true</code> to your attach debug configuration and reattach.</p>
+<a id="md:a-complete-list-of-known-issues-can-be-found-on-github" class="tsd-anchor"></a><h3 class="tsd-anchor-link">A complete <a href="https://github.com/Microsoft/vscode-cordova/issues?q=is%3Aissue+label%3Aknown-issue+">list of known issues</a> can be found on <a href="https://github.com/Microsoft/vscode-cordova">GitHub</a><a href="#md:a-complete-list-of-known-issues-can-be-found-on-github" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3></div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:cordova-tools-extension"><span>Cordova <wbr/>Tools <wbr/>Extension</span></a><ul><li><a href="#md:install-it"><span>Install it</span></a></li><li><a href="#md:add-a-platform-to-your-cordova-project"><span>Add a platform to your <wbr/>Cordova project</span></a></li><li><a href="#md:choose-the-cordova-debug-environment"><span>Choose the <wbr/>Cordova debug environment</span></a></li><li><a href="#md:debug-your-cordova-based-project"><span>Debug your <wbr/>Cordova-<wbr/>based project</span></a></li><li><a href="#md:find-cordova-commands-in-the-command-palette"><span>Find <wbr/>Cordova commands in the <wbr/>Command <wbr/>Palette</span></a></li><li><a href="#md:simulate-your-app-in-the-browser"><span>Simulate your app in the browser</span></a></li><li><a href="#md:support-for-ionic"><span>Support for <wbr/>Ionic</span></a></li><li><a href="#md:support-for-electron"><span>Support for <wbr/>Electron</span></a></li><li><a href="#md:use-intellisense-with-plugin-apis"><span>Use <wbr/>Intelli<wbr/>Sense with <wbr/>Plugin APIs</span></a></li><li><a href="#md:use-intellisense-with-injected-ionic-and-angular-services"><span>Use <wbr/>Intelli<wbr/>Sense with injected <wbr/>Ionic and <wbr/>Angular services</span></a></li><li><a href="#md:how-to-disable-telemetry-reporting"><span>How to disable telemetry reporting</span></a></li><li><ul><li><a href="#md:windows"><span>Windows</span></a></li><li><a href="#md:os-x--linux"><span>OS <wbr/>X / <wbr/>Linux</span></a></li></ul></li><li><a href="#md:known-issues"><span>Known <wbr/>Issues</span></a></li><li><ul><li><a href="#md:error-debugger-cant-detect-any-webview-or-attach-application-failed-on-macos"><span>Error <wbr/>Debugger can&#39;t detect any webview or <wbr/>Attach application failed on <wbr/>MacOS</span></a></li><li><a href="#md:error-cannot-connect-to-runtime-process-timeout-after-0-ms---reason-1-_timeout-_error-occured-while-running-debug-scenarios"><span>Error &#39;<wbr/>Cannot connect to runtime process, timeout after {0} ms -<wbr/> (reason: {1}).&#39;, &#39;{_<wbr/>timeout}&#39;, &#39;{_<wbr/>error}&#39; occured while running debug scenarios</span></a></li><li><a href="#md:error-error-running-android-while-running-ionic-4-project-for-android-platform"><span>Error <wbr/>Error running android while running <wbr/>Ionic 4 project for android platform</span></a></li><li><a href="#md:after-running-ionic-4-project-on-native-platform-i-get-white-screen-in-application-and-error-intermediate-valuefill-is-not-a-function-in-debug-console"><span>After running <wbr/>Ionic 4 project on native platform <wbr/>I get white screen in application and error (intermediate value).fill is not a function in <wbr/>Debug <wbr/>Console.</span></a></li><li><a href="#md:i-try-to-attach-to-ionic-4-app-running-with-livereload-but-breakpoints-are-not-being-hit-or-being-placed-to-incorrect-positions"><span>I try to attach to <wbr/>Ionic 4 app running with livereload but breakpoints are not being hit or being placed to incorrect positions</span></a></li><li><a href="#md:a-complete-list-of-known-issues-can-be-found-on-github"><span>A complete list of known issues can be found on <wbr/>Git<wbr/>Hub</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>@codeeditorland/foundation - v0.0.1</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
