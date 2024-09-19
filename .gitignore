@@ -16,6 +16,7 @@ nls.*.json
 test/ExtensionTests.xml
 test/LocalizationTests.xml
 
+# Compiled files
 src/**/*.js
 test/**/*.js
 **/*.js.map
