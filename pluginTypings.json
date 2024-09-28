@@ -1,0 +1,73 @@
+﻿{
+    "cordova": {
+        "typingFile": "cordova/cordova.d.ts"
+    },
+    "cordova-plugin-battery-status": {
+        "typingFile": "cordova/plugins/BatteryStatus.d.ts"
+    },
+    "cordova-plugin-camera": {
+        "typingFile": "cordova/plugins/Camera.d.ts"
+    },
+    "cordova-plugin-contacts": {
+        "typingFile": "cordova/plugins/Contacts.d.ts"
+    },
+    "cordova-plugin-device": {
+        "typingFile": "cordova/plugins/Device.d.ts"
+    },
+    "cordova-plugin-device-motion": {
+        "typingFile": "cordova/plugins/DeviceMotion.d.ts"
+    },
+    "cordova-plugin-device-orientation": {
+        "typingFile": "cordova/plugins/DeviceOrientation.d.ts"
+    },
+    "cordova-plugin-dialogs": {
+        "typingFile": "cordova/plugins/Dialogs.d.ts"
+    },
+    "cordova-plugin-file": {
+        "typingFile": "cordova/plugins/FileSystem.d.ts"
+    },
+    "cordova-plugin-file-transfer": {
+        "typingFile": "cordova/plugins/FileTransfer.d.ts"
+    },
+    "cordova-plugin-globalization": {
+        "typingFile": "cordova/plugins/Globalization.d.ts"
+    },
+    "cordova-plugin-inappbrowser": {
+        "typingFile": "cordova/plugins/InAppBrowser.d.ts"
+    },
+    "cordova-plugin-media": {
+        "typingFile": "cordova/plugins/Media.d.ts"
+    },
+    "cordova-plugin-media-capture": {
+        "typingFile": "cordova/plugins/MediaCapture.d.ts"
+    },
+    "cordova-plugin-network-information": {
+        "typingFile": "cordova/plugins/NetworkInformation.d.ts"
+    },
+    "cordova-plugin-splashscreen": {
+        "typingFile": "cordova/plugins/Splashscreen.d.ts"
+    },
+    "cordova-plugin-statusbar": {
+        "typingFile": "cordova/plugins/StatusBar.d.ts"
+    },
+    "cordova-plugin-vibration": {
+        "typingFile": "cordova/plugins/Vibration.d.ts"
+    },
+    "cordova-plugin-websql": {
+        "typingFile": "cordova/plugins/WebSQL.d.ts"
+    },
+    "cordova-plugin-x-toast": {
+        "typingFile": "cordova/plugins/Toast.d.ts",
+        "forceInstallTypings": true
+    },
+    "ionic-plugin-keyboard": {
+        "typingFile": "cordova-ionic/plugins/keyboard.d.ts",
+        "forceInstallTypings": true
+    },
+    "phonegap-plugin-barcodescanner": {
+        "typingFile": "cordova/plugins/BarcodeScanner.d.ts"
+    },
+    "phonegap-plugin-push": {
+        "typingFile": "cordova/plugins/Push.d.ts"
+    }
+}
