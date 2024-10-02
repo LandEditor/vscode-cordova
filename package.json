@@ -677,7 +677,7 @@
 		"@types/uuid": "10.0.0",
 		"cordova-simulate": "1.3.2",
 		"del": "7.1.0",
-		"devtools-protocol": "0.0.1359167",
+		"devtools-protocol": "0.0.1362837",
 		"event-stream": "4.0.1",
 		"fancy-log": "2.0.0",
 		"glob": "11.0.0",
