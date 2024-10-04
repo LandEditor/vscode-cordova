@@ -3,7 +3,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IGeneralLaunchResult {
-    devServerPort?: number;
+	devServerPort?: number;
 }
 
 export type IAndroidLaunchResult = IGeneralLaunchResult;

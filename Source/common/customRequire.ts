@@ -5,15 +5,15 @@
 let customRequire: (packageName: string) => any;
 
 try {
-    // Export `__non_webpack_require__` in Webpack environments to make sure it doesn't bundle modules loaded via this method
-    customRequire =
-        (global as any).__non_webpack_require__ === "function"
-            ? (global as any).__non_webpack_require__
-            : // tslint:disable-next-line: no-eval
-              eval("require"); // CodeQL [js/eval-usage] Export `__non_webpack_require__` in Webpack environments to make sure it doesn't bundle modules loaded via this method
+	// Export `__non_webpack_require__` in Webpack environments to make sure it doesn't bundle modules loaded via this method
+	customRequire =
+		(global as any).__non_webpack_require__ === "function"
+			? (global as any).__non_webpack_require__
+			: // tslint:disable-next-line: no-eval
+				eval("require"); // CodeQL [js/eval-usage] Export `__non_webpack_require__` in Webpack environments to make sure it doesn't bundle modules loaded via this method
 } catch {
-    // Use a noop in case both `__non_webpack_require__` and `require` does not exist
-    customRequire = () => {}; // eslint-disable-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-empty-function
+	// Use a noop in case both `__non_webpack_require__` and `require` does not exist
+	customRequire = () => {}; // eslint-disable-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-empty-function
 }
 
 export default customRequire;

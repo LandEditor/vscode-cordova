@@ -9,8 +9,8 @@ export type IAndroidAttachResult = IGeneralAttachResult;
 export type IBrowserAttachResult = IGeneralAttachResult;
 
 export interface IIosAttachResult extends IGeneralAttachResult {
-    webSocketDebuggerUrl: string;
-    iOSVersion: string;
-    iOSAppPackagePath: string;
-    devServerAddress: string;
+	webSocketDebuggerUrl: string;
+	iOSVersion: string;
+	iOSAppPackagePath: string;
+	devServerAddress: string;
 }

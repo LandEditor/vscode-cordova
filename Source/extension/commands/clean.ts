@@ -5,9 +5,9 @@ import { CordovaCommandHelper } from "../../utils/cordovaCommandHelper";
 import { commandWrapper } from "./commandUtil";
 
 export class CordovaClean {
-    static codeName = "cordova.clean";
+	static codeName = "cordova.clean";
 
-    static createHandler = async () => {
-        commandWrapper(CordovaCommandHelper.executeCordovaCommand, ["clean"]);
-    };
+	static createHandler = async () => {
+		commandWrapper(CordovaCommandHelper.executeCordovaCommand, ["clean"]);
+	};
 }
