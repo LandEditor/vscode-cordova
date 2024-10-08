@@ -14,15 +14,13 @@ const es = require("event-stream");
 
 const tsProject = ts.createProject("tsconfig.json");
 const knownOptions = {
-	string: "env",
-	default: { env: "production" },
+    string: "env",
+    default: { env: "production" },
 };
 const options = minimist(process.argv.slice(2), knownOptions);
 const isNightly = process.argv.includes("--nightly");
 
-const fullExtensionName = isNightly
-	? "msjsdiag.vscode-cordova-preview"
-	: "msjsdiag.vscode-cordova";
+const fullExtensionName = isNightly ? "msjsdiag.vscode-cordova-preview" : "msjsdiag.vscode-cordova";
 
 const extensionName = isNightly ? "vscode-cordova-preview" : "vscode-cordova";
 
@@ -30,121 +28,111 @@ const extensionName = isNightly ? "vscode-cordova-preview" : "vscode-cordova";
 // We should also make sure that we always generate urls in all the path properties (We shouldn"t have \\s. This seems to
 // be an issue on Windows platforms)
 const buildTask = gulp.series(getFormatter.lint, function runBuild(done) {
-	build(true, true).once("finish", () => {
-		done();
-	});
+    build(true, true).once("finish", () => {
+        done();
+    });
 });
 
 // Generates ./dist/nls.bundle.<language_id>.json from files in ./i18n/** *//<src_path>/<filename>.i18n.json
 // Localized strings are read from these files at runtime.
 const generateSrcLocBundle = () => {
-	// Transpile the TS to JS, and let vscode-nls-dev scan the files for calls to localize.
-	return tsProject
-		.src()
-		.pipe(sourcemaps.init())
-		.pipe(tsProject())
-		.js.pipe(nls.createMetaDataFiles())
-		.pipe(nls.createAdditionalLanguageFiles(defaultLanguages, "i18n"))
-		.pipe(nls.bundleMetaDataFiles(fullExtensionName, "dist"))
-		.pipe(nls.bundleLanguageFiles())
-		.pipe(
-			filter([
-				"**/nls.bundle.*.json",
-				"**/nls.metadata.header.json",
-				"**/nls.metadata.json",
-				"!src/**",
-			]),
-		)
-		.pipe(gulp.dest("dist"));
+    // Transpile the TS to JS, and let vscode-nls-dev scan the files for calls to localize.
+    return tsProject
+        .src()
+        .pipe(sourcemaps.init())
+        .pipe(tsProject())
+        .js.pipe(nls.createMetaDataFiles())
+        .pipe(nls.createAdditionalLanguageFiles(defaultLanguages, "i18n"))
+        .pipe(nls.bundleMetaDataFiles(fullExtensionName, "dist"))
+        .pipe(nls.bundleLanguageFiles())
+        .pipe(
+            filter([
+                "**/nls.bundle.*.json",
+                "**/nls.metadata.header.json",
+                "**/nls.metadata.json",
+                "!src/**",
+            ]),
+        )
+        .pipe(gulp.dest("dist"));
 };
 
 function build(failOnError, buildNls) {
-	const isProd = options.env === "production";
-	const preprocessorContext = isProd ? { PROD: true } : { DEBUG: true };
-	let gotError = false;
-	log(
-		`Building with preprocessor context: ${JSON.stringify(preprocessorContext)}`,
-	);
-	const tsResult = tsProject
-		.src()
-		.pipe(preprocess({ context: preprocessorContext })) //To set environment variables in-line
-		.pipe(sourcemaps.init())
-		.pipe(tsProject());
+    const isProd = options.env === "production";
+    const preprocessorContext = isProd ? { PROD: true } : { DEBUG: true };
+    let gotError = false;
+    log(`Building with preprocessor context: ${JSON.stringify(preprocessorContext)}`);
+    const tsResult = tsProject
+        .src()
+        .pipe(preprocess({ context: preprocessorContext })) //To set environment variables in-line
+        .pipe(sourcemaps.init())
+        .pipe(tsProject());
 
-	return tsResult.js
-		.pipe(buildNls ? nls.rewriteLocalizeCalls() : es.through())
-		.pipe(
-			buildNls
-				? nls.createAdditionalLanguageFiles(
-						defaultLanguages,
-						"i18n",
-						".",
-					)
-				: es.through(),
-		)
-		.pipe(
-			buildNls
-				? nls.bundleMetaDataFiles(fullExtensionName, ".")
-				: es.through(),
-		)
-		.pipe(buildNls ? nls.bundleLanguageFiles() : es.through())
-		.pipe(sourcemaps.write(".", { includeContent: false, sourceRoot: "." }))
-		.pipe(gulp.dest((file) => file.cwd))
-		.once("error", () => {
-			gotError = true;
-		})
-		.once("finish", () => {
-			if (failOnError && gotError) {
-				process.exit(1);
-			}
-		});
+    return tsResult.js
+        .pipe(buildNls ? nls.rewriteLocalizeCalls() : es.through())
+        .pipe(
+            buildNls
+                ? nls.createAdditionalLanguageFiles(defaultLanguages, "i18n", ".")
+                : es.through(),
+        )
+        .pipe(buildNls ? nls.bundleMetaDataFiles(fullExtensionName, ".") : es.through())
+        .pipe(buildNls ? nls.bundleLanguageFiles() : es.through())
+        .pipe(sourcemaps.write(".", { includeContent: false, sourceRoot: "." }))
+        .pipe(gulp.dest(file => file.cwd))
+        .once("error", () => {
+            gotError = true;
+        })
+        .once("finish", () => {
+            if (failOnError && gotError) {
+                process.exit(1);
+            }
+        });
 }
 
 const defaultLanguages = [
-	{ id: "zh-tw", folderName: "cht", transifexId: "zh-hant" },
-	{ id: "zh-cn", folderName: "chs", transifexId: "zh-hans" },
-	{ id: "ja", folderName: "jpn" },
-	{ id: "ko", folderName: "kor" },
-	{ id: "de", folderName: "deu" },
-	{ id: "fr", folderName: "fra" },
-	{ id: "es", folderName: "esn" },
-	{ id: "ru", folderName: "rus" },
-	{ id: "it", folderName: "ita" },
+    { id: "zh-tw", folderName: "cht", transifexId: "zh-hant" },
+    { id: "zh-cn", folderName: "chs", transifexId: "zh-hans" },
+    { id: "ja", folderName: "jpn" },
+    { id: "ko", folderName: "kor" },
+    { id: "de", folderName: "deu" },
+    { id: "fr", folderName: "fra" },
+    { id: "es", folderName: "esn" },
+    { id: "ru", folderName: "rus" },
+    { id: "it", folderName: "ita" },
 
-	// These language-pack languages are included for VS but excluded from the vscode package
-	{ id: "cs", folderName: "csy" },
-	{ id: "tr", folderName: "trk" },
-	{ id: "pt-br", folderName: "ptb", transifexId: "pt-BR" },
-	{ id: "pl", folderName: "plk" },
+    // These language-pack languages are included for VS but excluded from the vscode package
+    { id: "cs", folderName: "csy" },
+    { id: "tr", folderName: "trk" },
+    { id: "pt-br", folderName: "ptb", transifexId: "pt-BR" },
+    { id: "pl", folderName: "plk" },
 ];
 
 const buildSrc = gulp.series(getFormatter.lint, function runBuild(done) {
-	build(true, true).once("finish", () => {
-		done();
-	});
+    build(true, true).once("finish", () => {
+        done();
+    });
 });
 
 const buildDev = function runDevBuild(done) {
-	build(true, false).once("finish", () => {
-		done();
-	});
+    build(true, false).once("finish", () => {
+        done();
+    });
 };
 
 const quickBuild = gulp.series(buildDev);
 
 const prodBuild = gulp.series(
-	getCleaner.clean,
-	getWebpackBundle.webpackBundle,
-	generateSrcLocBundle,
+    getCleaner.clean,
+    getWebpackBundle.webpackBundle,
+    generateSrcLocBundle,
 );
 
 const defaultTask = gulp.series(prodBuild);
 
 module.exports = {
-	buildTask,
-	buildDev,
-	prodBuild,
-	buildSrc,
-	quickBuild,
-	defaultTask,
+    buildTask,
+    buildDev,
+    prodBuild,
+    buildSrc,
+    quickBuild,
+    defaultTask,
 };
