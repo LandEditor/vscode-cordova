@@ -1,24 +1,12 @@
 {
-	"activationEvents": [
-		"onDebugResolve:cordova",
-		"onDebugInitialConfigurations",
-		"onCommand:cordova.prepare",
-		"onCommand:cordova.build",
-		"onCommand:cordova.run",
-		"onCommand:ionic.prepare",
-		"onCommand:ionic.build",
-		"onCommand:ionic.run",
-		"onCommand:cordova.simulate.android",
-		"onCommand:cordova.simulate.ios",
-		"workspaceContains:config.xml",
-		"workspaceContains:ionic.config.json"
-	],
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"description": "%cordova.workspaceTrust.description%",
-			"supported": "limited"
-		},
-		"virtualWorkspaces": false
+	"name": "cordova-tools",
+	"displayName": "Cordova Tools",
+	"description": "%cordova.description%",
+	"main": "./src/extension/cordova-extension",
+	"scripts": {
+		"build": "gulp build",
+		"prepare": "husky install",
+		"test-localization": "node ./test/localization/runTest.js"
 	},
 	"contributes": {
 		"breakpoints": [
@@ -653,6 +641,20 @@
 			]
 		}
 	},
+	"activationEvents": [
+		"onDebugResolve:cordova",
+		"onDebugInitialConfigurations",
+		"onCommand:cordova.prepare",
+		"onCommand:cordova.build",
+		"onCommand:cordova.run",
+		"onCommand:ionic.prepare",
+		"onCommand:ionic.build",
+		"onCommand:ionic.run",
+		"onCommand:cordova.simulate.android",
+		"onCommand:cordova.simulate.ios",
+		"workspaceContains:config.xml",
+		"workspaceContains:ionic.config.json"
+	],
 	"dependencies": {
 		"elementtree": "0.1.7",
 		"execa": "9.4.0",
@@ -665,7 +667,6 @@
 		"winreg": "1.2.5",
 		"xml2js": "0.6.2"
 	},
-	"description": "%cordova.description%",
 	"devDependencies": {
 		"@types/elementtree": "0.1.5",
 		"@types/fancy-log": "2.0.2",
@@ -688,23 +689,22 @@
 		"ts-loader": "9.5.1",
 		"xcparse": "0.0.3"
 	},
-	"displayName": "Cordova Tools",
 	"extensionDependencies": [
 		"ms-vscode.js-debug"
 	],
-	"extensionKind": [
-		"workspace"
-	],
+	"icon": "images/icon.png",
 	"galleryBanner": {
 		"color": "#feb943",
 		"theme": "dark"
 	},
-	"icon": "images/icon.png",
-	"main": "./src/extension/cordova-extension",
-	"name": "cordova-tools",
-	"scripts": {
-		"build": "gulp build",
-		"prepare": "husky install",
-		"test-localization": "node ./test/localization/runTest.js"
-	}
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"description": "%cordova.workspaceTrust.description%",
+			"supported": "limited"
+		},
+		"virtualWorkspaces": false
+	},
+	"extensionKind": [
+		"workspace"
+	]
 }

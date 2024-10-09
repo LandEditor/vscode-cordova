@@ -5,7 +5,10 @@ import { CordovaCommandHelper } from "../../utils/cordovaCommandHelper";
 import { commandWrapper } from "./commandUtil";
 
 export class IonicBuild {
-    static codeName = "ionic.build";
-    static createHandler = () =>
-        commandWrapper(CordovaCommandHelper.executeCordovaCommand, ["build", true]);
+	static codeName = "ionic.build";
+	static createHandler = () =>
+		commandWrapper(CordovaCommandHelper.executeCordovaCommand, [
+			"build",
+			true,
+		]);
 }

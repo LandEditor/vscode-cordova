@@ -5,7 +5,10 @@ import { CordovaCommandHelper } from "../../utils/cordovaCommandHelper";
 import { commandWrapper } from "./commandUtil";
 
 export class IonicPrepare {
-    static codeName = "ionic.prepare";
-    static createHandler = () =>
-        commandWrapper(CordovaCommandHelper.executeCordovaCommand, ["prepare", true]);
+	static codeName = "ionic.prepare";
+	static createHandler = () =>
+		commandWrapper(CordovaCommandHelper.executeCordovaCommand, [
+			"prepare",
+			true,
+		]);
 }
