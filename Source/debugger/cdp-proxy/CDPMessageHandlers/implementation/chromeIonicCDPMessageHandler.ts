@@ -2,95 +2,109 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 import * as url from "url";
+
+import { ProjectType } from "../../../../utils/cordovaProjectHelper";
+import { PlatformType } from "../../../cordovaDebugSession";
+import { SourcemapPathTransformer } from "../../sourcemapPathTransformer";
 import {
-    ProcessedCDPMessage,
-    DispatchDirection,
-    HandlerOptions,
+	DispatchDirection,
+	HandlerOptions,
+	ProcessedCDPMessage,
 } from "../abstraction/CDPMessageHandlerBase";
 import { ChromeCDPMessageHandlerBase } from "../abstraction/chromeCDPMessageHandlerBase";
-import { SourcemapPathTransformer } from "../../sourcemapPathTransformer";
-import { ProjectType } from "../../../../utils/cordovaProjectHelper";
 import { CDP_API_NAMES } from "../CDPAPINames";
-import { PlatformType } from "../../../cordovaDebugSession";
 
 export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
-    constructor(
-        sourcemapPathTransformer: SourcemapPathTransformer,
-        projectType: ProjectType,
-        options: HandlerOptions,
-    ) {
-        super(sourcemapPathTransformer, projectType, options);
+	constructor(
+		sourcemapPathTransformer: SourcemapPathTransformer,
+		projectType: ProjectType,
+		options: HandlerOptions,
+	) {
+		super(sourcemapPathTransformer, projectType, options);
 
-        if (options.platform === PlatformType.Serve || options.ionicLiveReload) {
-            this.applicationPortPart = options.devServerPort ? `:${options.devServerPort}` : "";
-        }
-        if (options.simulatePort) {
-            this.applicationPortPart = `:${options.simulatePort}`;
-        }
-    }
+		if (
+			options.platform === PlatformType.Serve ||
+			options.ionicLiveReload
+		) {
+			this.applicationPortPart = options.devServerPort
+				? `:${options.devServerPort}`
+				: "";
+		}
+		if (options.simulatePort) {
+			this.applicationPortPart = `:${options.simulatePort}`;
+		}
+	}
 
-    public processDebuggerCDPMessage(event: any): ProcessedCDPMessage {
-        const dispatchDirection = DispatchDirection.FORWARD;
-        if (event.method === CDP_API_NAMES.DEBUGGER_SET_BREAKPOINT_BY_URL) {
-            event.params = this.fixSourcemapRegexp(event.params);
-        }
+	public processDebuggerCDPMessage(event: any): ProcessedCDPMessage {
+		const dispatchDirection = DispatchDirection.FORWARD;
+		if (event.method === CDP_API_NAMES.DEBUGGER_SET_BREAKPOINT_BY_URL) {
+			event.params = this.fixSourcemapRegexp(event.params);
+		}
 
-        return {
-            event,
-            dispatchDirection,
-        };
-    }
+		return {
+			event,
+			dispatchDirection,
+		};
+	}
 
-    public processApplicationCDPMessage(event: any): ProcessedCDPMessage {
-        const dispatchDirection = DispatchDirection.FORWARD;
-        if (event.method === CDP_API_NAMES.DEBUGGER_SCRIPT_PARSED && event.params.url) {
-            this.tryToGetIonicDevServerPortFromURL(event.params.url);
-            if (this.verifySourceMapUrl(event.params.url)) {
-                event.params = this.fixSourcemapLocation(event.params);
-            } else if (event.params.url.includes("android_asset")) {
-                event.params = this.fixSourcemapLocation(event.params, true);
-            }
-        }
+	public processApplicationCDPMessage(event: any): ProcessedCDPMessage {
+		const dispatchDirection = DispatchDirection.FORWARD;
+		if (
+			event.method === CDP_API_NAMES.DEBUGGER_SCRIPT_PARSED &&
+			event.params.url
+		) {
+			this.tryToGetIonicDevServerPortFromURL(event.params.url);
+			if (this.verifySourceMapUrl(event.params.url)) {
+				event.params = this.fixSourcemapLocation(event.params);
+			} else if (event.params.url.includes("android_asset")) {
+				event.params = this.fixSourcemapLocation(event.params, true);
+			}
+		}
 
-        return {
-            event,
-            dispatchDirection,
-        };
-    }
+		return {
+			event,
+			dispatchDirection,
+		};
+	}
 
-    protected fixSourcemapLocation(reqParams: any, androidAssetURL?: boolean): any {
-        const absoluteSourcePath = androidAssetURL
-            ? this.sourcemapPathTransformer.getClientPathFromFileBasedUrlWithAndroidAsset(
-                  reqParams.url,
-              )
-            : this.sourcemapPathTransformer.getClientPathFromHttpBasedUrl(reqParams.url);
-        if (absoluteSourcePath) {
-            if (process.platform === "win32") {
-                reqParams.url = `file:///${absoluteSourcePath.split("\\").join("/")}`; // transform to URL standard
-            } else {
-                reqParams.url = `file://${absoluteSourcePath}`;
-            }
-        } else if (
-            !(
-                this.platform === PlatformType.Serve ||
-                (this.ionicLiveReload && this.debugRequestType === "launch")
-            )
-        ) {
-            reqParams.url = "";
-        }
-        return reqParams;
-    }
+	protected fixSourcemapLocation(
+		reqParams: any,
+		androidAssetURL?: boolean,
+	): any {
+		const absoluteSourcePath = androidAssetURL
+			? this.sourcemapPathTransformer.getClientPathFromFileBasedUrlWithAndroidAsset(
+					reqParams.url,
+				)
+			: this.sourcemapPathTransformer.getClientPathFromHttpBasedUrl(
+					reqParams.url,
+				);
+		if (absoluteSourcePath) {
+			if (process.platform === "win32") {
+				reqParams.url = `file:///${absoluteSourcePath.split("\\").join("/")}`; // transform to URL standard
+			} else {
+				reqParams.url = `file://${absoluteSourcePath}`;
+			}
+		} else if (
+			!(
+				this.platform === PlatformType.Serve ||
+				(this.ionicLiveReload && this.debugRequestType === "launch")
+			)
+		) {
+			reqParams.url = "";
+		}
+		return reqParams;
+	}
 
-    private tryToGetIonicDevServerPortFromURL(sourceURL: string) {
-        if (this.ionicLiveReload && !this.applicationPortPart) {
-            try {
-                const devServerPort = url.parse(sourceURL).port;
-                if (devServerPort) {
-                    this.applicationPortPart = `:${devServerPort}`;
-                }
-            } catch {
-                // do nothing, try to check another URL
-            }
-        }
-    }
+	private tryToGetIonicDevServerPortFromURL(sourceURL: string) {
+		if (this.ionicLiveReload && !this.applicationPortPart) {
+			try {
+				const devServerPort = url.parse(sourceURL).port;
+				if (devServerPort) {
+					this.applicationPortPart = `:${devServerPort}`;
+				}
+			} catch {
+				// do nothing, try to check another URL
+			}
+		}
+	}
 }
