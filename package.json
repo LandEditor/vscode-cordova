@@ -669,7 +669,7 @@
 	"devDependencies": {
 		"@types/elementtree": "0.1.5",
 		"@types/fancy-log": "2.0.2",
-		"@types/node": "22.8.2",
+		"@types/node": "22.8.4",
 		"@types/rimraf": "4.0.5",
 		"@types/semver": "7.5.8",
 		"@types/sinon": "17.0.3",
