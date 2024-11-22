@@ -22,7 +22,9 @@ export class PlistBuddy {
 		const res = await this.childProcess.exec(
 			`${PlistBuddy.plistBuddyExecutable} -c '${command}' '${plistFile}'`,
 		);
+
 		const outcome = await res.outcome;
+
 		return outcome.toString().trim();
 	}
 }

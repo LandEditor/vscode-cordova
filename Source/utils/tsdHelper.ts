@@ -31,12 +31,14 @@ export class TsdHelper {
 
 		TelemetryHelper.generate("addTypings", (generator) => {
 			generator.add("addedTypeDefinitions", typeDefsPath, false);
+
 			return Promise.all(
 				typeDefsPath.map((relativePath: string) => {
 					const src = path.resolve(
 						TsdHelper.CORDOVA_TYPINGS_PATH,
 						relativePath,
 					);
+
 					const dest = path.resolve(typingsFolderPath, relativePath);
 
 					// Check if we've previously copied these typings
@@ -52,6 +54,7 @@ export class TsdHelper {
 							TsdHelper.USER_TYPINGS_FOLDERNAME,
 							path.basename(relativePath),
 						);
+
 						const userTypingsLongPath = path.join(
 							projectRoot,
 							TsdHelper.USER_TYPINGS_FOLDERNAME,
@@ -82,6 +85,7 @@ export class TsdHelper {
 				projectRoot,
 				TsdHelper.USER_TYPINGS_FOLDERNAME,
 			);
+
 			const indexFile = path.resolve(
 				typingsFolder,
 				"cordova-typings.d.ts",
@@ -95,6 +99,7 @@ export class TsdHelper {
 			const references = CordovaProjectHelper.existsSync(indexFile)
 				? fs.readFileSync(indexFile, "utf8")
 				: "";
+
 			const referencesToAdd = installedTypeDefs
 				// Do not add references to typedefs that are not exist,
 				// this rarely happens if typedef file fails to copy
@@ -127,11 +132,13 @@ export class TsdHelper {
 		});
 
 		let references = [];
+
 		const indexFile = path.resolve(
 			projectRoot,
 			TsdHelper.USER_TYPINGS_FOLDERNAME,
 			"cordova-typings.d.ts",
 		);
+
 		try {
 			references = fs.readFileSync(indexFile, "utf8").split("\n");
 		} catch (e) {
@@ -163,6 +170,7 @@ export class TsdHelper {
 	): Promise<any> {
 		// Ensure that the parent folder exits; if not, create the hierarchy of directories
 		const parentFolder = path.resolve(dest, "..");
+
 		if (!CordovaProjectHelper.existsSync(parentFolder)) {
 			CordovaProjectHelper.makeDirectoryRecursive(parentFolder);
 		}

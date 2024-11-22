@@ -24,15 +24,20 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 const PLUGIN_TYPE_DEFS_FILENAME = "pluginTypings.json";
+
 const PLUGIN_TYPE_DEFS_PATH = findFileInFolderHierarchy(
 	__dirname,
 	PLUGIN_TYPE_DEFS_FILENAME,
 );
+
 const CORDOVA_TYPINGS_QUERYSTRING = "cordova";
+
 const JSCONFIG_FILENAME = "jsconfig.json";
+
 const TSCONFIG_FILENAME = "tsconfig.json";
 
 let EXTENSION_CONTEXT: vscode.ExtensionContext;
@@ -56,6 +61,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	const activateExtensionEvent =
 		TelemetryHelper.createTelemetryActivity("activate");
+
 	try {
 		EXTENSION_CONTEXT.subscriptions.push(
 			vscode.workspace.onDidChangeWorkspaceFolders((event) =>
@@ -95,6 +101,7 @@ export function activate(context: vscode.ExtensionContext): void {
 	} catch (e) {
 		activateExtensionEvent.properties["cordova.error"] = true;
 		Telemetry.send(activateExtensionEvent);
+
 		throw e;
 	}
 }
@@ -141,6 +148,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 				workspaceRoot,
 			),
 		);
+
 		return;
 	}
 
@@ -174,6 +182,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 	EXTENSION_CONTEXT.subscriptions.push(watcher);
 
 	const simulator: PluginSimulator = new PluginSimulator();
+
 	const workspaceManager: CordovaWorkspaceManager =
 		new CordovaWorkspaceManager(simulator, folder);
 
@@ -218,6 +227,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 			path.join("jquery", "jquery.d.ts"),
 			path.join("cordova-ionic", "plugins", "keyboard.d.ts"),
 		];
+
 		if (ionicMajorVersion === 1) {
 			ionicTypings = ionicTypings.concat([
 				path.join("angularjs", "angular.d.ts"),
@@ -232,6 +242,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 	}
 
 	const pluginTypings = getPluginTypingsJson();
+
 	if (!pluginTypings) {
 		return;
 	}
@@ -254,6 +265,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 	updatePluginTypeDefinitions(workspaceRoot);
 
 	const pluginFilePath = path.join(workspaceRoot, ".vscode", "plugins.json");
+
 	if (fs.existsSync(pluginFilePath)) {
 		fs.unlinkSync(pluginFilePath);
 	}
@@ -265,6 +277,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 
 	// In VSCode 0.10.10+, if the root doesn't contain jsconfig.json or tsconfig.json, intellisense won't work for files without /// typing references, so add a jsconfig.json here if necessary
 	const jsconfigPath: string = path.join(workspaceRoot, JSCONFIG_FILENAME);
+
 	const tsconfigPath: string = path.join(workspaceRoot, TSCONFIG_FILENAME);
 
 	Promise.all([
@@ -306,11 +319,13 @@ function getPluginTypingsJson(): any {
 			"Cordova plugin type declaration mapping file 'pluginTypings.json' is missing from the extension folder.",
 		),
 	);
+
 	return null;
 }
 
 function getNewTypeDefinitions(installedPlugins: string[]): string[] {
 	const pluginTypings = getPluginTypingsJson();
+
 	if (!pluginTypings) {
 		return;
 	}
@@ -326,6 +341,7 @@ function addPluginTypeDefinitions(
 	currentTypeDefs: string[],
 ): void {
 	const pluginTypings = getPluginTypingsJson();
+
 	if (!pluginTypings) {
 		return;
 	}
@@ -343,6 +359,7 @@ function addPluginTypeDefinitions(
 				TelemetryHelper.createTelemetryEvent("unknownPlugin");
 			unknownPluginEvent.setPiiProperty("plugin", pluginName);
 			Telemetry.send(unknownPluginEvent);
+
 			return false;
 		})
 		.map((pluginName: string) => {
@@ -393,6 +410,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 	// between typings we install and user-installed ones.
 	const ionicMajorVersion =
 		CordovaProjectHelper.determineIonicMajorVersion(cordovaProjectRoot);
+
 	if (
 		CordovaProjectHelper.isTypescriptProject(cordovaProjectRoot) ||
 		ionicMajorVersion > 1
@@ -404,6 +422,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 		CordovaProjectHelper.getInstalledPlugins(cordovaProjectRoot);
 
 	const nodeModulesDir = path.resolve(cordovaProjectRoot, "node_modules");
+
 	if (
 		semver.gte(vscode.version, "1.7.2-insider") &&
 		fs.existsSync(nodeModulesDir)
@@ -412,6 +431,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 		// This happens if user has used '--fetch' option to install plugin. In this case VSCode will provide
 		// own intellisense for these plugins using ATA (automatic typings acquisition)
 		let installedNpmModules: string[] = [];
+
 		try {
 			installedNpmModules = fs.readdirSync(nodeModulesDir);
 		} catch (e) {}
@@ -431,13 +451,16 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 	}
 
 	const newTypeDefs = getNewTypeDefinitions(installedPlugins);
+
 	const cordovaPluginTypesFolder =
 		CordovaProjectHelper.getCordovaPluginTypeDefsPath(cordovaProjectRoot);
+
 	const ionicPluginTypesFolder =
 		CordovaProjectHelper.getIonicPluginTypeDefsPath(cordovaProjectRoot);
 
 	if (!CordovaProjectHelper.existsSync(cordovaPluginTypesFolder)) {
 		addPluginTypeDefinitions(cordovaProjectRoot, installedPlugins, []);
+
 		return;
 	}
 

@@ -17,6 +17,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export enum IonicDevServerStatus {
@@ -110,10 +111,12 @@ export default class IonicDevServer {
 			allEnv,
 			this.projectRoot,
 		);
+
 		const output: SeverOutput = {
 			serverOut: "",
 			serverErr: "",
 		};
+
 		const isServe: boolean = runArguments[0] === "serve";
 
 		const ionicDevServerUrls = await new Promise<string[]>(
@@ -127,6 +130,7 @@ export default class IonicDevServer {
 						),
 					);
 				}, this.serverReadyTimeout);
+
 				const resolveIfPossible = (
 					ready: IonicDevServerStatus,
 					serverUrls?: string[],
@@ -156,6 +160,7 @@ export default class IonicDevServer {
 						resolve(serverUrls);
 					}
 				};
+
 				const outputHandler: (data: Buffer) => void =
 					this.serverOutputHandler.bind(
 						this,
@@ -165,6 +170,7 @@ export default class IonicDevServer {
 						resolveIfPossible,
 						reject,
 					);
+
 				const errorOutputHandler: (data: Buffer) => void =
 					this.serverErrorOutputHandler.bind(this, output, reject);
 
@@ -190,6 +196,7 @@ export default class IonicDevServer {
 
 					let exitMessage: string =
 						"The Ionic live reload server exited unexpectedly";
+
 					const errorMsg = this.getServerErrorMessage(
 						output.serverErr,
 					);
@@ -217,6 +224,7 @@ export default class IonicDevServer {
 						// We are already debugging; disconnect the session
 						this.log(exitMessage, true);
 						this.serverStopEventEmitter.fire(error);
+
 						throw error;
 					} else {
 						// The Ionic dev server wasn't ready yet, so reject its promises
@@ -255,6 +263,7 @@ export default class IonicDevServer {
 		this.ionicDevServerUrls = ionicDevServerUrls.map((url) =>
 			url.replace(IonicDevServer.ANSI_REGEX, ""),
 		);
+
 		return this.ionicDevServerUrls;
 	}
 
@@ -266,6 +275,7 @@ export default class IonicDevServer {
 
 		if (this.ionicLivereloadProcess) {
 			this.ionicLivereloadProcess.removeAllListeners("exit");
+
 			try {
 				await killChildProcess(this.ionicLivereloadProcess);
 			} finally {
@@ -332,7 +342,9 @@ export default class IonicDevServer {
 
 		const SERVER_URL_RE =
 			/(dev server running|Running dev server|Local):.*(http:\/\/.[^\s]*)/gim;
+
 		const localServerMatchResult = SERVER_URL_RE.exec(output.serverOut);
+
 		if (!this.serverReady && localServerMatchResult) {
 			resolve(IonicDevServerStatus.ServerReady);
 		}
@@ -340,9 +352,11 @@ export default class IonicDevServer {
 		if (this.serverReady && !this.appReady) {
 			if (isServe || regexp.test(output.serverOut)) {
 				const serverUrls = [localServerMatchResult[2]];
+
 				const externalUrls = /External:\s(.*)$/im.exec(
 					output.serverOut,
 				);
+
 				if (externalUrls) {
 					const urls = externalUrls[1]
 						.split(", ")
@@ -363,8 +377,11 @@ export default class IonicDevServer {
 				`Your machine has multiple network addresses. Please specify which one your device or emulator will use to communicate with the dev server by adding a \"devServerAddress\": \"ADDRESS\" property to .vscode/launch.json.
 To get the list of addresses run "ionic cordova run PLATFORM --livereload" (where PLATFORM is platform name to run) and wait until prompt with this list is appeared.`,
 			);
+
 			const addresses: string[] = [];
+
 			const addressRegex = /(\d+\) .*)/gm;
+
 			let match: string[] = addressRegex.exec(output.serverOut);
 
 			while (match) {
@@ -414,6 +431,7 @@ To get the list of addresses run "ionic cordova run PLATFORM --livereload" (wher
 			const skipErrorMatch = /utils-network error while checking/.test(
 				channel,
 			);
+
 			if (skipErrorMatch) {
 				return null;
 			}
@@ -446,12 +464,16 @@ To get the list of addresses run "ionic cordova run PLATFORM --livereload" (wher
 		const isIosDevice: boolean =
 			runArguments.indexOf("ios") !== -1 &&
 			runArguments.indexOf("--device") !== -1;
+
 		const isIosSimulator: boolean =
 			runArguments.indexOf("ios") !== -1 &&
 			runArguments.indexOf("emulate") !== -1;
+
 		const iosDeviceAppReadyRegex: RegExp =
 			/created bundle at path|\(lldb\)\W+run\r?\nsuccess/i;
+
 		const iosSimulatorAppReadyRegex: RegExp = /build succeeded/i;
+
 		const appReadyRegex: RegExp = /launch success|run successful/i;
 
 		if (isIosDevice) {

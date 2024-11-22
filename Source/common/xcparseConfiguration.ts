@@ -21,8 +21,10 @@ export class XCParseConfiguration {
 			getPbxprojFileContent.objects,
 		)) {
 			const configValue = value as PBXInfo;
+
 			if (configValue.isa == "PBXNativeTarget") {
 				console.log(key);
+
 				return value;
 			}
 		}
@@ -37,9 +39,11 @@ export class XCParseConfiguration {
 			getPbxprojFileContent.objects,
 		)) {
 			const configValue = value as PBXInfo;
+
 			if (configValue.isa == "XCConfigurationList") {
 				if (configValue.buildConfigurations[0] == configListUUID) {
 					console.log(key);
+
 					return value;
 				}
 			}

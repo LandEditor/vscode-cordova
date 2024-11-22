@@ -11,6 +11,7 @@ nls.config({
     messageFormat: nls.MessageFormat.bundle,
     bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 import { ErrorHelper } from "../common/error/errorHelper";
@@ -35,7 +36,9 @@ export class CordovaCommandHelper {
         useIonic: boolean = false,
     ): Promise<void> {
         let telemetryEventName: string = CordovaCommandHelper.CORDOVA_TELEMETRY_EVENT_NAME;
+
         let cliCommandName: string = CordovaCommandHelper.CORDOVA_CMD_NAME;
+
         let cliDisplayName: string = CordovaCommandHelper.CORDOVA_DISPLAY_NAME;
 
         if (useIonic) {
@@ -48,8 +51,11 @@ export class CordovaCommandHelper {
             platform => {
                 TelemetryHelper.generate(telemetryEventName, generator => {
                     generator.add("command", command, false);
+
                     const logger = OutputChannelLogger.getMainChannel();
+
                     let commandToExecute;
+
                     if (useIonic && ["run", "prepare"].includes(command)) {
                         commandToExecute = `${cliCommandName} cordova ${command}`;
                     } else {
@@ -66,6 +72,7 @@ export class CordovaCommandHelper {
                     }
 
                     const runArgs = CordovaCommandHelper.getRunArguments(projectRoot);
+
                     if (runArgs.length) {
                         commandToExecute += ` ${runArgs.join(" ")}`;
                     }
@@ -77,6 +84,7 @@ export class CordovaCommandHelper {
                             commandToExecute,
                         ),
                     );
+
                     const env = CordovaProjectHelper.getEnvArgument({
                         env: CordovaCommandHelper.getEnvArgs(projectRoot),
                         envFile: CordovaCommandHelper.getEnvFile(projectRoot),
@@ -190,6 +198,7 @@ export class CordovaCommandHelper {
     ): void {
         const cordovaDebugSession =
             cordovaSessionManager.getCordovaDebugSessionByProjectRoot(projectRoot);
+
         if (cordovaDebugSession) {
             switch (cordovaDebugSession.getStatus()) {
                 case CordovaSessionStatus.Activated:
@@ -199,11 +208,15 @@ export class CordovaCommandHelper {
                         undefined,
                         { sessionId: cordovaDebugSession.getVSCodeDebugSession().id },
                     );
+
                     break;
+
                 case CordovaSessionStatus.NotActivated:
                     cordovaDebugSession.setStatus(CordovaSessionStatus.Pending);
                     commands.executeCommand(CordovaCommandHelper.RESTART_SESSION_COMMAND);
+
                     break;
+
                 case CordovaSessionStatus.Pending:
                     window.showWarningMessage(
                         localize(
@@ -211,6 +224,7 @@ export class CordovaCommandHelper {
                             "A Cordova application is building now. Please wait for the build completion to start the build process again.",
                         ),
                     );
+
                     break;
             }
         } else {
@@ -245,10 +259,12 @@ export class CordovaCommandHelper {
 
     private static getSetting(fsPath: string, configKey: string): any {
         const uri = Uri.file(fsPath);
+
         const workspaceConfiguration: WorkspaceConfiguration = workspace.getConfiguration(
             "cordova",
             uri,
         );
+
         if (workspaceConfiguration.has(configKey)) {
             return workspaceConfiguration.get(configKey);
         }
@@ -308,8 +324,10 @@ export class CordovaCommandHelper {
                 case "ios":
                 case "osx":
                     return osPlatform === "darwin";
+
                 case "windows":
                     return osPlatform === "win32";
+
                 default:
                     return true;
             }

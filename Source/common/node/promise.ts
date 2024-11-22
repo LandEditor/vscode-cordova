@@ -56,6 +56,7 @@ export function waitUntil<T>(
 		const tryToResolve = async (): Promise<boolean> => {
 			try {
 				const result = await condition();
+
 				if (result) {
 					cleanup();
 					resolve(result);
@@ -64,11 +65,13 @@ export function waitUntil<T>(
 			} catch (err) {
 				cleanup();
 				reject(err);
+
 				return false;
 			}
 		};
 
 		const resolved = await tryToResolve();
+
 		if (resolved) {
 			return;
 		}

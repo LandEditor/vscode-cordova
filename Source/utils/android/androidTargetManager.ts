@@ -19,11 +19,13 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export class AndroidTarget extends MobileTarget {
 	constructor(obj: IDebuggableMobileTarget) {
 		const objCopy = Object.assign({}, obj);
+
 		if (!objCopy.name) {
 			objCopy.name = objCopy.id;
 		}
@@ -58,6 +60,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 			}
 			const onlineTarget =
 				await this.adbHelper.findOnlineTargetById(target);
+
 			if (onlineTarget) {
 				return onlineTarget.isVirtualTarget;
 			} else if ((await this.adbHelper.getAvdsNames()).includes(target)) {
@@ -76,6 +79,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 		filter?: (el: IMobileTarget) => boolean,
 	): Promise<AndroidTarget | undefined> {
 		const selectedTarget = await this.startSelection(filter);
+
 		if (selectedTarget) {
 			if (!selectedTarget.isOnline) {
 				return this.launchSimulator(selectedTarget);
@@ -105,15 +109,18 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 		}
 
 		const onlineTargets = await this.adbHelper.getOnlineTargets();
+
 		for (const device of onlineTargets) {
 			if (
 				device.isVirtualTarget &&
 				(!targetType || targetType === TargetType.Emulator)
 			) {
 				const avdName = await this.adbHelper.getAvdNameById(device.id);
+
 				const emulatorTarget = targetList.find(
 					(target) => target.name === avdName,
 				);
+
 				if (emulatorTarget) {
 					emulatorTarget.isOnline = true;
 					emulatorTarget.id = device.id;
@@ -193,10 +200,12 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 			const bootCheckInterval = setInterval(async () => {
 				const connectedDevices =
 					await this.adbHelper.getOnlineTargets();
+
 				for (let i = 0; i < connectedDevices.length; i++) {
 					const onlineAvdName = await this.adbHelper.getAvdNameById(
 						connectedDevices[i].id,
 					);
+
 					if (onlineAvdName === emulatorTarget.name) {
 						emulatorTarget.id = connectedDevices[i].id;
 						emulatorTarget.isOnline = true;
@@ -214,6 +223,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 								<IDebuggableMobileTarget>emulatorTarget,
 							),
 						);
+
 						break;
 					}
 				}

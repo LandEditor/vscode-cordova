@@ -11,6 +11,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export class CordovaDebugConfigProvider
@@ -237,16 +238,20 @@ export class CordovaDebugConfigProvider
 	): Promise<vscode.DebugConfiguration[]> {
 		return new Promise<vscode.DebugConfiguration[]>((resolve) => {
 			const configPicker = this.prepareDebugConfigPicker();
+
 			const disposables: vscode.Disposable[] = [];
+
 			const pickHandler = () => {
 				const chosenConfigsEvent = TelemetryHelper.createTelemetryEvent(
 					"chosenDebugConfigurations",
 				);
+
 				const selected: string[] = configPicker.selectedItems.map(
 					(element) => element.label,
 				);
 				chosenConfigsEvent.properties.selectedItems = selected;
 				Telemetry.send(chosenConfigsEvent);
+
 				const launchConfig = this.gatherDebugScenarios(selected);
 				disposables.forEach((d) => d.dispose());
 				resolve(launchConfig);
@@ -268,6 +273,7 @@ export class CordovaDebugConfigProvider
 		const launchConfig: vscode.DebugConfiguration[] = selectedItems.map(
 			(element) => this.debugConfigurations[element],
 		);
+
 		return launchConfig;
 	}
 

@@ -27,6 +27,7 @@ export function retryAsync<T>(
 				CordovaDebugSession.CANCELLATION_ERROR_NAME,
 			);
 			cancelError.name = CordovaDebugSession.CANCELLATION_ERROR_NAME;
+
 			throw cancelError;
 		}
 		if (iteration < maxRetries) {
@@ -93,16 +94,20 @@ export function findFileInFolderHierarchy(
 	filename: string,
 ): string | null {
 	let parentPath: string;
+
 	let projectRoot: string = dir;
+
 	let atFsRoot = false;
 
 	while (!fs.existsSync(path.join(projectRoot, filename))) {
 		parentPath = path.resolve(projectRoot, "..");
+
 		if (parentPath !== projectRoot) {
 			projectRoot = parentPath;
 		} else {
 			// we have reached the filesystem root
 			atFsRoot = true;
+
 			break;
 		}
 	}

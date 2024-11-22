@@ -24,14 +24,18 @@ export class NodeVersionHelper {
 			case "x86":
 			case "ia32":
 				return "x86";
+
 			case "64":
 			case "x64":
 			case "amd64":
 				return "x64";
+
 			case "arm":
 				const arm_version = (process.config.variables as any)
 					.arm_version;
+
 				return arm_version ? `armv${arm_version}l` : "arm";
+
 			default:
 				return arch;
 		}
@@ -51,6 +55,7 @@ export class NodeVersionHelper {
 			/^(([\w-]+)\/)?(v?(\d+(\.\d+(\.\d+)?)?))(\/((x86)|(32)|((x)?64)|(arm\w*)|(ppc\w*)))?$/i;
 
 		const match = versionRegex.exec(versionString);
+
 		if (!match) {
 			throw ErrorHelper.getInternalError(
 				InternalErrorCode.InvalidVersionString,
@@ -59,8 +64,11 @@ export class NodeVersionHelper {
 		}
 
 		const nvsFormat = !!(match[2] || match[8]);
+
 		const remoteName = match[2] || "node";
+
 		const semanticVersion = match[4] || "";
+
 		const arch = NodeVersionHelper.nvsStandardArchName(
 			match[8] || process.arch,
 		);
@@ -76,16 +84,19 @@ export class NodeVersionHelper {
 		config: ICordovaAttachRequestArgs | ICordovaLaunchRequestArgs,
 	): void {
 		let bin: string | undefined;
+
 		let versionManagerName: string | undefined;
 
 		// first try the Node Version Switcher 'nvs'
 		let nvsHome = process.env.NVS_HOME;
+
 		if (!nvsHome) {
 			// NVS_HOME is not always set. Probe for 'nvs' directory instead
 			const nvsDir =
 				process.platform === "win32"
 					? path.join(process.env.LOCALAPPDATA || "", "nvs")
 					: path.join(process.env.HOME || "", ".nvs");
+
 			if (fs.existsSync(nvsDir)) {
 				nvsHome = nvsDir;
 			}
@@ -97,6 +108,7 @@ export class NodeVersionHelper {
 		if (nvsFormat || nvsHome) {
 			if (nvsHome) {
 				bin = path.join(nvsHome, remoteName, semanticVersion, arch);
+
 				if (process.platform !== "win32") {
 					bin = path.join(bin, "bin");
 				}
@@ -112,6 +124,7 @@ export class NodeVersionHelper {
 			// now try the Node Version Manager "nvm"
 			if (process.platform === "win32") {
 				const nvmHome = process.env.NVM_HOME;
+
 				if (!nvmHome) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.NvmWindowsNotFoundMessage,
@@ -122,9 +135,11 @@ export class NodeVersionHelper {
 			} else {
 				// macOS and linux
 				let nvmHome = process.env.NVM_DIR;
+
 				if (!nvmHome) {
 					// if NVM_DIR is not set. Probe for '.nvm' directory instead
 					const nvmDir = path.join(process.env.HOME || "", ".nvm");
+
 					if (fs.existsSync(nvmDir)) {
 						nvmHome = nvmDir;
 					}

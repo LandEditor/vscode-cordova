@@ -30,7 +30,9 @@ export abstract class ChromeCDPMessageHandlerBase extends CDPMessageHandlerBase 
 			process.platform === "win32"
 				? /.*\\{2}(?:\[wW]){3}\\{2}(.*?\\.\[jJ]\[sS])/g
 				: /.*\\\/www\\\/(.*?\.js)/g;
+
 		const foundStrings = regExp.exec(reqParams.urlRegex);
+
 		if (foundStrings && foundStrings[1]) {
 			const uriPart = foundStrings[1].split("\\\\").join("\\/");
 			reqParams.urlRegex = `${this.sourcemapsProtocol || "https?"}:\\/\\/${
@@ -44,10 +46,13 @@ export abstract class ChromeCDPMessageHandlerBase extends CDPMessageHandlerBase 
 		const urlRegExp = new RegExp(
 			`^(https?):\/\/${this.applicationServerAddress}`,
 		);
+
 		if (!this.sourcemapsProtocol) {
 			const matchRes = url.match(urlRegExp);
+
 			if (matchRes && matchRes[1]) {
 				this.sourcemapsProtocol = matchRes[1];
+
 				return true;
 			}
 			return false;

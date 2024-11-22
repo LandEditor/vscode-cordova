@@ -22,6 +22,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export class CordovaIosDeviceLauncher {
@@ -46,13 +47,16 @@ export class CordovaIosDeviceLauncher {
 				const xcodeprojfiles = files.filter((file: string) =>
 					/\.xcodeproj$/.test(file),
 				);
+
 				if (xcodeprojfiles.length === 0) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.UnableToFindXCodeProjFile,
 					);
 				}
 				const xcodeprojfile = xcodeprojfiles[0];
+
 				const projectName = /^(.*)\.xcodeproj/.exec(xcodeprojfile)[1];
+
 				const filepath = path.join(
 					projectRoot,
 					"platforms",
@@ -60,6 +64,7 @@ export class CordovaIosDeviceLauncher {
 					projectName,
 					`${projectName}-Info.plist`,
 				);
+
 				const plist = pl.parse(fs.readFileSync(filepath, "utf8"));
 				// Since Cordova 9, no plain value is used, so we need to take it from project.pbxproj
 				if (
@@ -133,6 +138,7 @@ export class CordovaIosDeviceLauncher {
 					await CordovaIosDeviceLauncher.getWebInspectorSocket(
 						iOSTarget.id,
 					);
+
 				if (!webInspectorSocketPath) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.CouldNotFindWebInspectorSocketOniOSSimulator,
@@ -167,6 +173,7 @@ export class CordovaIosDeviceLauncher {
 
 	public static getPathOnDevice(packageId: string): Promise<string> {
 		const cp = new ChildProcess();
+
 		return cp
 			.execToString(
 				"ideviceinstaller -l -o xml > /tmp/$$.ideviceinstaller && echo /tmp/$$.ideviceinstaller",
@@ -182,6 +189,7 @@ export class CordovaIosDeviceLauncher {
 			.then((stdout: string) => {
 				// First find the path of the app on the device
 				const filename: string = stdout.trim();
+
 				if (!/^\/tmp\/\d+\.ideviceinstaller$/.test(filename)) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.UnableToListInstalledApplicationsOnDevice,
@@ -190,9 +198,11 @@ export class CordovaIosDeviceLauncher {
 
 				const list: any[] = pl.parse(fs.readFileSync(filename, "utf8"));
 				fs.unlinkSync(filename);
+
 				for (let i = 0; i < list.length; ++i) {
 					if (list[i].CFBundleIdentifier === packageId) {
 						const path: string = list[i].Path;
+
 						return path;
 					}
 				}
@@ -222,6 +232,7 @@ export class CordovaIosDeviceLauncher {
 			"Bundle",
 			"Application",
 		);
+
 		if (!fs.existsSync(appsContainer)) {
 			throw ErrorHelper.getInternalError(
 				InternalErrorCode.ApplicationPathNotExistingOniOSSimulator,
@@ -236,6 +247,7 @@ export class CordovaIosDeviceLauncher {
 			.filter((appDir) => isDirectory(appDir));
 
 		const appFiles: string[] = [];
+
 		for (const appFolder of appFolders) {
 			appFiles.push(
 				...(await fs.promises.readdir(appFolder))
@@ -250,6 +262,7 @@ export class CordovaIosDeviceLauncher {
 					path.join(appFile, "Info.plist"),
 					":CFBundleIdentifier",
 				);
+
 				if (bundleIdentifie === packageId) {
 					return appFile;
 				}
@@ -265,16 +278,22 @@ export class CordovaIosDeviceLauncher {
 		xcodeprojFilePath: string,
 	): Promise<string> {
 		const pbxprojFilePath = path.join(xcodeprojFilePath, "project.pbxproj");
+
 		const pbxproj =
 			XCParseConfiguration.getPbxprojFileContent(pbxprojFilePath);
+
 		const firstTarget = XCParseConfiguration.getPBXNativeTarget(pbxproj);
+
 		const configListUUID = firstTarget.buildConfigurationList;
+
 		const targetConfigs =
 			pbxproj.objects[configListUUID].buildConfigurations;
+
 		const targetConfigUUID = targetConfigs[0]; // 0 is "Debug, 1 is Release" - usually they have the same associated bundleId, it's highly unlikely someone would change it
 		const bundleId =
 			pbxproj.objects[targetConfigUUID].buildSettings
 				.PRODUCT_BUNDLE_IDENTIFIER;
+
 		return Promise.resolve(bundleId);
 	}
 
@@ -295,6 +314,7 @@ export class CordovaIosDeviceLauncher {
 		// these _appear_ to always be grouped together (so, the records for the particular sim are all in a group, before the next sim, etc.)
 		// so starting from the correct UDID, we ought to be able to pull the next record with `com.apple.webinspectord_sim.socket` to get the correct socket
 		const result = await cp.execToString("lsof -aUc launchd_sim");
+
 		for (const record of result.split(
 			"com.apple.CoreSimulator.SimDevice.",
 		)) {
@@ -303,7 +323,9 @@ export class CordovaIosDeviceLauncher {
 			}
 			const webinspectorSocketRegexp =
 				/\s+(\S+com\.apple\.webinspectord_sim\.socket)/;
+
 			const match = webinspectorSocketRegexp.exec(record);
+
 			if (!match) {
 				return null;
 			}
@@ -321,6 +343,7 @@ export class CordovaIosDeviceLauncher {
 					[path, `${path}.signature`],
 					{ shell: true },
 				);
+
 			return new Promise((resolve, reject) => {
 				let stdout = "";
 				imagemounter.stdout.on("data", function (data: any): void {
@@ -381,6 +404,7 @@ export class CordovaIosDeviceLauncher {
 			.execToString("xcrun -sdk iphoneos --show-sdk-platform-path")
 			.then((stdout) => {
 				const sdkpath: string = stdout.trim();
+
 				return sdkpath;
 			});
 
@@ -398,10 +422,13 @@ export class CordovaIosDeviceLauncher {
 					],
 					{ shell: true },
 				);
+
 				return new Promise<string>((resolve, reject) => {
 					find.stdout.on("data", function (data: any): void {
 						const dataStr: string = data.toString();
+
 						const path: string = dataStr.split("\n")[0].trim();
+
 						if (!path) {
 							reject(
 								localize(

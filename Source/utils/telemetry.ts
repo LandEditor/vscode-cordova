@@ -17,8 +17,11 @@ import { settingsHome } from "./settingsHelper";
  */
 export namespace Telemetry {
 	export let appName: string;
+
 	export let isOptedIn = false;
+
 	export let reporter: ITelemetryReporter;
+
 	export const reporterDictionary: { [key: string]: ITelemetryReporter } = {};
 
 	export interface ITelemetryProperties {
@@ -129,6 +132,7 @@ export namespace Telemetry {
 				TelemetryUtils.saveSettings();
 				TelemetryUtils.initDeferred.resolve(undefined);
 			});
+
 			return TelemetryUtils.initDeferred.promise;
 		}
 
@@ -161,6 +165,7 @@ export namespace Telemetry {
 			];
 			// c.f. rfc4122 (UUID version 4 = xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx)
 			let oct = "";
+
 			let tmp: number;
 			/* tslint:disable:no-bitwise */
 			for (let a = 0; a < 4; a++) {
@@ -179,6 +184,7 @@ export namespace Telemetry {
 			// 'Set the two most significant bits (bits 6 and 7) of the clock_seq_hi_and_reserved to zero and one, respectively'
 			const clockSequenceHi: string =
 				hexValues[(8 + Math.random() * 4) | 0];
+
 			return `${oct.substr(0, 8)}-${oct.substr(9, 4)}-4${oct.substr(
 				13,
 				3,
@@ -203,6 +209,7 @@ export namespace Telemetry {
 					userType = TelemetryUtils.USERTYPE_INTERNAL;
 				} else if (os.platform() === "win32") {
 					let domain: string = process.env.USERDNSDOMAIN;
+
 					domain = domain
 						? domain
 								.toLowerCase()
@@ -284,6 +291,7 @@ export namespace Telemetry {
 			fallback: () => string,
 		): Promise<any> {
 			let uniqueId: string;
+
 			if (os.platform() === "win32") {
 				return TelemetryUtils.getRegistryValue(
 					TelemetryUtils.REGISTRY_SQMCLIENT_NODE,
@@ -292,6 +300,7 @@ export namespace Telemetry {
 				).then((id: string) => {
 					if (id) {
 						uniqueId = id.replace(/[{}]/g, "");
+
 						return uniqueId;
 					}
 					return fallback();
@@ -302,6 +311,7 @@ export namespace Telemetry {
 
 		private static getUserId(): Promise<string> {
 			const userId: string = TelemetryUtils.telemetrySettings.userId;
+
 			if (!userId) {
 				return TelemetryUtils.getUniqueId(
 					TelemetryUtils.REGISTRY_USERID_VALUE,
@@ -309,10 +319,12 @@ export namespace Telemetry {
 					TelemetryUtils.generateGuid,
 				).then((id: string) => {
 					TelemetryUtils.telemetrySettings.userId = id;
+
 					return id;
 				});
 			}
 			TelemetryUtils.telemetrySettings.userId = userId;
+
 			return Promise.resolve(userId);
 		}
 	}
@@ -338,6 +350,7 @@ export namespace Telemetry {
 				"sha256",
 				Buffer.from(TelemetryEvent.PII_HASH_KEY, "utf8"),
 			);
+
 			const hashedValue: any = hmac.update(value).digest("hex");
 
 			this.properties[name] = hashedValue;
@@ -389,9 +402,11 @@ export namespace Telemetry {
 	): Promise<void> {
 		try {
 			Telemetry.appName = appNameValue;
+
 			return TelemetryUtils.init(appVersion, initOptions);
 		} catch (err) {
 			console.error(err);
+
 			return Promise.reject(err);
 		}
 	}
@@ -410,6 +425,7 @@ export namespace Telemetry {
 				try {
 					if (Telemetry.reporter) {
 						const properties: ITelemetryEventProperties = {};
+
 						const measures: ITelemetryEventMeasures = {};
 
 						Object.keys(event.properties || {}).forEach(function (
@@ -420,15 +436,18 @@ export namespace Telemetry {
 							switch (typeof propertyValue) {
 								case "string":
 									properties[key] = <string>propertyValue;
+
 									break;
 
 								case "number":
 									measures[key] = <number>propertyValue;
+
 									break;
 
 								default:
 									properties[key] =
 										JSON.stringify(propertyValue);
+
 									break;
 							}
 						});

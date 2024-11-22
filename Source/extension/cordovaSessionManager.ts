@@ -66,6 +66,7 @@ export class CordovaSessionManager
 			);
 		}
 		this.cordovaDebugSessions.delete(cordovaDebugSessionId);
+
 		if (this.cordovaDebugSessions.size === 0) {
 			vscode.commands.executeCommand(
 				"setContext",
@@ -80,6 +81,7 @@ export class CordovaSessionManager
 		);
 
 		const connection = this.connections.get(cordovaDebugSessionId);
+
 		if (connection) {
 			if (forcedStop) {
 				this.destroySocketConnection(connection);
@@ -115,6 +117,7 @@ export class CordovaSessionManager
 
 	private createCordovaSession(session: vscode.DebugSession): CordovaSession {
 		const cordovaSession = new CordovaSession(session);
+
 		if (this.restartingVSCodeSessions.has(session.id)) {
 			cordovaSession.setStatus(CordovaSessionStatus.Pending);
 			this.restartingVSCodeSessions.delete(session.id);

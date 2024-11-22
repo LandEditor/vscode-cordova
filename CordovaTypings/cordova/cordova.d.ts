@@ -165,6 +165,7 @@ interface ArgsCheck {
 		args: any[],
 		callee?: any,
 	): void;
+
 	getValue(value?: any, defaultValue?: any): any;
 	enableChecks: boolean;
 }

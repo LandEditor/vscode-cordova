@@ -94,6 +94,7 @@ export class CordovaCDPProxy {
 	): Promise<void> {
 		this.cancellationToken = cancellationToken;
 		this.logLevel = logLevel;
+
 		return Server.create({ port: this.port, host: this.hostAddress }).then(
 			(server: Server) => {
 				this.server = server;
@@ -223,6 +224,7 @@ export class CordovaCDPProxy {
 			JSON.stringify(event, null, 2),
 			this.logLevel,
 		);
+
 		const processedMessage =
 			this.CDPMessageHandler.processDebuggerCDPMessage(event);
 
@@ -241,6 +243,7 @@ export class CordovaCDPProxy {
 			JSON.stringify(event, null, 2),
 			this.logLevel,
 		);
+
 		const processedMessage =
 			this.CDPMessageHandler.processApplicationCDPMessage(event);
 
@@ -264,6 +267,7 @@ export class CordovaCDPProxy {
 			JSON.stringify(event, null, 2),
 			this.logLevel,
 		);
+
 		const processedMessage =
 			this.CDPMessageHandler.processDebuggerCDPMessage(event);
 
@@ -282,6 +286,7 @@ export class CordovaCDPProxy {
 			JSON.stringify(event, null, 2),
 			this.logLevel,
 		);
+
 		const processedMessage =
 			this.CDPMessageHandler.processApplicationCDPMessage(event);
 

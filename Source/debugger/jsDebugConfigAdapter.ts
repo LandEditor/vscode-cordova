@@ -14,6 +14,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export interface IStringDictionary<T> {
@@ -47,15 +48,18 @@ export class JsDebugConfigAdapter {
 		sessionId: string,
 	): any {
 		const extraArgs: any = {};
+
 		if (!attachArgs.simulatePort) {
 			const xmlContent = fs.readFileSync(
 				path.join(attachArgs.cwd, "config.xml"),
 				"utf-8",
 			);
+
 			const isWebviewLoader =
 				ConfigurationHelper.getAndroidInsecureFileModeStatus(
 					xmlContent,
 				);
+
 			if (isWebviewLoader) {
 				if (
 					attachArgs.hostname == "" ||
@@ -117,9 +121,11 @@ export class JsDebugConfigAdapter {
 		sessionId: string,
 	): any {
 		const extraArgs: any = {};
+
 		if (attachArgs.ionicLiveReload) {
 			// Pointing js-debug to use all the sourcemaps urls sent with sources data
 			extraArgs.resolveSourceMapLocations = ["**", "!**/node_modules/**"];
+
 			if (
 				CordovaProjectHelper.determineIonicMajorVersion(
 					attachArgs.cwd,
@@ -212,6 +218,7 @@ export class JsDebugConfigAdapter {
 
 	private getExistingExtraArgs(attachArgs: ICordovaAttachRequestArgs): any {
 		const existingExtraArgs: any = {};
+
 		if (attachArgs.env) {
 			existingExtraArgs.env = attachArgs.env;
 		}
@@ -227,6 +234,7 @@ export class JsDebugConfigAdapter {
 				attachArgs.sourceMapPathOverrides ||
 					this.DefaultWebSourceMapPathOverrides,
 			);
+
 		if (attachArgs.skipFiles) {
 			existingExtraArgs.skipFiles = attachArgs.skipFiles;
 		}
@@ -273,6 +281,7 @@ export class JsDebugConfigAdapter {
 					pattern,
 					warnOnMissing,
 				);
+
 			const replacePatternValue =
 				this.replaceWebRootInSourceMapPathOverridesEntry(
 					cwd,
@@ -290,6 +299,7 @@ export class JsDebugConfigAdapter {
 		warnOnMissing: boolean,
 	): string {
 		const cwdIndex = entry.indexOf("${cwd}");
+
 		if (cwdIndex === 0) {
 			if (cwd) {
 				return entry.replace("${cwd}", cwd);

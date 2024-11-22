@@ -21,6 +21,7 @@ interface CordovaPlugins {
  */
 interface PhonegapBarcodeScannerSuccessResult {
 	text: string;
+
 	format: string;
 	cancelled: boolean;
 }

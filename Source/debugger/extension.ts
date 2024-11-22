@@ -12,6 +12,7 @@ nls.config({
     messageFormat: nls.MessageFormat.bundle,
     bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 // suppress the following strings because they are not actual errors:
@@ -27,7 +28,9 @@ export function execCommand(
 ): Promise<string> {
     return new Promise<string>((resolve, reject) => {
         const proc = child_process.spawn(command, args, { stdio: "pipe", shell: true });
+
         let stderr = "";
+
         let stdout = "";
         proc.stderr.on("data", (data: Buffer) => {
             stderr += data.toString();
@@ -67,8 +70,11 @@ export function cordovaRunCommand(
 ): Promise<string[]> {
     return new Promise<string[]>((resolve, reject) => {
         const isIonicProject = CordovaProjectHelper.isIonicAngularProject(cordovaRootPath);
+
         let output = "";
+
         let stderr = "";
+
         const cordovaProcess = cordovaStartCommand(command, args, env, cordovaRootPath);
 
         // Prevent these lines to be shown more than once
@@ -86,6 +92,7 @@ export function cordovaRunCommand(
 
         cordovaProcess.stderr.on("data", data => {
             stderr += data.toString();
+
             for (let i = 0; i < errorsToSuppress.length; i++) {
                 if (data.toString().includes(errorsToSuppress[i])) {
                     if (
@@ -154,6 +161,7 @@ export function cordovaStartCommand(
     cordovaRootPath: string,
 ): child_process.ChildProcess {
     const isIonic = CordovaProjectHelper.isIonicAngularProject(cordovaRootPath);
+
     const isIonicServe: boolean = args.includes("serve");
 
     if (isIonic && !isIonicServe) {
@@ -181,6 +189,7 @@ export function killTree(processId: number): void {
         process.platform === "win32"
             ? "taskkill.exe"
             : path.join(findFileInFolderHierarchy(__dirname, "scripts"), "terminateProcess.sh");
+
     const args =
         process.platform === "win32"
             ? ["/F", "/T", "/PID", processId.toString()]
@@ -193,5 +202,6 @@ export function killTree(processId: number): void {
 
 export function killChildProcess(childProcess: child_process.ChildProcess): Promise<void> {
     killTree(childProcess.pid);
+
     return Promise.resolve();
 }

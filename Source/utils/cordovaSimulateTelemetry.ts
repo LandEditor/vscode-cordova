@@ -15,7 +15,9 @@ export class CordovaSimulateTelemetry {
 		piiProps: Telemetry.ITelemetryProperties,
 	): void {
 		const fullEventName = `cordova-simulate-${eventName}`;
+
 		const generator = new TelemetryGenerator(fullEventName);
+
 		const telemetryEvent = new Telemetry.TelemetryEvent(fullEventName);
 
 		Object.keys(props).forEach((prop) => {

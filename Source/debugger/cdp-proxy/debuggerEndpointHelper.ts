@@ -63,6 +63,7 @@ export class DebuggerEndpointHelper {
 			}
 
 			await delay(1000);
+
 			return await this.retryGetWSEndpoint(
 				browserURL,
 				--attemptNumber,
@@ -83,6 +84,7 @@ export class DebuggerEndpointHelper {
 			const jsonVersion = await this.fetchJson<{
 				webSocketDebuggerUrl?: string;
 			}>(URL.resolve(browserURL, "/json/version"));
+
 			if (jsonVersion.webSocketDebuggerUrl) {
 				return jsonVersion.webSocketDebuggerUrl;
 			}
@@ -93,6 +95,7 @@ export class DebuggerEndpointHelper {
 		const jsonList = await this.fetchJson<
 			{ webSocketDebuggerUrl: string }[]
 		>(URL.resolve(browserURL, "/json/list"));
+
 		if (jsonList.length) {
 			return jsonList[0].webSocketDebuggerUrl;
 		}
@@ -107,6 +110,7 @@ export class DebuggerEndpointHelper {
 	 */
 	private async fetchJson<T>(url: string): Promise<T> {
 		const data = await this.fetch(url);
+
 		return JSON.parse(data);
 	}
 
@@ -115,7 +119,9 @@ export class DebuggerEndpointHelper {
 	 */
 	private async fetch(url: string): Promise<string> {
 		const isSecure = !url.startsWith("http://");
+
 		const driver = isSecure ? https : http;
+
 		const targetAddressIsLoopback = await this.isLoopback(url);
 
 		return new Promise<string>((fulfill, reject) => {
@@ -143,6 +149,7 @@ export class DebuggerEndpointHelper {
 	 */
 	private async isLoopback(address: string) {
 		let ipOrHostname: string;
+
 		try {
 			const url = new URL.URL(address);
 			// replace brackets in ipv6 addresses:
@@ -157,6 +164,7 @@ export class DebuggerEndpointHelper {
 
 		try {
 			const resolved = await dns.lookup(ipOrHostname);
+
 			return this.isLoopbackIp(resolved.address);
 		} catch {
 			return false;
@@ -176,6 +184,7 @@ export class DebuggerEndpointHelper {
 		}
 
 		let buf: Buffer;
+
 		try {
 			buf = ipToBuffer(ipOrLocalhost);
 		} catch {

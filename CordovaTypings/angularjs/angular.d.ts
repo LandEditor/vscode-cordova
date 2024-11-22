@@ -173,6 +173,7 @@ declare module angular {
 			full: string;
 			major: number;
 			minor: number;
+
 			dot: number;
 			codeName: string;
 		};
@@ -219,6 +220,7 @@ declare module angular {
 		 * @param value The constant value.
 		 */
 		constant(name: string, value: any): IModule;
+
 		constant(object: Object): IModule;
 		/**
 		 * The $controller service is used by Angular to create new controllers.
@@ -982,6 +984,7 @@ declare module angular {
 		(context: any, locals?: any): any;
 
 		literal: boolean;
+
 		constant: boolean;
 
 		// If value is not provided, undefined is gonna be used since the implementation
@@ -1564,6 +1567,7 @@ declare module angular {
 	interface IHttpRequestConfigHeaders {
 		[requestType: string]: string | (() => string);
 		common?: string | (() => string);
+
 		get?: string | (() => string);
 		post?: string | (() => string);
 		put?: string | (() => string);
@@ -1720,10 +1724,15 @@ declare module angular {
 	///////////////////////////////////////////////////////////////////////////
 	interface ISCEService {
 		getTrusted(type: string, mayBeTrusted: any): any;
+
 		getTrustedCss(value: any): any;
+
 		getTrustedHtml(value: any): any;
+
 		getTrustedJs(value: any): any;
+
 		getTrustedResourceUrl(value: any): any;
+
 		getTrustedUrl(value: any): any;
 		parse(
 			type: string,
@@ -2002,6 +2011,7 @@ declare module angular {
 		interface IInjectorService {
 			annotate(fn: Function): string[];
 			annotate(inlineAnnotatedFunction: any[]): string[];
+
 			get<T>(name: string, caller?: string): T;
 			has(name: string): boolean;
 			instantiate<T>(typeConstructor: Function, locals?: any): T;

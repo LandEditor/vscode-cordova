@@ -19,6 +19,7 @@ export class OutputChannelLogger {
 		logTimestamps: boolean = false,
 	) {
 		this.logTimestamps = logTimestamps;
+
 		if (!lazy) {
 			this.channel = vscode.window.createOutputChannel(this.channelName);
 			this.channel.show(this.preserveFocus);
@@ -101,6 +102,7 @@ export class OutputChannelLogger {
 			this.channelName,
 		);
 		this.outputChannel.show(this.preserveFocus);
+
 		return this.outputChannel;
 	}
 

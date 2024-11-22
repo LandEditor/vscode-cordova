@@ -44,6 +44,7 @@ export interface ISimulateTelemetryProperties {
 	simulatePort?: number;
 	livereload?: boolean;
 	livereloadDelay?: number;
+
 	forcePrepare?: boolean;
 }
 
@@ -110,9 +111,11 @@ export abstract class TelemetryGeneratorBase {
 
 	public addError(error: Error): TelemetryGeneratorBase {
 		this.add(`error.message${++this.errorIndex}`, error.message, true);
+
 		const errorWithErrorCode: IHasErrorCode = <IHasErrorCode>(
 			(<Record<string, any>>error)
 		);
+
 		if (errorWithErrorCode.errorCode) {
 			this.add(
 				`error.code${this.errorIndex}`,
@@ -129,10 +132,12 @@ export abstract class TelemetryGeneratorBase {
 		codeToMeasure: { (): Promise<T> },
 	): Promise<T> {
 		const startTime: [number, number] = process.hrtime();
+
 		return codeToMeasure()
 			.finally(() => this.finishTime(name, startTime))
 			.catch((reason: any) => {
 				this.addError(reason);
+
 				throw reason;
 			});
 	}
@@ -146,6 +151,7 @@ export abstract class TelemetryGeneratorBase {
 		this.currentStep = name;
 		this.telemetryProperties = {};
 		this.currentStepStartTime = process.hrtime();
+
 		return this;
 	}
 
@@ -167,6 +173,7 @@ export abstract class TelemetryGeneratorBase {
 
 	private sendCurrentStep(): void {
 		this.add("step", this.currentStep, false);
+
 		const telemetryEvent: Telemetry.TelemetryEvent =
 			new Telemetry.TelemetryEvent(this.componentName);
 		// eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -224,6 +231,7 @@ export abstract class TelemetryGeneratorBase {
 		const nonNullComponents: string[] = components.filter(
 			(component: string) => component !== null,
 		);
+
 		return nonNullComponents.join(".");
 	}
 
@@ -263,18 +271,23 @@ export class TelemetryHelper {
 	): Promise<ProjectType> {
 		const ionicMajorVersion =
 			CordovaProjectHelper.determineIonicMajorVersion(projectRoot);
+
 		const meteor = CordovaProjectHelper.exists(
 			path.join(projectRoot, ".meteor"),
 		);
+
 		const mobileFirst = CordovaProjectHelper.exists(
 			path.join(projectRoot, ".project"),
 		);
+
 		const phonegap = CordovaProjectHelper.exists(
 			path.join(projectRoot, "www", "res", ".pgbomit"),
 		);
+
 		const cordova = CordovaProjectHelper.exists(
 			path.join(projectRoot, "config.xml"),
 		);
+
 		return Promise.all([meteor, mobileFirst, phonegap, cordova]).then(
 			([isMeteor, isMobileFirst, isPhonegap, isCordova]) =>
 				new ProjectType(
@@ -366,6 +379,7 @@ export class TelemetryHelper {
 		},
 	): Promise<T> {
 		const generator: TelemetryGenerator = new TelemetryGenerator(name);
+
 		return generator
 			.time(null, () => codeGeneratingTelemetry(generator))
 			.finally(() => generator.send());
@@ -381,6 +395,7 @@ export class TelemetryHelper {
 			".vscode",
 			"plugins.json",
 		);
+
 		let pluginFileJson: any;
 
 		if (CordovaProjectHelper.existsSync(pluginFilePath)) {
@@ -396,6 +411,7 @@ export class TelemetryHelper {
 
 		// Get list of plugins in pluginsList but not in previousPlugins
 		let pluginsFileList: string[] = new Array<string>();
+
 		if (pluginFileJson && pluginFileJson.plugins) {
 			pluginsFileList = pluginFileJson.plugins;
 		} else {
@@ -432,6 +448,7 @@ export class TelemetryHelper {
 
 		// Write out new list of previousPlugins
 		pluginFileJson.plugins = pluginsFileList;
+
 		try {
 			fs.writeFileSync(pluginFilePath, JSON.stringify(pluginFileJson));
 		} catch (err) {
@@ -480,6 +497,7 @@ export class TelemetryHelper {
 		const errorWithErrorCode: IHasErrorCode = <IHasErrorCode>(
 			(<Record<string, any>>error)
 		);
+
 		if (errorWithErrorCode.errorCode) {
 			this.addTelemetryEventProperty(
 				event,
@@ -487,6 +505,7 @@ export class TelemetryHelper {
 				errorWithErrorCode.errorCode,
 				false,
 			);
+
 			if (errorDescription) {
 				this.addTelemetryEventProperty(
 					event,

@@ -14,6 +14,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 // See android versions usage at: http://developer.android.com/about/dashboards/index.html
@@ -71,6 +72,7 @@ export class AdbHelper {
 				targetId,
 				`shell pidof ${appPackageName}`,
 			);
+
 			if (pid && /^[0-9]+$/.test(pid.trim())) {
 				return pid.trim();
 			}
@@ -81,15 +83,21 @@ export class AdbHelper {
 			}
 
 			const psResult = await this.execute(targetId, "shell ps");
+
 			const lines = psResult.split("\n");
+
 			const keys = lines.shift().split(AdbHelper.PS_FIELDS_SPLITTER_RE);
+
 			const nameIdx = keys.indexOf("NAME");
+
 			const pidIdx = keys.indexOf("PID");
+
 			for (const line of lines) {
 				const fields = line
 					.trim()
 					.split(AdbHelper.PS_FIELDS_SPLITTER_RE)
 					.filter((field) => !!field);
+
 				if (fields.length < nameIdx) {
 					continue;
 				}
@@ -105,17 +113,25 @@ export class AdbHelper {
 		appPackageName: string,
 	): Promise<string> {
 		const pid = await this.getPidForPackageName(targetId, appPackageName);
+
 		const getSocketsResult = await this.execute(
 			targetId,
 			"shell cat /proc/net/unix",
 		);
+
 		const lines = getSocketsResult.split("\n");
+
 		const keys = lines.shift().split(/[\s\r]+/);
+
 		const flagsIdx = keys.indexOf("Flags");
+
 		const stIdx = keys.indexOf("St");
+
 		const pathIdx = keys.indexOf("Path");
+
 		for (const line of lines) {
 			const fields = line.split(/[\s\r]+/);
+
 			if (fields.length < 8) {
 				continue;
 			}
@@ -125,6 +141,7 @@ export class AdbHelper {
 				continue;
 			}
 			const pathField = fields[pathIdx];
+
 			if (pathField.length < 1 || pathField[0] !== "@") {
 				continue;
 			}
@@ -203,10 +220,14 @@ export class AdbHelper {
 
 	public async getAvdsNames(): Promise<string[]> {
 		const res = await this.childProcess.execToString("emulator -list-avds");
+
 		let emulatorsNames: string[] = [];
+
 		if (res) {
 			emulatorsNames = res.split(/\r?\n|\r/g);
+
 			const indexOfBlank = emulatorsNames.indexOf("");
+
 			if (emulatorsNames.includes("")) {
 				emulatorsNames.splice(indexOfBlank, 1);
 			}
@@ -234,6 +255,7 @@ export class AdbHelper {
 		logger?: OutputChannelLogger,
 	): string | null {
 		const matches = fileContent.match(/^sdk\.dir=(.+)$/m);
+
 		if (!matches || !matches[1]) {
 			if (logger) {
 				logger.log(
@@ -247,6 +269,7 @@ export class AdbHelper {
 		}
 
 		let sdkLocation = matches[1].trim();
+
 		if (os.platform() === "win32") {
 			// For Windows we need to unescape files separators and drive letter separators
 			sdkLocation = sdkLocation
@@ -276,6 +299,7 @@ export class AdbHelper {
 			projectRoot,
 			logger,
 		);
+
 		return sdkLocation
 			? `"${path.join(sdkLocation, "platform-tools", "adb")}"`
 			: "adb";
@@ -283,8 +307,11 @@ export class AdbHelper {
 
 	private parseConnectedTargets(input: string): IDebuggableMobileTarget[] {
 		const result: IDebuggableMobileTarget[] = [];
+
 		const regex = new RegExp("^(\\S+)\\t(\\S+)$", "mg");
+
 		let match = regex.exec(input);
+
 		while (match != null) {
 			result.push({
 				id: match[1],
@@ -328,6 +355,7 @@ export class AdbHelper {
 			"android",
 			"local.properties",
 		);
+
 		if (!fs.existsSync(localPropertiesFilePath)) {
 			if (logger) {
 				logger.log(
@@ -341,6 +369,7 @@ export class AdbHelper {
 		}
 
 		let fileContent: string;
+
 		try {
 			fileContent = fs.readFileSync(localPropertiesFilePath).toString();
 		} catch (e) {

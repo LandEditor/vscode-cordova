@@ -37,6 +37,7 @@ export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
 
 	public processDebuggerCDPMessage(event: any): ProcessedCDPMessage {
 		const dispatchDirection = DispatchDirection.FORWARD;
+
 		if (event.method === CDP_API_NAMES.DEBUGGER_SET_BREAKPOINT_BY_URL) {
 			event.params = this.fixSourcemapRegexp(event.params);
 		}
@@ -49,11 +50,13 @@ export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
 
 	public processApplicationCDPMessage(event: any): ProcessedCDPMessage {
 		const dispatchDirection = DispatchDirection.FORWARD;
+
 		if (
 			event.method === CDP_API_NAMES.DEBUGGER_SCRIPT_PARSED &&
 			event.params.url
 		) {
 			this.tryToGetIonicDevServerPortFromURL(event.params.url);
+
 			if (this.verifySourceMapUrl(event.params.url)) {
 				event.params = this.fixSourcemapLocation(event.params);
 			} else if (event.params.url.includes("android_asset")) {
@@ -78,6 +81,7 @@ export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
 			: this.sourcemapPathTransformer.getClientPathFromHttpBasedUrl(
 					reqParams.url,
 				);
+
 		if (absoluteSourcePath) {
 			if (process.platform === "win32") {
 				reqParams.url = `file:///${absoluteSourcePath.split("\\").join("/")}`; // transform to URL standard
@@ -99,6 +103,7 @@ export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
 		if (this.ionicLiveReload && !this.applicationPortPart) {
 			try {
 				const devServerPort = url.parse(sourceURL).port;
+
 				if (devServerPort) {
 					this.applicationPortPart = `:${devServerPort}`;
 				}

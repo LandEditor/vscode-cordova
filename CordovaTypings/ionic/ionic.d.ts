@@ -341,10 +341,12 @@ declare module ionic {
 				originLeft?: number,
 				originTop?: number,
 			): void;
+
 			getScrollPosition(): { left: number; top: number };
 			anchorScroll(shouldAnimate?: boolean): void;
 			freezeScroll(shouldFreeze?: boolean): boolean;
 			freezeAllScrolls(shouldFreeze?: boolean): boolean;
+
 			getScrollView(): any;
 			$getByHandle(handle: string): IonicScrollDelegate;
 		}
@@ -353,6 +355,7 @@ declare module ionic {
 		interface IonicSideMenuDelegate {
 			toggleLeft(isOpen?: boolean): void;
 			toggleRight(isOpen?: boolean): void;
+
 			getOpenRatio(): number;
 			isOpen(): boolean;
 			isOpenLeft(): boolean;
@@ -389,6 +392,7 @@ declare module ionic {
 			views: {
 				transition(transition?: string): string;
 				maxCache(maxNumber?: number): number;
+
 				forwardCache(value?: boolean): boolean;
 			};
 			scrolling: {
@@ -399,6 +403,7 @@ declare module ionic {
 				text(value?: string): string;
 				previousTitleText(value?: boolean): boolean;
 			};
+
 			form: {
 				checkbox(value?: string): string;
 				toggle(value?: string): string;

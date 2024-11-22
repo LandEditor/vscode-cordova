@@ -40,6 +40,7 @@ export interface IBrowserPlatformOptions extends IGeneralPlatformOptions {
 	url?: string;
 	livereload?: boolean;
 	livereloadDelay?: number;
+
 	forcePrepare?: boolean;
 	corsProxy?: boolean;
 	simulatePort?: number;

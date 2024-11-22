@@ -15,6 +15,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export interface IPluginDetails {
@@ -97,6 +98,7 @@ export class CordovaProjectHelper {
 		try {
 			// Attempt to get the file stats
 			fs.statSync(path);
+
 			return true;
 		} catch (error) {
 			return false;
@@ -122,6 +124,7 @@ export class CordovaProjectHelper {
 	 */
 	public static makeDirectoryRecursive(dirPath: string): void {
 		const parentPath = path.dirname(dirPath);
+
 		if (!CordovaProjectHelper.existsSync(parentPath)) {
 			CordovaProjectHelper.makeDirectoryRecursive(parentPath);
 		}
@@ -170,10 +173,13 @@ export class CordovaProjectHelper {
 
 		try {
 			const fetchJsonContents = fs.readFileSync(fetchJsonPath, "utf8");
+
 			const fetchJson = JSON.parse(fetchJsonContents);
+
 			return Object.keys(fetchJson);
 		} catch (error) {
 			console.error(error);
+
 			return [];
 		}
 	}
@@ -193,11 +199,13 @@ export class CordovaProjectHelper {
 
 		try {
 			const platformsDirContents = fs.readdirSync(platformsPath);
+
 			return platformsDirContents.filter((platform) => {
 				return platform.charAt(0) !== ".";
 			});
 		} catch (error) {
 			console.error(error);
+
 			return [];
 		}
 	}
@@ -235,6 +243,7 @@ export class CordovaProjectHelper {
 			return details;
 		} catch (error) {
 			console.error(error);
+
 			return null;
 		}
 	}
@@ -264,10 +273,12 @@ export class CordovaProjectHelper {
 		childPath: string,
 	): boolean {
 		let parentStepPath: string;
+
 		let childStepPath: string = childPath;
 
 		while (childStepPath !== parentPath) {
 			parentStepPath = path.resolve(childStepPath, "..");
+
 			if (parentStepPath !== childStepPath) {
 				childStepPath = parentStepPath;
 			} else {
@@ -290,6 +301,7 @@ export class CordovaProjectHelper {
 				CordovaProjectHelper.VSCODE_DIR,
 				CordovaProjectHelper.PROJECT_TYPINGS_FOLDERNAME,
 			);
+
 			if (!CordovaProjectHelper.existsSync(targetPath)) {
 				CordovaProjectHelper.makeDirectoryRecursive(targetPath);
 			}
@@ -358,18 +370,23 @@ export class CordovaProjectHelper {
 		}
 
 		const packageJsonPath = path.join(projectRoot, "package.json");
+
 		if (!fs.existsSync(packageJsonPath)) {
 			return;
 		}
 		const packageJson = JSON.parse(
 			fs.readFileSync(packageJsonPath, "utf-8"),
 		);
+
 		const dependencies = packageJson.dependencies || {};
+
 		const devDependencies = packageJson.devDependencies || {};
 
 		// Ionic 2 & 3 check
 		const highestNotSupportedIonic2BetaVersion = "2.0.0-beta.9";
+
 		const highestNotSupportedIonic3BetaVersion = "3.0.0-beta.3";
+
 		if (
 			dependencies["ionic-angular"] &&
 			(devDependencies["@ionic/app-scripts"] ||
@@ -427,7 +444,9 @@ export class CordovaProjectHelper {
 
 		// Ionic 4, 5, 6 check
 		const highestNotSupportedIonic4BetaVersion = "4.0.0-beta.19";
+
 		const highestNotSupportedIonic5BetaVersion = "5.0.0-beta.6";
+
 		const highestNotSupportedIonic6BetaVersion = "6.0.0-beta.7";
 
 		if (dependencies["@ionic/angular"]) {
@@ -512,8 +531,11 @@ export class CordovaProjectHelper {
 		const cliName = CordovaProjectHelper.isIonicAngularProject(fsPath)
 			? "ionic"
 			: "cordova";
+
 		const commandExtension = os.platform() === "win32" ? ".cmd" : "";
+
 		const command = cliName + commandExtension;
+
 		return command;
 	}
 
@@ -529,7 +551,9 @@ export class CordovaProjectHelper {
 			},
 			shell: true,
 		});
+
 		const parseVersion = /\d+\.\d+\.\d+/.exec(ionicInfo.stdout.toString());
+
 		return parseVersion[0].trim();
 	}
 
@@ -549,6 +573,7 @@ export class CordovaProjectHelper {
 				fsPath,
 				command,
 			);
+
 			return semver.gte(ionicVersion, version);
 		} catch (err) {
 			console.error(
@@ -586,11 +611,14 @@ export class CordovaProjectHelper {
 
 			buffer.split("\n").forEach((line: string) => {
 				const r = line.match(/^\s*([\w.\-]+)\s*=\s*(.*)?\s*$/);
+
 				if (r !== null) {
 					const key = r[1];
+
 					if (!env[key]) {
 						// .env variables never overwrite existing variables
 						let value = r[2] || "";
+
 						if (
 							value.length > 0 &&
 							value.charAt(0) === '"' && // eslint-disable-line
@@ -641,6 +669,7 @@ export class CordovaProjectHelper {
 
 	public static getPortFromURL(url: string): number {
 		const serveURLInst = new URL(url);
+
 		return +serveURLInst.port;
 	}
 
@@ -673,6 +702,7 @@ export class CordovaProjectHelper {
 				"utf-8",
 			),
 		).name;
+
 		return packageName;
 	}
 
@@ -686,6 +716,7 @@ export class CordovaProjectHelper {
 
 	public static checkCordovaAndroidVersion(projectRoot: string): string {
 		let androidVersion;
+
 		try {
 			const devDeps = JSON.parse(
 				fs.readFileSync(
@@ -700,6 +731,7 @@ export class CordovaProjectHelper {
 
 		if (androidVersion != "") {
 			const mainVersion = androidVersion.split(".")[0];
+
 			switch (mainVersion) {
 				case "12":
 					return this.getCordovaAndroidVersionMessage(
@@ -707,18 +739,21 @@ export class CordovaProjectHelper {
 						"33",
 						"33.0.2",
 					);
+
 				case "11":
 					return this.getCordovaAndroidVersionMessage(
 						"11",
 						"32",
 						"32.0.0",
 					);
+
 				case "10":
 					return this.getCordovaAndroidVersionMessage(
 						"10",
 						"30",
 						"30.0.3",
 					);
+
 				default:
 					return "";
 			}

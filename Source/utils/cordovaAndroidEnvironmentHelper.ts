@@ -8,6 +8,7 @@ import { window } from "vscode";
 export class CordovaAndroidEnvironmentHelper {
     public static checkEnvironment(cwd: string, env: any, logger: any): Promise<void> {
         logger.log("Requirements check results for android:");
+
         return Promise.all([
             checkJava(cwd, env),
             checkAndroidSDK(cwd, env),
@@ -26,6 +27,7 @@ export class CordovaAndroidEnvironmentHelper {
                 child_process.exec("java -version", { cwd, env }, (error, stdout, stderr) => {
                     if (error) {
                         logger.log("Java JDK not found:", stderr);
+
                         return reject(error);
                     }
                     logger.log(`Java JDK: ${stderr.match(/version "([\d.]+)"/)[1]}`);
@@ -48,8 +50,10 @@ export class CordovaAndroidEnvironmentHelper {
                         logger.log(`Android SDK: ${stdout.trim()}`);
 
                         const platformsDir = path.join(sdkPath, "platforms");
+
                         if (fs.existsSync(platformsDir)) {
                             const platforms = fs.readdirSync(platformsDir);
+
                             if (platforms.length > 0) {
                                 logger.log(`Android Targets Installed: ${platforms}`);
                             } else {
@@ -69,6 +73,7 @@ export class CordovaAndroidEnvironmentHelper {
                 child_process.exec("gradle -v", { cwd, env }, (error, stdout, stderr) => {
                     if (error) {
                         logger.log(`Gradle not found: ${stderr}`);
+
                         return reject(error);
                     }
                     logger.log(`Gradle: ${stdout.match(/Gradle (\d+\.\d+(\.\d+)?)/)[1]}`);
@@ -88,6 +93,7 @@ export class CordovaAndroidEnvironmentHelper {
                     (error, stdout, stderr) => {
                         if (error) {
                             logger.log(`Plugman not found: ${stderr}`);
+
                             return reject(error);
                         }
                         logger.log(`Plugman: ${stdout.match(/plugman@(\d+\.\d+\.\d+)/)[1]}`);

@@ -33,6 +33,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export default class IosPlatform extends AbstractMobilePlatform<
@@ -57,12 +58,14 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				this.runArguments,
 				this.platformOpts.env,
 			);
+
 			return { devServerPort: this.IonicDevServer.getDevServerPort() };
 		}
 
 		// Here we guarantee the existence of the target
 		if (!this._target) {
 			this._target = await this.getTargetFromRunArgs();
+
 			if (!this._target) {
 				this._target = await this.getPreferredTarget();
 				this.addTargetToRunArgs(this._target);
@@ -94,12 +97,17 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				this.platformOpts.webkitRangeMax,
 				this.target,
 			);
+
 			const iOSAppPackagePath = await this.getIosAppPackagePath();
+
 			const target = await this.getPreferredTarget();
 
 			let targetPort: number;
+
 			let iOSVersion: string;
+
 			let devServerAddress: string | undefined;
+
 			let webSocketDebuggerUrl: string;
 
 			try {
@@ -119,6 +127,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 						),
 					),
 				);
+
 				const device = endpointsList.find((entry) =>
 					target.isVirtualTarget
 						? entry.deviceId === "SIMULATOR"
@@ -138,6 +147,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 					"UnableToFindiOSTargetDeviceOrSimulator",
 					error,
 				);
+
 				throw error;
 			}
 
@@ -161,6 +171,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 						),
 					),
 				);
+
 				if (webViewsList.length === 0) {
 					const error = ErrorHelper.getInternalError(
 						InternalErrorCode.UnableToFindTargetApp,
@@ -169,12 +180,14 @@ export default class IosPlatform extends AbstractMobilePlatform<
 						"UnableToFindTargetApp",
 						error,
 					);
+
 					throw error;
 				}
 				const cordovaWebview = this.getCordovaWebview(
 					webViewsList,
 					iOSAppPackagePath,
 				);
+
 				if (!cordovaWebview.webSocketDebuggerUrl) {
 					const error = ErrorHelper.getInternalError(
 						InternalErrorCode.WebsocketDebuggerUrlIsEmpty,
@@ -183,9 +196,11 @@ export default class IosPlatform extends AbstractMobilePlatform<
 						"WebsocketDebuggerUrlIsEmpty",
 						error,
 					);
+
 					throw error;
 				}
 				webSocketDebuggerUrl = cordovaWebview.webSocketDebuggerUrl;
+
 				if (this.IonicDevServer.ionicDevServerUrls) {
 					devServerAddress =
 						this.IonicDevServer.ionicDevServerUrls.find(
@@ -197,6 +212,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 					InternalErrorCode.UnableToFindTargetApp,
 				);
 				TelemetryHelper.sendErrorEvent("UnableToFindTargetApp", error);
+
 				throw error;
 			}
 
@@ -245,12 +261,17 @@ export default class IosPlatform extends AbstractMobilePlatform<
 			switch (this.platformOpts.target) {
 				case undefined:
 					break;
+
 				case TargetType.Device:
 					args.push("--device");
+
 					break;
+
 				case TargetType.Emulator:
 					args.push("--emulator");
+
 					break;
+
 				default:
 					args.push(`--target=${this.platformOpts.target}`);
 			}
@@ -280,10 +301,12 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 			if (targetId) {
 				const targets = await this.targetManager.getTargetList();
+
 				const target = targets.find(
 					(target) =>
 						target.id === targetId || target.name === targetId,
 				);
+
 				if (target) {
 					return new IOSTarget(target);
 				}
@@ -349,6 +372,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 			}
 			return false;
 		});
+
 		return cordovaWebview || webViewsList[0];
 	}
 
@@ -358,10 +382,12 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				await CordovaIosDeviceLauncher.getBundleIdentifier(
 					this.projectRoot,
 				);
+
 			return CordovaIosDeviceLauncher.getPathOnDevice(packageId);
 		}
 
 		let entries;
+
 		const simulatorBuildPath = path.join(
 			this.projectRoot,
 			"platforms",
@@ -369,6 +395,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 			"build",
 			"Debug-iphonesimulator",
 		);
+
 		if (fs.existsSync(simulatorBuildPath)) {
 			entries = await fs.promises.readdir(
 				path.join(
@@ -393,6 +420,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 		// TODO requires changes in case of implementing debugging on iOS simulators
 		const filtered = entries.filter((entry) => /\.app$/.test(entry));
+
 		if (filtered.length > 0) {
 			return filtered[0];
 		}
@@ -400,6 +428,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 			InternalErrorCode.CouldNotFindiOSAppFile,
 		);
 		TelemetryHelper.sendErrorEvent("CouldNotFindiOSAppFile", error);
+
 		throw error;
 	}
 }

@@ -31,6 +31,7 @@ export class ChromeCordovaCDPMessageHandler extends ChromeCDPMessageHandlerBase 
 
 	public processDebuggerCDPMessage(event: any): ProcessedCDPMessage {
 		const dispatchDirection = DispatchDirection.FORWARD;
+
 		if (
 			event.method === CDP_API_NAMES.DEBUGGER_SET_BREAKPOINT_BY_URL &&
 			this.isSimulate
@@ -46,6 +47,7 @@ export class ChromeCordovaCDPMessageHandler extends ChromeCDPMessageHandlerBase 
 
 	public processApplicationCDPMessage(event: any): ProcessedCDPMessage {
 		const dispatchDirection = DispatchDirection.FORWARD;
+
 		if (
 			event.method === CDP_API_NAMES.DEBUGGER_SCRIPT_PARSED &&
 			event.params.url
@@ -74,6 +76,7 @@ export class ChromeCordovaCDPMessageHandler extends ChromeCDPMessageHandlerBase 
 			: this.sourcemapPathTransformer.getClientPathFromHttpBasedUrl(
 					reqParams.url,
 				);
+
 		if (absoluteSourcePath) {
 			if (process.platform === "win32") {
 				reqParams.url = `file:///${absoluteSourcePath.split("\\").join("/")}`; // transform to URL standard

@@ -26,6 +26,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export enum SimulateTargets {
@@ -58,11 +59,13 @@ export class PluginSimulator implements vscode.Disposable {
 	): Promise<any> {
 		await this.launchServer(fsPath, simulateOptions, projectType);
 		await this.launchSimHost(simulateOptions.target);
+
 		return await this.launchAppHost(simulateOptions.target);
 	}
 
 	public async launchAppHost(target: string): Promise<void> {
 		const simulate = await this.getPackage();
+
 		return await simulate.launchBrowser(
 			target,
 			this.simulationInfo.appHostUrl,
@@ -78,9 +81,11 @@ export class PluginSimulator implements vscode.Disposable {
 				"LaunchSimHostBeforeStartSimulationServer",
 				error,
 			);
+
 			throw error;
 		}
 		const simulate = await this.getPackage();
+
 		return await simulate.launchBrowser(
 			target,
 			this.simulator.simHostUrl(),
@@ -93,21 +98,26 @@ export class PluginSimulator implements vscode.Disposable {
 		projectType: ProjectType,
 	): Promise<SimulationInfo> {
 		const uri = vscode.Uri.file(fsPath);
+
 		const workspaceFolder = <vscode.WorkspaceFolder>(
 			vscode.workspace.getWorkspaceFolder(uri)
 		);
+
 		const checkPath = path.join(
 			workspaceFolder.uri.fsPath,
 			".vscode",
 			"simulate",
 		);
+
 		if (fs.existsSync(checkPath)) {
 			simulateOptions.dir = workspaceFolder.uri.fsPath;
+
 			if (!simulateOptions.simulationpath) {
 				simulateOptions.simulationpath = checkPath;
 			}
 		} else {
 			simulateOptions.dir = fsPath;
+
 			if (!simulateOptions.simulationpath) {
 				simulateOptions.simulationpath = path.join(
 					fsPath,
@@ -131,16 +141,19 @@ export class PluginSimulator implements vscode.Disposable {
 				this.simulator = new this.simulatePackage.Simulator(
 					simulateOptions,
 				);
+
 				const platforms = CordovaProjectHelper.getInstalledPlatforms(
 					simulateOptions.dir,
 				);
 
 				const platform = simulateOptions.platform;
+
 				const isPlatformMissing =
 					platform && !platforms.includes(platform);
 
 				if (isPlatformMissing) {
 					let command = "cordova";
+
 					if (projectType.isIonic) {
 						const isIonicCliVersionGte3 =
 							CordovaProjectHelper.isIonicCliVersionGte3(
@@ -159,6 +172,7 @@ export class PluginSimulator implements vscode.Disposable {
 						"CouldntFindPlatformInProject",
 						error,
 					);
+
 					throw error;
 				}
 
@@ -171,6 +185,7 @@ export class PluginSimulator implements vscode.Disposable {
 							"ErrorStartingTheSimulation",
 							error,
 						);
+
 						throw error;
 					}
 
@@ -179,6 +194,7 @@ export class PluginSimulator implements vscode.Disposable {
 						simHostUrl: this.simulator.simHostUrl(),
 						urlRoot: this.simulator.urlRoot(),
 					};
+
 					if (
 						(projectType.ionicMajorVersion === 2 ||
 							projectType.ionicMajorVersion === 3) &&
@@ -217,6 +233,7 @@ export class PluginSimulator implements vscode.Disposable {
 				this.CORDOVA_SIMULATE_PACKAGE,
 			) as typeof CordovaSimulate;
 			this.simulatePackage = simulate;
+
 			return Promise.resolve(this.simulatePackage);
 		} catch (e) {
 			if (e.code === "MODULE_NOT_FOUND") {
@@ -275,8 +292,10 @@ export class PluginSimulator implements vscode.Disposable {
 				});
 
 				let lastDotTime = 0;
+
 				const printDot = () => {
 					const now = Date.now();
+
 					if (now - lastDotTime > 1500) {
 						lastDotTime = now;
 						OutputChannelLogger.getMainChannel().append(".");

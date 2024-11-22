@@ -36,6 +36,7 @@ export default abstract class AbstractPlatform {
 	): string | boolean | undefined {
 		if (runArguments.length > 0) {
 			const optIdx = runArguments.indexOf(optName);
+
 			let result: any;
 
 			if (optIdx > -1) {
@@ -83,7 +84,9 @@ export default abstract class AbstractPlatform {
 		binary: boolean,
 	): void {
 		let isComplexOpt = false;
+
 		let optIdx = runArguments.indexOf(optName);
+
 		if (optIdx === -1) {
 			for (const [i, runArgument] of runArguments.entries()) {
 				if (runArgument.includes(optName)) {
@@ -107,8 +110,11 @@ export default abstract class AbstractPlatform {
 		value: string | boolean,
 	): void {
 		const isBinary = typeof value === "boolean";
+
 		let isComplexOpt = false;
+
 		let optIdx = runArguments.indexOf(optName);
+
 		if (optIdx === -1) {
 			for (const [i, runArgument] of runArguments.entries()) {
 				if (runArgument.includes(optName)) {

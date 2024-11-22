@@ -10,8 +10,11 @@ export enum LogLevel {
 
 export function getFormattedTimeString(date: Date): string {
 	const hourString = padZeroes(2, String(date.getUTCHours()));
+
 	const minuteString = padZeroes(2, String(date.getUTCMinutes()));
+
 	const secondString = padZeroes(2, String(date.getUTCSeconds()));
+
 	return `${hourString}:${minuteString}:${secondString}`;
 }
 

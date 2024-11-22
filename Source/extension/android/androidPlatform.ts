@@ -29,6 +29,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export default class AndroidPlatform extends AbstractMobilePlatform<
@@ -74,6 +75,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 				this.runArguments,
 				this.platformOpts.env,
 			);
+
 			return { devServerPort: this.IonicDevServer.getDevServerPort() };
 		}
 
@@ -86,17 +88,20 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		);
 
 		const runOutput = output[0];
+
 		const stderr = output[1];
 
 		// Ionic ends process with zero code, so we need to look for
 		// strings with error content to detect failed process
 		const errorMatch =
 			/(ERROR.*)/.test(runOutput) || /error:.*/i.test(stderr);
+
 		if (errorMatch) {
 			const error = ErrorHelper.getInternalError(
 				InternalErrorCode.ErrorRunningAndroid,
 			);
 			TelemetryHelper.sendErrorEvent("ErrorRunningAndroid", error);
+
 			throw error;
 		}
 		return {};
@@ -104,6 +109,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 
 	public async prepareForAttach(): Promise<IAndroidAttachResult> {
 		const appPackageName = await this.getAppPackageName();
+
 		const target = await this.getPreferredTarget();
 
 		const findAbstractNameFunction = () => {
@@ -132,6 +138,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 			this.platformOpts.port.toString(),
 			abstractName,
 		);
+
 		return {};
 	}
 
@@ -187,6 +194,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 				this.platformOpts.runArguments,
 				"--target",
 			) as string;
+
 			if (targetId) {
 				return new AndroidTarget({
 					isOnline: true,
@@ -226,12 +234,15 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		}
 
 		const parsedFile = elementtree.XML(manifestContents.toString());
+
 		const packageKey = "package";
+
 		if (parsedFile.attrib[packageKey]) {
 			return parsedFile.attrib[packageKey];
 		}
 		// Package key is removed from AndroidManifest.xml from cordova-android@12.0.0+
 		let cordovaConfigContents: Buffer;
+
 		try {
 			cordovaConfigContents = await fs.promises.readFile(
 				path.join(this.projectRoot, "config.xml"),
@@ -242,7 +253,9 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		const parsedConfigFile = elementtree.XML(
 			cordovaConfigContents.toString(),
 		);
+
 		const packageIdKey = "id";
+
 		if (parsedConfigFile.attrib[packageIdKey]) {
 			return parsedConfigFile.attrib[packageIdKey];
 		}

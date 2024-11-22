@@ -13,10 +13,12 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export function selectProject(): Promise<CordovaWorkspaceManager> {
 	const keys = Object.keys(ProjectsStorage.projectsCache);
+
 	if (keys.length > 1) {
 		return new Promise((resolve, reject) => {
 			vscode.window.showQuickPick(keys).then((selected) => {
@@ -70,14 +72,17 @@ export function launchSimulateCommand(
 					vscode.window.visibleTextEditors.length,
 					false,
 				);
+
 				return projectType;
 			},
 		);
 	}).then((projectType) => {
 		const uri = vscode.Uri.file(cordovaProjectRoot);
+
 		const workspaceFolder = <vscode.WorkspaceFolder>(
 			vscode.workspace.getWorkspaceFolder(uri)
 		);
+
 		return ProjectsStorage.getFolder(
 			workspaceFolder,
 		).pluginSimulator.simulate(cordovaProjectRoot, options, projectType);

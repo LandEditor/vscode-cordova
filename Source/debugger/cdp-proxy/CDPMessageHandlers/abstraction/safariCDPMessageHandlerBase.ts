@@ -88,6 +88,7 @@ export abstract class SafariCDPMessageHandlerBase extends CDPMessageHandlerBase 
 				frameId: this.targetId,
 			},
 		};
+
 		try {
 			this.sendCustomRequestToDebuggerTarget(
 				CDP_API_NAMES.EXECUTION_CONTEXT_CREATED,

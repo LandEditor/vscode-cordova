@@ -18,6 +18,7 @@ declare module "cordova-simulate" {
 			simhostui?: string;
 			livereload?: boolean;
 			livereloaddelay?: number;
+
 			forceprepare?: boolean;
 			telemetry?: TelemetryModule;
 			simulationpath?: string;
@@ -54,13 +55,17 @@ declare module "cordova-simulate" {
 			target: string,
 			url: string,
 		): Promise<void>;
+
 		export var dirs: {
 			common: string;
 			"sim-host": string;
 		};
+
 		export module log {
 			export function log(msg: string): void;
+
 			export function error(error: Error): void;
+
 			export function warning(msg: string): void;
 		}
 	}

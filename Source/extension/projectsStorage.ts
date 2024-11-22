@@ -28,6 +28,7 @@ export class ProjectsStorage {
 		workspaceFolder: vscode.WorkspaceFolder | string,
 	): void {
 		let key = "";
+
 		if (typeof workspaceFolder === "string") {
 			key = workspaceFolder.toLowerCase();
 		} else {

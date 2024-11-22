@@ -51,7 +51,9 @@ export class SourcemapPathTransformer {
 			"file:\\/\\/\\/.*\\.app(?:\\/www)*(\\/.*\\.(js|html))",
 			"g",
 		);
+
 		const foundStrings = regExp.exec(sourceUrl);
+
 		if (foundStrings && foundStrings[1]) {
 			return this.getClientPath(foundStrings[1]);
 		}
@@ -60,6 +62,7 @@ export class SourcemapPathTransformer {
 
 	public getClientPathFromHttpBasedUrl(sourceUrl: string): string {
 		let relativeSourcePath;
+
 		try {
 			relativeSourcePath = url.parse(sourceUrl).pathname || "/";
 		} catch (err) {
@@ -77,6 +80,7 @@ export class SourcemapPathTransformer {
 		// A simple workaround for this is to convert file:// paths to bogus http:// paths
 
 		let defaultPath = "";
+
 		const foldersForSearch = [this._webRoot, this._cordovaRoot, wwwRoot];
 
 		if (this._projectTypes.ionicMajorVersion >= 4) {
@@ -102,6 +106,7 @@ export class SourcemapPathTransformer {
 
 			if (mappedPath) {
 				defaultPath = mappedPath;
+
 				break;
 			}
 		}
@@ -109,12 +114,14 @@ export class SourcemapPathTransformer {
 		if (defaultPath.toLowerCase().indexOf(wwwRoot.toLowerCase()) === 0) {
 			// If the path appears to be in www, check to see if it exists in /merges/<platform>/<relative path>
 			const relativePath = path.relative(wwwRoot, defaultPath);
+
 			const mergesPath = path.join(
 				this._cordovaRoot,
 				"merges",
 				this._platform,
 				relativePath,
 			);
+
 			if (fs.existsSync(mergesPath)) {
 				// This file is overridden by a merge: Use that one
 				return mergesPath;
@@ -128,6 +135,7 @@ export class SourcemapPathTransformer {
 		searchFolder: string,
 	): string {
 		const rest = sourceUrlPath.substring(1);
+
 		const absoluteSourcePath = rest
 			? CordovaProjectHelper.properJoin(searchFolder, rest)
 			: searchFolder;

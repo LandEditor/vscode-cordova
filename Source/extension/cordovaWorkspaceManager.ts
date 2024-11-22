@@ -40,9 +40,11 @@ export class CordovaWorkspaceManager implements vscode.Disposable {
 	): CordovaWorkspaceManager {
 		let workspaceManager =
 			ProjectsStorage.projectsCache[projectRootPath.toLowerCase()];
+
 		if (!workspaceManager) {
 			const workspaceFolder =
 				createAdditionalWorkspaceFolder(projectRootPath);
+
 			if (workspaceFolder) {
 				onFolderAdded(workspaceFolder);
 				workspaceManager =
@@ -59,6 +61,7 @@ export class CordovaWorkspaceManager implements vscode.Disposable {
 					"CouldNotFindWorkspaceManager",
 					error,
 				);
+
 				throw error;
 			}
 		}

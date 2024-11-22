@@ -43,6 +43,7 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 
 	public processDebuggerCDPMessage(event: any): ProcessedCDPMessage {
 		const dispatchDirection = DispatchDirection.FORWARD;
+
 		if (
 			event.method === CDP_API_NAMES.DEBUGGER_SET_BREAKPOINT_BY_URL &&
 			!this.ionicLiveReload
@@ -71,11 +72,13 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 
 	public processApplicationCDPMessage(event: any): ProcessedCDPMessage {
 		let dispatchDirection = DispatchDirection.FORWARD;
+
 		let communicationPreparationsDone = false;
 
 		if (this.isTargeted) {
 			if (!event.method || !event.method.match(/^Target/)) {
 				dispatchDirection = DispatchDirection.CANCEL;
+
 				return {
 					event,
 					dispatchDirection,
@@ -140,7 +143,9 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 
 	protected fixSourcemapRegexp(reqParams: any): any {
 		const regExp = /.*\\\/www\\\/(.*\.(js|html))/g;
+
 		const foundStrings = regExp.exec(reqParams.urlRegex);
+
 		if (foundStrings && foundStrings[1]) {
 			const uriPart = foundStrings[1].split("\\\\").join("\\/");
 			reqParams.urlRegex = `ionic:\\/\\/${this.applicationServerAddress}${this.applicationPortPart}\\/${uriPart}`;

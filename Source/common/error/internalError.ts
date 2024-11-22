@@ -43,6 +43,7 @@ export class NestedError extends InternalError {
 		super(errorCode, message, errorLevel);
 		this.innerError = innerError;
 		this.name = innerError ? innerError.name : null;
+
 		const innerMessage = innerError ? innerError.message : null;
 		this.message = innerMessage
 			? `${message}: ${String(innerMessage)}`

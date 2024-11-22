@@ -73,9 +73,11 @@ export default class BrowserPlatform extends AbstractPlatform {
 				);
 
 				this.log(errorMessage.message, true);
+
 				throw errorMessage;
 			}
 			const serveRunArgs = this.getServeRunArguments();
+
 			const devServersUrls =
 				await this.IonicDevServer.startIonicDevServer(
 					serveRunArgs,
@@ -86,6 +88,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 			const simulatorOptions = this.convertBrowserOptionToSimulateArgs(
 				this.platformOpts,
 			);
+
 			const simulateInfo =
 				await this.platformOpts.pluginSimulator.launchServer(
 					this.projectRoot,
@@ -108,6 +111,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 
 		// Launch Chrome
 		let browserFinder: IBrowserFinder;
+
 		switch (this.platformOpts.target) {
 			case TargetType.Edge:
 				browserFinder = new browserHelper.EdgeBrowserFinder(
@@ -115,9 +119,12 @@ export default class BrowserPlatform extends AbstractPlatform {
 					fs.promises,
 					execa,
 				);
+
 				break;
+
 			case TargetType.Electron:
 				return { devServerPort };
+
 			case TargetType.Chrome:
 			default:
 				browserFinder = new browserHelper.ChromeBrowserFinder(
@@ -127,6 +134,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 				);
 		}
 		const browserPath = (await browserFinder.findAll())[0];
+
 		if (browserPath) {
 			this.browserProc = child_process.spawn(
 				browserPath.path,
@@ -166,6 +174,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 
 	public async stopAndCleanUp(): Promise<void> {
 		await super.stopAndCleanUp();
+
 		if (this.browserProc) {
 			this.browserProc.kill("SIGINT");
 			// Workaround for issue https://github.com/microsoft/vscode-cordova/issues/766
@@ -191,22 +200,27 @@ export default class BrowserPlatform extends AbstractPlatform {
 			"--no-default-browser-check",
 			`--user-data-dir=${this.platformOpts.userDataDir}`,
 		];
+
 		if (this.platformOpts.runArguments) {
 			const runArguments = [...this.platformOpts.runArguments];
+
 			const remoteDebuggingPort = BrowserPlatform.getOptFromRunArgs(
 				runArguments,
 				"--remote-debugging-port",
 			);
+
 			const noFirstRun = BrowserPlatform.getOptFromRunArgs(
 				runArguments,
 				"--no-first-run",
 				true,
 			);
+
 			const noDefaultBrowserCheck = BrowserPlatform.getOptFromRunArgs(
 				runArguments,
 				"--no-default-browser-check",
 				true,
 			);
+
 			const userDataDir = BrowserPlatform.getOptFromRunArgs(
 				runArguments,
 				"--user-data-dir",
@@ -266,6 +280,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 				"Default",
 				"Preferences",
 			);
+
 			const browserPrefs = JSON.parse(
 				fs.readFileSync(preferencesPath, "utf8"),
 			);

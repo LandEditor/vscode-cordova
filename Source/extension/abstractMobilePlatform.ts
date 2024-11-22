@@ -16,6 +16,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export default abstract class AbstractMobilePlatform<
@@ -43,7 +44,9 @@ export default abstract class AbstractMobilePlatform<
 		let collectTargetsCalled = false;
 
 		let isAnyTarget = false;
+
 		let isVirtualTarget: boolean;
+
 		if (targetString.toLowerCase() === TargetType.Emulator) {
 			isAnyTarget = true;
 			isVirtualTarget = true;
@@ -78,11 +81,14 @@ export default abstract class AbstractMobilePlatform<
 						? true
 						: target.name === targetString ||
 							target.id === targetString;
+
 					const conditionForVirtualTarget =
 						isVirtualTarget === target.isVirtualTarget;
+
 					const additionalCondition = additionalFilter
 						? additionalFilter(target)
 						: true;
+
 					return (
 						conditionForVirtualTarget &&
 						conditionForNotAnyTarget &&
@@ -140,15 +146,19 @@ export default abstract class AbstractMobilePlatform<
 		const targets = (await this.targetManager.getTargetList(
 			(target) => target.isOnline && !!target.id,
 		)) as IDebuggableMobileTarget[];
+
 		const targetsBySpecifiedType = targets.filter((target) => {
 			switch (this.platformOpts.target) {
 				case TargetType.Emulator:
 					return target.isVirtualTarget;
+
 				case TargetType.Device:
 					return !target.isVirtualTarget;
+
 				case undefined:
 				case "":
 					return true;
+
 				default:
 					return (
 						target.id === this.platformOpts.target ||
@@ -167,6 +177,7 @@ export default abstract class AbstractMobilePlatform<
 					this.platformOpts.target,
 				),
 			);
+
 			return targets[0];
 		}
 

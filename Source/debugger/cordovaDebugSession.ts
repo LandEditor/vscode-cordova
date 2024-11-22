@@ -62,6 +62,7 @@ nls.config({
 	messageFormat: nls.MessageFormat.bundle,
 	bundleFormat: nls.BundleFormat.standalone,
 })();
+
 const localize = nls.loadMessageBundle();
 
 export enum TargetType {
@@ -152,6 +153,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		error?: boolean | string,
 	) => {
 		let category = "console";
+
 		if (error === true) {
 			category = "stderr";
 		}
@@ -160,6 +162,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		}
 
 		let newLine = "\n";
+
 		if (category === "stdout" || category === "stderr") {
 			newLine = "";
 		}
@@ -173,6 +176,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		super();
 		CordovaDebugSession.CDP_PROXY_PORT = generateRandomPortNumber();
 		this.vsCodeDebugSession = cordovaSession.getVSCodeDebugSession();
+
 		if (
 			this.vsCodeDebugSession.configuration.platform ===
 				PlatformType.IOS &&
@@ -244,6 +248,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 					CordovaProjectHelper.checkCordovaAndroidVersion(
 						launchArgs.cwd,
 					);
+
 				if (versionInfo != "") {
 					this.outputLogger(versionInfo);
 				}
@@ -312,6 +317,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 				await this.initializeTelemetry(attachArgs.cwd);
 				await this.initializeSettings(attachArgs);
 				attachArgs.port = attachArgs.port || 9222;
+
 				if (!this.platform) {
 					this.platform = await this.resolvePlatform(attachArgs);
 				}
@@ -379,6 +385,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 							attachArgs.platform,
 						),
 					);
+
 					const attachResult = await this.platform.prepareForAttach();
 					this.outputLogger(
 						localize("AttachingToApp", "Attaching to app"),
@@ -389,6 +396,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						attachArgs,
 						attachResult,
 					);
+
 					if (processedAttachArgs.webSocketDebuggerUrl) {
 						this.cordovaCdpProxy.setBrowserInspectUri(
 							processedAttachArgs.webSocketDebuggerUrl,
@@ -424,6 +432,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 			} catch (error) {
 				this.outputLogger(error.message || error, true);
 				this.debugSessionStatus = DebugSessionStatus.AttachFailed;
+
 				throw error;
 			}
 		};
@@ -449,6 +458,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 	): Promise<void> {
 		await this.cleanUp(args.restart);
 		this.debugSessionStatus = DebugSessionStatus.Stopped;
+
 		super.disconnectRequest(response, args, request);
 	}
 
@@ -461,9 +471,11 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 			const isAnyTarget =
 				args.target.toLowerCase() === TargetType.Emulator ||
 				args.target.toLowerCase() === TargetType.Device;
+
 			const additionalFilter = isAttachRequest
 				? (el: IMobileTarget) => el.isOnline
 				: undefined;
+
 			const resultTarget = await mobilePlatform.resolveMobileTarget(
 				args.target,
 				additionalFilter,
@@ -477,17 +489,22 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 							target.isVirtualTarget ===
 							resultTarget.isVirtualTarget,
 					);
+
 				if (targetsCount > 1) {
 					let launchScenariosManager;
+
 					const uri = vscode.Uri.file(args.cwd);
+
 					const workspaceFolder = <vscode.WorkspaceFolder>(
 						vscode.workspace.getWorkspaceFolder(uri)
 					);
+
 					const launchPath = path.resolve(
 						workspaceFolder.uri.fsPath,
 						".vscode",
 						"launch.json",
 					);
+
 					if (fs.existsSync(launchPath)) {
 						launchScenariosManager = new LaunchScenariosManager(
 							workspaceFolder.uri.fsPath,
@@ -531,6 +548,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		}
 
 		this.cdpProxyErrorHandlerDescriptor?.dispose();
+
 		if (this.cordovaCdpProxy) {
 			await this.cordovaCdpProxy.stopServer();
 			this.cordovaCdpProxy = null;
@@ -549,6 +567,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						this.pwaSessionName,
 						this.cordovaSession.getSessionId(),
 					);
+
 				const childDebugSessionStarted =
 					(await vscode.debug.startDebugging(
 						this.workspaceManager.workspaceRoot,
@@ -568,6 +587,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 								vscode.DebugConsoleMode.MergeWithParent,
 						},
 					));
+
 				if (!childDebugSessionStarted) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.CouldNotStartChildDebugSession,
@@ -588,6 +608,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 								this.pwaSessionName,
 								this.cordovaSession.getSessionId(),
 							);
+
 				const childDebugSessionStarted =
 					await vscode.debug.startDebugging(
 						this.workspaceManager.workspaceRoot,
@@ -598,6 +619,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 								vscode.DebugConsoleMode.MergeWithParent,
 						},
 					);
+
 				if (!childDebugSessionStarted) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.CouldNotStartChildDebugSession,
@@ -645,11 +667,13 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 			target,
 			ionicLiveReload,
 		} = args;
+
 		const [projectType, runArgs, cordovaExecutable] = await Promise.all([
 			TelemetryHelper.determineProjectTypes(cwd),
 			this.workspaceManager.getRunArguments(cwd),
 			this.workspaceManager.getCordovaExecutable(cwd),
 		]);
+
 		const ionicDevServer = new IonicDevServer(
 			cwd,
 			this.outputLogger.bind(this),
@@ -661,7 +685,9 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		ionicDevServer.onServerStop(() => this.stop());
 
 		const env = CordovaProjectHelper.getEnvArgument(args.env, args.envFile);
+
 		const runArguments = args.runArguments || runArgs;
+
 		const port = args.port || 9222;
 
 		const generalPlatformOptions: IGeneralPlatformOptions = {
@@ -677,8 +703,10 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 			ionicLiveReload,
 			runArguments,
 		};
+
 		const androidPlatformOptions =
 			generalPlatformOptions as IAndroidPlatformOptions;
+
 		const iosPlatformOptions = {
 			iosDebugProxyPort: args.iosDebugProxyPort || 9221,
 			webkitRangeMin: args.webkitRangeMin || 9223,
@@ -689,6 +717,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		} as IIosPlatformOptions;
 
 		let userDataPath;
+
 		if (target == TargetType.Chrome) {
 			userDataPath = path.join(
 				settingsHome(),
@@ -719,6 +748,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		} as IBrowserPlatformOptions;
 
 		let resolvedPlatform: AbstractPlatform;
+
 		if (SimulateHelper.isSimulateTarget(target)) {
 			resolvedPlatform = new BrowserPlatform(
 				browserPlatformOptions,
@@ -731,13 +761,17 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						androidPlatformOptions,
 						this.outputLogger,
 					);
+
 					break;
+
 				case PlatformType.IOS:
 					resolvedPlatform = new IosPlatform(
 						iosPlatformOptions,
 						this.outputLogger,
 					);
+
 					break;
+
 				case PlatformType.Serve:
 				// https://github.com/apache/cordova-serve/blob/4ad258947c0e347ad5c0f20d3b48e3125eb24111/src/util.js#L27-L37
 				case PlatformType.Windows:
@@ -751,7 +785,9 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						browserPlatformOptions,
 						this.outputLogger,
 					);
+
 					break;
+
 				default:
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.UnknownPlatform,
@@ -781,6 +817,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		data: simulate.ResizeViewportData,
 	): Promise<void> {
 		await this.attachedDeferred.promise;
+
 		if (this.cordovaCdpProxy) {
 			this.cordovaCdpProxy
 				.getSimPageTargetAPI()
@@ -891,6 +928,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		// We can't print error messages via debug session logger after the session is stopped. This could break the extension work.
 		if (this.debugSessionStatus === DebugSessionStatus.Stopped) {
 			OutputChannelLogger.getMainChannel().log(error.message);
+
 			return;
 		}
 		this.outputLogger(error.message, true);

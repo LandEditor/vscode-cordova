@@ -17,9 +17,11 @@ export function settingsHome(): string {
 	switch (os.platform()) {
 		case "win32":
 			return path.join(process.env.APPDATA, "vscode-cordova");
+
 		case "darwin":
 		case "linux":
 			return path.join(process.env.HOME, ".vscode-cordova");
+
 		default:
 			throw ErrorHelper.getInternalError(
 				InternalErrorCode.UnexpectedPlatform,

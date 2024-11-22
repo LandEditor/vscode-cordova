@@ -49,7 +49,9 @@ export class ChildProcess {
 		options: IExecOptions = {},
 	): Promise<IExecResult> {
 		let outcome: Promise<string>;
+
 		let process: nodeChildProcess.ChildProcess;
+
 		return new Promise<IExecResult>((resolveRes) => {
 			outcome = new Promise<string>((resolve, reject) => {
 				process = this.childProcess.exec(
@@ -103,12 +105,14 @@ export class ChildProcess {
 			args,
 			Object.assign({}, options, { shell: true }),
 		);
+
 		const outcome: Promise<void> = new Promise((resolve, reject) => {
 			spawnedProcess.once("error", (error: any) => {
 				reject(error);
 			});
 
 			const stderrChunks: string[] = [];
+
 			const stdoutChunks: string[] = [];
 
 			spawnedProcess.stderr.on("data", (data) => {
@@ -124,8 +128,10 @@ export class ChildProcess {
 					resolve();
 				} else {
 					const commandWithArgs = `${command} ${args.join(" ")}`;
+
 					if (showStdOutputsOnError) {
 						let details = "";
+
 						if (stdoutChunks.length > 0) {
 							details = details.concat(
 								`\n\tSTDOUT: ${stdoutChunks[stdoutChunks.length - 1]}`,
@@ -158,6 +164,7 @@ export class ChildProcess {
 				}
 			});
 		});
+
 		return {
 			spawnedProcess,
 			stdin: spawnedProcess.stdin,
