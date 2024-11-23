@@ -6,101 +6,127 @@ import * as path from "path";
 import { window } from "vscode";
 
 export class CordovaAndroidEnvironmentHelper {
-    public static checkEnvironment(cwd: string, env: any, logger: any): Promise<void> {
-        logger.log("Requirements check results for android:");
+	public static checkEnvironment(
+		cwd: string,
+		env: any,
+		logger: any,
+	): Promise<void> {
+		logger.log("Requirements check results for android:");
 
-        return Promise.all([
-            checkJava(cwd, env),
-            checkAndroidSDK(cwd, env),
-            checkGradle(cwd, env),
-            checkPlugman(cwd, env),
-        ])
-            .then(() => {
-                logger.log("Environment checks completed.");
-            })
-            .catch(err => {
-                window.showErrorMessage("Environment checks failed: {0}", err.message);
-            });
+		return Promise.all([
+			checkJava(cwd, env),
+			checkAndroidSDK(cwd, env),
+			checkGradle(cwd, env),
+			checkPlugman(cwd, env),
+		])
+			.then(() => {
+				logger.log("Environment checks completed.");
+			})
+			.catch((err) => {
+				window.showErrorMessage(
+					"Environment checks failed: {0}",
+					err.message,
+				);
+			});
 
-        function checkJava(cwd: string, env: any): Promise<void> {
-            return new Promise((resolve, reject) => {
-                child_process.exec("java -version", { cwd, env }, (error, stdout, stderr) => {
-                    if (error) {
-                        logger.log("Java JDK not found:", stderr);
+		function checkJava(cwd: string, env: any): Promise<void> {
+			return new Promise((resolve, reject) => {
+				child_process.exec(
+					"java -version",
+					{ cwd, env },
+					(error, stdout, stderr) => {
+						if (error) {
+							logger.log("Java JDK not found:", stderr);
 
-                        return reject(error);
-                    }
-                    logger.log(`Java JDK: ${stderr.match(/version "([\d.]+)"/)[1]}`);
-                    resolve();
-                });
-            });
-        }
+							return reject(error);
+						}
+						logger.log(
+							`Java JDK: ${stderr.match(/version "([\d.]+)"/)[1]}`,
+						);
+						resolve();
+					},
+				);
+			});
+		}
 
-        function checkAndroidSDK(cwd: string, env: any): Promise<void> {
-            return new Promise((resolve, reject) => {
-                const sdkPath = process.env.ANDROID_SDK_ROOT || process.env.ANDROID_HOME;
+		function checkAndroidSDK(cwd: string, env: any): Promise<void> {
+			return new Promise((resolve, reject) => {
+				const sdkPath =
+					process.env.ANDROID_SDK_ROOT || process.env.ANDROID_HOME;
 
-                child_process.exec(
-                    `${sdkPath}/cmdline-tools/latest/bin/sdkmanager --version`,
-                    { cwd, env },
-                    (error, stdout, stderr) => {
-                        if (error) {
-                            logger.log(`Android SDK not found: ${stderr}`);
-                        }
-                        logger.log(`Android SDK: ${stdout.trim()}`);
+				child_process.exec(
+					`${sdkPath}/cmdline-tools/latest/bin/sdkmanager --version`,
+					{ cwd, env },
+					(error, stdout, stderr) => {
+						if (error) {
+							logger.log(`Android SDK not found: ${stderr}`);
+						}
+						logger.log(`Android SDK: ${stdout.trim()}`);
 
-                        const platformsDir = path.join(sdkPath, "platforms");
+						const platformsDir = path.join(sdkPath, "platforms");
 
-                        if (fs.existsSync(platformsDir)) {
-                            const platforms = fs.readdirSync(platformsDir);
+						if (fs.existsSync(platformsDir)) {
+							const platforms = fs.readdirSync(platformsDir);
 
-                            if (platforms.length > 0) {
-                                logger.log(`Android Targets Installed: ${platforms}`);
-                            } else {
-                                logger.log("No Android Targets Installed.");
-                            }
-                        } else {
-                            logger.log("Android SDK platforms directory not found.");
-                        }
-                        resolve();
-                    },
-                );
-            });
-        }
+							if (platforms.length > 0) {
+								logger.log(
+									`Android Targets Installed: ${platforms}`,
+								);
+							} else {
+								logger.log("No Android Targets Installed.");
+							}
+						} else {
+							logger.log(
+								"Android SDK platforms directory not found.",
+							);
+						}
+						resolve();
+					},
+				);
+			});
+		}
 
-        function checkGradle(cwd: string, env: any): Promise<void> {
-            return new Promise((resolve, reject) => {
-                child_process.exec("gradle -v", { cwd, env }, (error, stdout, stderr) => {
-                    if (error) {
-                        logger.log(`Gradle not found: ${stderr}`);
+		function checkGradle(cwd: string, env: any): Promise<void> {
+			return new Promise((resolve, reject) => {
+				child_process.exec(
+					"gradle -v",
+					{ cwd, env },
+					(error, stdout, stderr) => {
+						if (error) {
+							logger.log(`Gradle not found: ${stderr}`);
 
-                        return reject(error);
-                    }
-                    logger.log(`Gradle: ${stdout.match(/Gradle (\d+\.\d+(\.\d+)?)/)[1]}`);
-                    resolve();
-                });
-            });
-        }
+							return reject(error);
+						}
+						logger.log(
+							`Gradle: ${stdout.match(/Gradle (\d+\.\d+(\.\d+)?)/)[1]}`,
+						);
+						resolve();
+					},
+				);
+			});
+		}
 
-        function checkPlugman(cwd: string, env: any): Promise<void> {
-            return new Promise((resolve, reject) => {
-                child_process.exec(
-                    "npm list -g plugman --depth=0",
-                    {
-                        cwd,
-                        env,
-                    },
-                    (error, stdout, stderr) => {
-                        if (error) {
-                            logger.log(`Plugman not found: ${stderr}`);
+		function checkPlugman(cwd: string, env: any): Promise<void> {
+			return new Promise((resolve, reject) => {
+				child_process.exec(
+					"npm list -g plugman --depth=0",
+					{
+						cwd,
+						env,
+					},
+					(error, stdout, stderr) => {
+						if (error) {
+							logger.log(`Plugman not found: ${stderr}`);
 
-                            return reject(error);
-                        }
-                        logger.log(`Plugman: ${stdout.match(/plugman@(\d+\.\d+\.\d+)/)[1]}`);
-                        resolve();
-                    },
-                );
-            });
-        }
-    }
+							return reject(error);
+						}
+						logger.log(
+							`Plugman: ${stdout.match(/plugman@(\d+\.\d+\.\d+)/)[1]}`,
+						);
+						resolve();
+					},
+				);
+			});
+		}
+	}
 }
