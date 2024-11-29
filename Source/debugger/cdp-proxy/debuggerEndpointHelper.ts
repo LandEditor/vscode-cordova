@@ -21,10 +21,12 @@ nls.config({
 
 export class DebuggerEndpointHelper {
 	private localv4: Buffer;
+
 	private localv6: Buffer;
 
 	constructor() {
 		this.localv4 = ipToBuffer("127.0.0.1");
+
 		this.localv6 = ipToBuffer("::1");
 	}
 
@@ -133,13 +135,18 @@ export class DebuggerEndpointHelper {
 
 			const request = driver.get(url, requestOptions, (response) => {
 				let data = "";
+
 				response.setEncoding("utf8");
+
 				response.on("data", (chunk: string) => (data += chunk));
+
 				response.on("end", () => fulfill(data));
+
 				response.on("error", reject);
 			});
 
 			request.on("error", reject);
+
 			request.end();
 		});
 	}

@@ -25,6 +25,7 @@ nls.config({
 
 export class CordovaWorkspaceManager implements vscode.Disposable {
 	public pluginSimulator: PluginSimulator;
+
 	public workspaceRoot: vscode.WorkspaceFolder;
 
 	public constructor(
@@ -32,6 +33,7 @@ export class CordovaWorkspaceManager implements vscode.Disposable {
 		workspaceRoot: vscode.WorkspaceFolder,
 	) {
 		this.workspaceRoot = workspaceRoot;
+
 		this.pluginSimulator = pluginSimulator;
 	}
 
@@ -47,16 +49,19 @@ export class CordovaWorkspaceManager implements vscode.Disposable {
 
 			if (workspaceFolder) {
 				onFolderAdded(workspaceFolder);
+
 				workspaceManager =
 					ProjectsStorage.projectsCache[
 						workspaceFolder.uri.fsPath.toLowerCase()
 					];
 			}
+
 			if (!workspaceManager) {
 				const error = ErrorHelper.getInternalError(
 					InternalErrorCode.CouldNotFindWorkspaceManager,
 					projectRootPath,
 				);
+
 				TelemetryHelper.sendErrorEvent(
 					"CouldNotFindWorkspaceManager",
 					error,
@@ -65,6 +70,7 @@ export class CordovaWorkspaceManager implements vscode.Disposable {
 				throw error;
 			}
 		}
+
 		return workspaceManager;
 	}
 
@@ -74,6 +80,7 @@ export class CordovaWorkspaceManager implements vscode.Disposable {
 	public dispose(): void {
 		if (this.pluginSimulator) {
 			this.pluginSimulator.dispose();
+
 			this.pluginSimulator = null;
 		}
 	}

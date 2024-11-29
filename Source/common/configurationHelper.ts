@@ -18,9 +18,11 @@ export class ConfigurationHelper {
 				if (preference.includes("AndroidInsecureFileModeEnabled")) {
 					return !!preference.includes("false");
 				}
+
 				return true;
 			}
 		}
+
 		return true;
 	}
 }

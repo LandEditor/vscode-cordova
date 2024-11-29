@@ -44,46 +44,55 @@ interface Document {
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "pause",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "resume",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "backbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "menubutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "searchbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "startcallbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "endcallbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "volumedownbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "volumeupbutton",
 		listener: (ev: Event) => any,
@@ -95,46 +104,55 @@ interface Document {
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "pause",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "resume",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "backbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "menubutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "searchbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "startcallbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "endcallbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "volumedownbutton",
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: "volumeupbutton",
 		listener: (ev: Event) => any,
@@ -146,6 +164,7 @@ interface Document {
 		listener: (ev: Event) => any,
 		useCapture?: boolean,
 	): void;
+
 	removeEventListener(
 		type: string,
 		listener: (ev: Event) => any,
@@ -167,6 +186,7 @@ interface ArgsCheck {
 	): void;
 
 	getValue(value?: any, defaultValue?: any): any;
+
 	enableChecks: boolean;
 }
 

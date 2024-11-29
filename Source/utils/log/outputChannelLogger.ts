@@ -9,7 +9,9 @@ const channels: { [channelName: string]: OutputChannelLogger } = {};
 
 export class OutputChannelLogger {
 	public static MAIN_CHANNEL_NAME: string = "Cordova Tools";
+
 	private outputChannel: vscode.OutputChannel;
+
 	private logTimestamps: boolean;
 
 	constructor(
@@ -22,6 +24,7 @@ export class OutputChannelLogger {
 
 		if (!lazy) {
 			this.channel = vscode.window.createOutputChannel(this.channelName);
+
 			this.channel.show(this.preserveFocus);
 		}
 	}
@@ -29,6 +32,7 @@ export class OutputChannelLogger {
 	public static disposeChannel(channelName: string): void {
 		if (channels[channelName]) {
 			channels[channelName].getOutputChannel().dispose();
+
 			delete channels[channelName];
 		}
 	}
@@ -78,6 +82,7 @@ export class OutputChannelLogger {
 				tag,
 				this.logTimestamps,
 			);
+
 			this.channel.appendLine(message);
 		}
 	}
@@ -98,9 +103,11 @@ export class OutputChannelLogger {
 		if (this.outputChannel) {
 			return this.outputChannel;
 		}
+
 		this.outputChannel = vscode.window.createOutputChannel(
 			this.channelName,
 		);
+
 		this.outputChannel.show(this.preserveFocus);
 
 		return this.outputChannel;

@@ -24,41 +24,63 @@ export enum DispatchDirection {
 
 export interface ProcessedCDPMessage {
 	event: ProtocolMessage;
+
 	dispatchDirection: DispatchDirection;
+
 	communicationPreparationsDone?: boolean;
 }
 
 export interface ExecutionContext {
 	id: number;
+
 	origin: string;
+
 	name: string;
+
 	auxData?: {
 		isDefault: boolean;
+
 		type?: "default" | "page";
+
 		frameId?: string;
 	};
 }
 
 export interface HandlerOptions {
 	platform: string;
+
 	debugRequest: string;
+
 	ionicLiveReload?: boolean;
+
 	devServerAddress?: string;
+
 	devServerPort?: number;
+
 	simulatePort?: number;
+
 	iOSAppPackagePath?: string;
+
 	iOSVersion?: string;
 }
 
 export abstract class CDPMessageHandlerBase {
 	protected sourcemapPathTransformer: SourcemapPathTransformer;
+
 	protected projectType: ProjectType;
+
 	protected applicationPortPart: string;
+
 	protected platform: string;
+
 	protected debugRequestType: string;
+
 	protected applicationServerAddress: string;
+
 	protected ionicLiveReload?: boolean;
+
 	protected debuggerTarget: Connection | null;
+
 	protected applicationTarget: Connection | null;
 
 	constructor(
@@ -67,20 +89,27 @@ export abstract class CDPMessageHandlerBase {
 		options: HandlerOptions,
 	) {
 		this.sourcemapPathTransformer = sourcemapPathTransformer;
+
 		this.projectType = projectType;
 		// we use an application port part, which looks like ":<port>", since on debugging
 		// Ionic apps we don't need a colon after "localhost" in the link
 		this.applicationPortPart = "";
+
 		this.platform = options.platform;
+
 		this.ionicLiveReload = options.ionicLiveReload;
+
 		this.applicationServerAddress = options.devServerAddress || "localhost";
+
 		this.debugRequestType = options.debugRequest;
 	}
 
 	public abstract processDebuggerCDPMessage(event: any): ProcessedCDPMessage;
+
 	public abstract processApplicationCDPMessage(
 		event: any,
 	): ProcessedCDPMessage;
+
 	public abstract configureHandlerAfterAttachmentPreparation(
 		options: HandlerOptions,
 	): void;

@@ -6,6 +6,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class IonicPrepare {
 	static codeName = "ionic.prepare";
+
 	static createHandler = () =>
 		commandWrapper(CordovaCommandHelper.executeCordovaCommand, [
 			"prepare",

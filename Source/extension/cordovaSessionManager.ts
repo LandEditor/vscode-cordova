@@ -16,8 +16,11 @@ export class CordovaSessionManager
 	protected readonly cordovaDebuggingFlag = "isCordovaDebugging";
 
 	private servers = new Map<string, Net.Server>();
+
 	private connections = new Map<string, Net.Socket>();
+
 	private cordovaDebugSessions = new Map<string, CordovaSession>();
+
 	private restartingVSCodeSessions = new Set<string>();
 
 	public createDebugAdapterDescriptor(
@@ -25,6 +28,7 @@ export class CordovaSessionManager
 		executable: vscode.DebugAdapterExecutable | undefined,
 	): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		const cordovaSession = this.createCordovaSession(session);
+
 		this.cordovaDebugSessions.set(
 			cordovaSession.getSessionId(),
 			cordovaSession,
@@ -41,11 +45,16 @@ export class CordovaSessionManager
 				cordovaSession,
 				this,
 			);
+
 			cordovaDebugSession.setRunAsServer(true);
+
 			this.connections.set(cordovaSession.getSessionId(), socket);
+
 			cordovaDebugSession.start(<NodeJS.ReadableStream>socket, socket);
 		});
+
 		debugServer.listen(0);
+
 		this.servers.set(cordovaSession.getSessionId(), debugServer);
 		// make VS Code connect to debug server
 		return new vscode.DebugAdapterServer(
@@ -65,6 +74,7 @@ export class CordovaSessionManager
 					.getVSCodeDebugSession().id,
 			);
 		}
+
 		this.cordovaDebugSessions.delete(cordovaDebugSessionId);
 
 		if (this.cordovaDebugSessions.size === 0) {
@@ -86,6 +96,7 @@ export class CordovaSessionManager
 			if (forcedStop) {
 				this.destroySocketConnection(connection);
 			}
+
 			this.connections.delete(cordovaDebugSessionId);
 		}
 	}
@@ -109,8 +120,10 @@ export class CordovaSessionManager
 		this.servers.forEach((server, key) => {
 			this.destroyServer(key, server);
 		});
+
 		this.connections.forEach((conn, key) => {
 			this.destroySocketConnection(conn);
+
 			this.connections.delete(key);
 		});
 	}
@@ -120,21 +133,26 @@ export class CordovaSessionManager
 
 		if (this.restartingVSCodeSessions.has(session.id)) {
 			cordovaSession.setStatus(CordovaSessionStatus.Pending);
+
 			this.restartingVSCodeSessions.delete(session.id);
 		}
+
 		return cordovaSession;
 	}
 
 	private destroyServer(cordovaDebugSessionId: string, server?: Net.Server) {
 		if (server) {
 			server.close();
+
 			this.servers.delete(cordovaDebugSessionId);
 		}
 	}
 
 	private destroySocketConnection(conn: Net.Socket) {
 		conn.removeAllListeners();
+
 		conn.on("error", () => undefined);
+
 		conn.destroy();
 	}
 }

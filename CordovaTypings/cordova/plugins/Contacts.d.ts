@@ -136,12 +136,19 @@ interface ContactError {
 
 declare var ContactError: {
 	new (code: number): ContactError;
+
 	UNKNOWN_ERROR: number;
+
 	INVALID_ARGUMENT_ERROR: number;
+
 	TIMEOUT_ERROR: number;
+
 	PENDING_OPERATION_ERROR: number;
+
 	IO_ERROR: number;
+
 	NOT_SUPPORTED_ERROR: number;
+
 	PERMISSION_DENIED_ERROR: number;
 };
 

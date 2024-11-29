@@ -30,6 +30,7 @@ export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
 				? `:${options.devServerPort}`
 				: "";
 		}
+
 		if (options.simulatePort) {
 			this.applicationPortPart = `:${options.simulatePort}`;
 		}
@@ -96,6 +97,7 @@ export class ChromeIonicCDPMessageHandler extends ChromeCDPMessageHandlerBase {
 		) {
 			reqParams.url = "";
 		}
+
 		return reqParams;
 	}
 

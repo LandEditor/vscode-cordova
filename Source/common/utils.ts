@@ -25,5 +25,6 @@ export function ipToBuffer(ip: string): Buffer {
 
 		return Buffer.from(address.toByteArray());
 	}
+
 	throw new Error("Invalid IP address format.");
 }

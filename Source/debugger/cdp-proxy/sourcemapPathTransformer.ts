@@ -13,10 +13,15 @@ import { PlatformType } from "../cordovaDebugSession";
 
 export class SourcemapPathTransformer {
 	private _cordovaRoot: string;
+
 	private _platform: string;
+
 	private _webRoot: string;
+
 	private _projectTypes: ProjectType;
+
 	private _ionicLiveReload: boolean;
+
 	private _debugRequestType: string;
 
 	constructor(
@@ -28,10 +33,15 @@ export class SourcemapPathTransformer {
 		address?: string,
 	) {
 		this._cordovaRoot = cwd;
+
 		this._platform = platform;
+
 		this._webRoot = address || this._cordovaRoot;
+
 		this._ionicLiveReload = ionicLiveReload;
+
 		this._projectTypes = projectType;
+
 		this._debugRequestType = debugRequestType;
 	}
 
@@ -43,6 +53,7 @@ export class SourcemapPathTransformer {
 				sourceUrl.replace("file:///android_asset", ""),
 			);
 		}
+
 		return null;
 	}
 
@@ -57,6 +68,7 @@ export class SourcemapPathTransformer {
 		if (foundStrings && foundStrings[1]) {
 			return this.getClientPath(foundStrings[1]);
 		}
+
 		return this.getClientPath("/");
 	}
 
@@ -68,6 +80,7 @@ export class SourcemapPathTransformer {
 		} catch (err) {
 			relativeSourcePath = "/";
 		}
+
 		return this.getClientPath(relativeSourcePath);
 	}
 
@@ -127,6 +140,7 @@ export class SourcemapPathTransformer {
 				return mergesPath;
 			}
 		}
+
 		return defaultPath;
 	}
 

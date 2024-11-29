@@ -6,6 +6,7 @@ import { parse } from "xcparse";
 
 export interface PBXInfo {
 	isa: string;
+
 	buildConfigurations?: string[];
 }
 
@@ -28,6 +29,7 @@ export class XCParseConfiguration {
 				return value;
 			}
 		}
+
 		return "";
 	}
 
@@ -48,6 +50,7 @@ export class XCParseConfiguration {
 				}
 			}
 		}
+
 		return "";
 	}
 }

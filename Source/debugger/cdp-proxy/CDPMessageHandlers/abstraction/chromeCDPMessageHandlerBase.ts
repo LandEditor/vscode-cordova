@@ -35,10 +35,12 @@ export abstract class ChromeCDPMessageHandlerBase extends CDPMessageHandlerBase 
 
 		if (foundStrings && foundStrings[1]) {
 			const uriPart = foundStrings[1].split("\\\\").join("\\/");
+
 			reqParams.urlRegex = `${this.sourcemapsProtocol || "https?"}:\\/\\/${
 				this.applicationServerAddress
 			}${this.applicationPortPart}\\/${uriPart}`;
 		}
+
 		return reqParams;
 	}
 
@@ -55,8 +57,10 @@ export abstract class ChromeCDPMessageHandlerBase extends CDPMessageHandlerBase 
 
 				return true;
 			}
+
 			return false;
 		}
+
 		return urlRegExp.test(url);
 	}
 }

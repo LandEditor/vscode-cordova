@@ -8,6 +8,7 @@ export enum InternalErrorLevel {
 
 export class InternalError extends Error {
 	public errorCode: number;
+
 	public errorLevel: InternalErrorLevel;
 
 	public get isInternalError(): boolean {
@@ -20,8 +21,11 @@ export class InternalError extends Error {
 		errorLevel: InternalErrorLevel = InternalErrorLevel.Error,
 	) {
 		super(message);
+
 		this.errorCode = errorCode;
+
 		this.errorLevel = errorLevel;
+
 		this.message =
 			errorCode > 0
 				? `${message} (error code ${this.errorCode})`
@@ -41,13 +45,17 @@ export class NestedError extends InternalError {
 		errorLevel: InternalErrorLevel = InternalErrorLevel.Error,
 	) {
 		super(errorCode, message, errorLevel);
+
 		this.innerError = innerError;
+
 		this.name = innerError ? innerError.name : null;
 
 		const innerMessage = innerError ? innerError.message : null;
+
 		this.message = innerMessage
 			? `${message}: ${String(innerMessage)}`
 			: message;
+
 		this._extras = extras;
 	}
 

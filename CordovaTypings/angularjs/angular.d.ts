@@ -39,6 +39,7 @@ declare module angular {
 
 	interface IAngularBootstrapConfig {
 		strictDi?: boolean;
+
 		debugInfoEnabled?: boolean;
 	}
 
@@ -84,7 +85,9 @@ declare module angular {
 		 * If jQuery is available, angular.element is an alias for the jQuery function. If jQuery is not available, angular.element delegates to Angular's built-in subset of jQuery, called "jQuery lite" or "jqLite."
 		 */
 		element: IAugmentedJQueryStatic;
+
 		equals(value1: any, value2: any): boolean;
+
 		extend(destination: any, ...sources: any[]): any;
 
 		/**
@@ -131,17 +134,29 @@ declare module angular {
 		): any;
 
 		fromJson(json: string): any;
+
 		identity<T>(arg?: T): T;
+
 		injector(modules?: any[], strictDi?: boolean): auto.IInjectorService;
+
 		isArray(value: any): boolean;
+
 		isDate(value: any): boolean;
+
 		isDefined(value: any): boolean;
+
 		isElement(value: any): boolean;
+
 		isFunction(value: any): boolean;
+
 		isNumber(value: any): boolean;
+
 		isObject(value: any): boolean;
+
 		isString(value: any): boolean;
+
 		isUndefined(value: any): boolean;
+
 		lowercase(str: string): string;
 
 		/**
@@ -166,15 +181,22 @@ declare module angular {
 		module(name: string, requires?: string[], configFn?: Function): IModule;
 
 		noop(...args: any[]): void;
+
 		reloadWithDebugInfo(): void;
+
 		toJson(obj: any, pretty?: boolean): string;
+
 		uppercase(str: string): string;
+
 		version: {
 			full: string;
+
 			major: number;
+
 			minor: number;
 
 			dot: number;
+
 			codeName: string;
 		};
 
@@ -191,7 +213,9 @@ declare module angular {
 	///////////////////////////////////////////////////////////////////////////
 	interface IModule {
 		animation(name: string, animationFactory: Function): IModule;
+
 		animation(name: string, inlineAnnotatedFunction: any[]): IModule;
+
 		animation(object: Object): IModule;
 		/**
 		 * Use this method to register a component.
@@ -212,6 +236,7 @@ declare module angular {
 		 * @param inlineAnnotatedFunction Execute this function on module load. Useful for service configuration.
 		 */
 		config(inlineAnnotatedFunction: any[]): IModule;
+
 		config(object: Object): IModule;
 		/**
 		 * Register a constant service, such as a string, a number, an array, an object or a function, with the $injector. Unlike value it can be injected into a module configuration function (see config) and it cannot be overridden by an Angular decorator.
@@ -240,6 +265,7 @@ declare module angular {
 		 * @param controllerConstructor Controller constructor fn (optionally decorated with DI annotations in the array notation).
 		 */
 		controller(name: string, inlineAnnotatedConstructor: any[]): IModule;
+
 		controller(object: Object): IModule;
 		/**
 		 * Register a new directive with the compiler.
@@ -255,6 +281,7 @@ declare module angular {
 		 * @param directiveFactory An injectable directive factory function.
 		 */
 		directive(name: string, inlineAnnotatedFunction: any[]): IModule;
+
 		directive(object: Object): IModule;
 		/**
 		 * Register a service factory, which will be called to return the service instance. This is short for registering a service where its provider consists of only a $get property, which is the given service factory function. You should use $provide.factory(getFn) if you do not need to configure your service in a provider.
@@ -270,20 +297,29 @@ declare module angular {
 		 * @param inlineAnnotatedFunction The $getFn for the instance creation. Internally this is a short hand for $provide.provider(name, {$get: $getFn}).
 		 */
 		factory(name: string, inlineAnnotatedFunction: any[]): IModule;
+
 		factory(object: Object): IModule;
+
 		filter(name: string, filterFactoryFunction: Function): IModule;
+
 		filter(name: string, inlineAnnotatedFunction: any[]): IModule;
+
 		filter(object: Object): IModule;
+
 		provider(
 			name: string,
 			serviceProviderFactory: IServiceProviderFactory,
 		): IModule;
+
 		provider(
 			name: string,
 			serviceProviderConstructor: IServiceProviderClass,
 		): IModule;
+
 		provider(name: string, inlineAnnotatedConstructor: any[]): IModule;
+
 		provider(name: string, providerObject: IServiceProvider): IModule;
+
 		provider(object: Object): IModule;
 		/**
 		 * Run blocks are the closest thing in Angular to the main method. A run block is the code which needs to run to kickstart the application. It is executed after all of the service have been configured and the injector has been created. Run blocks typically contain code which is hard to unit-test, and for this reason should be declared in isolated modules, so that they can be ignored in the unit-tests.
@@ -293,8 +329,11 @@ declare module angular {
 		 * Run blocks are the closest thing in Angular to the main method. A run block is the code which needs to run to kickstart the application. It is executed after all of the service have been configured and the injector has been created. Run blocks typically contain code which is hard to unit-test, and for this reason should be declared in isolated modules, so that they can be ignored in the unit-tests.
 		 */
 		run(inlineAnnotatedFunction: any[]): IModule;
+
 		service(name: string, serviceConstructor: Function): IModule;
+
 		service(name: string, inlineAnnotatedConstructor: any[]): IModule;
+
 		service(object: Object): IModule;
 		/**
          * Register a value service with the $injector, such as a string, a number, an array, an object or a function. This is short for registering a service where its provider's $get property is a factory function that takes no arguments and returns the value service.
@@ -304,6 +343,7 @@ declare module angular {
          * @param value The value.
          */
 		value(name: string, value: any): IModule;
+
 		value(object: Object): IModule;
 
 		/**
@@ -312,10 +352,12 @@ declare module angular {
 		 * @param decorator This function will be invoked when the service needs to be instantiated and should return the decorated service instance. The function is called using the injector.invoke method and is therefore fully injectable. Local injection arguments: $delegate - The original service instance, which can be monkey patched, configured, decorated or delegated to.
 		 */
 		decorator(name: string, decoratorConstructor: Function): IModule;
+
 		decorator(name: string, inlineAnnotatedConstructor: any[]): IModule;
 
 		// Properties
 		name: string;
+
 		requires: string[];
 	}
 
@@ -676,6 +718,7 @@ declare module angular {
 			invokeApply?: boolean,
 			...args: any[]
 		): IPromise<T>;
+
 		cancel(promise?: IPromise<any>): boolean;
 	}
 
@@ -691,6 +734,7 @@ declare module angular {
 			invokeApply?: boolean,
 			...args: any[]
 		): IPromise<any>;
+
 		cancel(promise: IPromise<any>): boolean;
 	}
 
@@ -900,42 +944,67 @@ declare module angular {
 		// These are not documented
 		// Check angular's i18n files for exemples
 		NUMBER_FORMATS: ILocaleNumberFormatDescriptor;
+
 		DATETIME_FORMATS: ILocaleDateTimeFormatDescriptor;
+
 		pluralCat: (num: any) => string;
 	}
 
 	interface ILocaleNumberFormatDescriptor {
 		DECIMAL_SEP: string;
+
 		GROUP_SEP: string;
+
 		PATTERNS: ILocaleNumberPatternDescriptor[];
+
 		CURRENCY_SYM: string;
 	}
 
 	interface ILocaleNumberPatternDescriptor {
 		minInt: number;
+
 		minFrac: number;
+
 		maxFrac: number;
+
 		posPre: string;
+
 		posSuf: string;
+
 		negPre: string;
+
 		negSuf: string;
+
 		gSize: number;
+
 		lgSize: number;
 	}
 
 	interface ILocaleDateTimeFormatDescriptor {
 		MONTH: string[];
+
 		SHORTMONTH: string[];
+
 		DAY: string[];
+
 		SHORTDAY: string[];
+
 		AMPMS: string[];
+
 		medium: string;
+
 		short: string;
+
 		fullDate: string;
+
 		longDate: string;
+
 		mediumDate: string;
+
 		shortDate: string;
+
 		mediumTime: string;
+
 		shortTime: string;
 	}
 
@@ -946,14 +1015,19 @@ declare module angular {
 	///////////////////////////////////////////////////////////////////////////
 	interface ILogService {
 		debug: ILogCall;
+
 		error: ILogCall;
+
 		info: ILogCall;
+
 		log: ILogCall;
+
 		warn: ILogCall;
 	}
 
 	interface ILogProvider extends IServiceProvider {
 		debugEnabled(): boolean;
+
 		debugEnabled(enabled: boolean): ILogProvider;
 	}
 
@@ -974,9 +1048,11 @@ declare module angular {
 
 	interface IParseProvider {
 		logPromiseWarnings(): boolean;
+
 		logPromiseWarnings(value: boolean): IParseProvider;
 
 		unwrapPromises(): boolean;
+
 		unwrapPromises(value: boolean): IParseProvider;
 	}
 
@@ -999,8 +1075,11 @@ declare module angular {
 	 */
 	interface ILocationService {
 		absUrl(): string;
+
 		hash(): string;
+
 		hash(newHash: string): ILocationService;
+
 		host(): string;
 
 		/**
@@ -1017,7 +1096,9 @@ declare module angular {
 		path(path: string): ILocationService;
 
 		port(): number;
+
 		protocol(): string;
+
 		replace(): ILocationService;
 
 		/**
@@ -1046,23 +1127,31 @@ declare module angular {
 		): ILocationService;
 
 		state(): any;
+
 		state(state: any): ILocationService;
+
 		url(): string;
+
 		url(url: string): ILocationService;
 	}
 
 	interface ILocationProvider extends IServiceProvider {
 		hashPrefix(): string;
+
 		hashPrefix(prefix: string): ILocationProvider;
+
 		html5Mode(): boolean;
 
 		// Documentation states that parameter is string, but
 		// implementation tests it as boolean, which makes more sense
 		// since this is a toggler
 		html5Mode(active: boolean): ILocationProvider;
+
 		html5Mode(mode: {
 			enabled?: boolean;
+
 			requireBase?: boolean;
+
 			rewriteLinks?: boolean;
 		}): ILocationProvider;
 	}
@@ -1098,6 +1187,7 @@ declare module angular {
 	 */
 	interface IQService {
 		new <T>(resolver: (resolve: IQResolveReject<T>) => any): IPromise<T>;
+
 		new <T>(
 			resolver: (
 				resolve: IQResolveReject<T>,
@@ -1130,6 +1220,7 @@ declare module angular {
 		all(promises: {
 			[id: string]: IPromise<any>;
 		}): IPromise<{ [id: string]: any }>;
+
 		all<T extends {}>(promises: {
 			[id: string]: IPromise<any>;
 		}): IPromise<T>;
@@ -1196,8 +1287,11 @@ declare module angular {
 
 	interface IDeferred<T> {
 		resolve(value?: T | IPromise<T>): void;
+
 		reject(reason?: any): void;
+
 		notify(state?: any): void;
+
 		promise: IPromise<T>;
 	}
 
@@ -1208,6 +1302,7 @@ declare module angular {
 	interface IAnchorScrollService {
 		(): void;
 		(hash: string): void;
+
 		yOffset: any;
 	}
 
@@ -1337,9 +1432,11 @@ declare module angular {
 		directive(directivesMap: any): ICompileProvider;
 
 		aHrefSanitizationWhitelist(): RegExp;
+
 		aHrefSanitizationWhitelist(regexp: RegExp): ICompileProvider;
 
 		imgSrcSanitizationWhitelist(): RegExp;
+
 		imgSrcSanitizationWhitelist(regexp: RegExp): ICompileProvider;
 
 		debugInfoEnabled(enabled?: boolean): any;
@@ -1385,7 +1482,9 @@ declare module angular {
 
 	interface IControllerProvider extends IServiceProvider {
 		register(name: string, controllerConstructor: Function): void;
+
 		register(name: string, dependencyAnnotatedConstructor: any[]): void;
+
 		allowGlobals(): void;
 	}
 
@@ -1543,14 +1642,19 @@ declare module angular {
 
 	interface IHttpPromiseCallbackArg<T> {
 		data?: T;
+
 		status?: number;
+
 		headers?: IHttpHeadersGetter;
+
 		config?: IRequestConfig;
+
 		statusText?: string;
 	}
 
 	interface IHttpPromise<T> extends IPromise<IHttpPromiseCallbackArg<T>> {
 		success(callback: IHttpPromiseCallback<T>): IHttpPromise<T>;
+
 		error(callback: IHttpPromiseCallback<any>): IHttpPromise<T>;
 	}
 
@@ -1566,11 +1670,15 @@ declare module angular {
 
 	interface IHttpRequestConfigHeaders {
 		[requestType: string]: string | (() => string);
+
 		common?: string | (() => string);
 
 		get?: string | (() => string);
+
 		post?: string | (() => string);
+
 		put?: string | (() => string);
+
 		patch?: string | (() => string);
 	}
 
@@ -1634,8 +1742,11 @@ declare module angular {
 		request?: (
 			config: IRequestConfig,
 		) => IRequestConfig | IPromise<IRequestConfig>;
+
 		requestError?: (rejection: any) => any;
+
 		response?: <T>(response: IHttpPromiseCallbackArg<T>) => IPromise<T> | T;
+
 		responseError?: (rejection: any) => any;
 	}
 
@@ -1655,7 +1766,9 @@ declare module angular {
 			| IHttpInterceptorFactory
 			| (string | IHttpInterceptorFactory)[]
 		)[];
+
 		useApplyAsync(): boolean;
+
 		useApplyAsync(value: boolean): IHttpProvider;
 
 		/**
@@ -1697,7 +1810,9 @@ declare module angular {
 			trustedContext?: string,
 			allOrNothing?: boolean,
 		): IInterpolationFunction;
+
 		endSymbol(): string;
+
 		startSymbol(): string;
 	}
 
@@ -1707,8 +1822,11 @@ declare module angular {
 
 	interface IInterpolateProvider extends IServiceProvider {
 		startSymbol(): string;
+
 		startSymbol(value: string): IInterpolateProvider;
+
 		endSymbol(): string;
+
 		endSymbol(value: string): IInterpolateProvider;
 	}
 
@@ -1734,22 +1852,34 @@ declare module angular {
 		getTrustedResourceUrl(value: any): any;
 
 		getTrustedUrl(value: any): any;
+
 		parse(
 			type: string,
 			expression: string,
 		): (context: any, locals: any) => any;
+
 		parseAsCss(expression: string): (context: any, locals: any) => any;
+
 		parseAsHtml(expression: string): (context: any, locals: any) => any;
+
 		parseAsJs(expression: string): (context: any, locals: any) => any;
+
 		parseAsResourceUrl(
 			expression: string,
 		): (context: any, locals: any) => any;
+
 		parseAsUrl(expression: string): (context: any, locals: any) => any;
+
 		trustAs(type: string, value: any): any;
+
 		trustAsHtml(value: any): any;
+
 		trustAsJs(value: any): any;
+
 		trustAsResourceUrl(value: any): any;
+
 		trustAsUrl(value: any): any;
+
 		isEnabled(): boolean;
 	}
 
@@ -1767,7 +1897,9 @@ declare module angular {
 	///////////////////////////////////////////////////////////////////////////
 	interface ISCEDelegateService {
 		getTrusted(type: string, mayBeTrusted: any): any;
+
 		trustAs(type: string, value: any): any;
+
 		valueOf(value: any): any;
 	}
 
@@ -1777,8 +1909,11 @@ declare module angular {
 	///////////////////////////////////////////////////////////////////////////
 	interface ISCEDelegateProvider extends IServiceProvider {
 		resourceUrlBlacklist(blacklist: any[]): void;
+
 		resourceUrlWhitelist(whitelist: any[]): void;
+
 		resourceUrlBlacklist(): any[];
+
 		resourceUrlWhitelist(): any[];
 	}
 
@@ -1836,13 +1971,21 @@ declare module angular {
 	 */
 	interface RouteDefinition {
 		path?: string;
+
 		aux?: string;
+
 		component?: Type | ComponentDefinition | string;
+
 		loader?: Function;
+
 		redirectTo?: any[];
+
 		as?: string;
+
 		name?: string;
+
 		data?: any;
+
 		useAsDefault?: boolean;
 	}
 
@@ -1854,7 +1997,9 @@ declare module angular {
 	 */
 	interface ComponentDefinition {
 		type: string;
+
 		loader?: Function;
+
 		component?: Type;
 	}
 
@@ -1935,6 +2080,7 @@ declare module angular {
 
 	interface IDirectivePrePost {
 		pre?: IDirectiveLinkFn;
+
 		post?: IDirectiveLinkFn;
 	}
 
@@ -1948,20 +2094,35 @@ declare module angular {
 
 	interface IDirective {
 		compile?: IDirectiveCompileFn;
+
 		controller?: any;
+
 		controllerAs?: string;
+
 		bindToController?: boolean | Object;
+
 		link?: IDirectiveLinkFn | IDirectivePrePost;
+
 		name?: string;
+
 		priority?: number;
+
 		replace?: boolean;
+
 		require?: any;
+
 		restrict?: string;
+
 		scope?: any;
+
 		template?: any;
+
 		templateNamespace?: string;
+
 		templateUrl?: any;
+
 		terminal?: boolean;
+
 		transclude?: any;
 	}
 
@@ -1987,16 +2148,25 @@ declare module angular {
 		//$destroy
 
 		find(selector: string): IAugmentedJQuery;
+
 		find(element: any): IAugmentedJQuery;
+
 		find(obj: JQuery): IAugmentedJQuery;
+
 		controller(): any;
+
 		controller(name: string): any;
+
 		injector(): any;
+
 		scope(): IScope;
+
 		isolateScope(): IScope;
 
 		inheritedData(key: string, value: any): JQuery;
+
 		inheritedData(obj: { [key: string]: any }): JQuery;
+
 		inheritedData(key?: string): any;
 	}
 
@@ -2010,12 +2180,17 @@ declare module angular {
 		///////////////////////////////////////////////////////////////////////
 		interface IInjectorService {
 			annotate(fn: Function): string[];
+
 			annotate(inlineAnnotatedFunction: any[]): string[];
 
 			get<T>(name: string, caller?: string): T;
+
 			has(name: string): boolean;
+
 			instantiate<T>(typeConstructor: Function, locals?: any): T;
+
 			invoke(inlineAnnotatedFunction: any[]): any;
+
 			invoke(func: Function, context?: any, locals?: any): any;
 		}
 
@@ -2053,27 +2228,34 @@ declare module angular {
 			 * $delegate - The original service instance, which can be monkey patched, configured, decorated or delegated to.
 			 */
 			decorator(name: string, inlineAnnotatedFunction: any[]): void;
+
 			factory(
 				name: string,
 				serviceFactoryFunction: Function,
 			): IServiceProvider;
+
 			factory(
 				name: string,
 				inlineAnnotatedFunction: any[],
 			): IServiceProvider;
+
 			provider(
 				name: string,
 				provider: IServiceProvider,
 			): IServiceProvider;
+
 			provider(
 				name: string,
 				serviceProviderConstructor: Function,
 			): IServiceProvider;
+
 			service(name: string, constructor: Function): IServiceProvider;
+
 			service(
 				name: string,
 				inlineAnnotatedFunction: any[],
 			): IServiceProvider;
+
 			value(name: string, value: any): IServiceProvider;
 		}
 	}

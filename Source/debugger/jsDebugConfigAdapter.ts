@@ -73,13 +73,17 @@ export class JsDebugConfigAdapter {
 						[`${attachArgs.hostname}/**`]: `${attachArgs.cwd}/**`,
 					};
 				}
+
 				extraArgs.url = "https://";
+
 				extraArgs.urlFilter = "*";
 			} else {
 				extraArgs.pathMapping = {
 					"android_asset/www": `${attachArgs.cwd}/www`,
 				};
+
 				extraArgs.url = "file:///";
+
 				extraArgs.urlFilter = "*";
 			}
 		}
@@ -222,12 +226,15 @@ export class JsDebugConfigAdapter {
 		if (attachArgs.env) {
 			existingExtraArgs.env = attachArgs.env;
 		}
+
 		if (attachArgs.envFile) {
 			existingExtraArgs.envFile = attachArgs.envFile;
 		}
+
 		if (typeof attachArgs.sourceMaps === "boolean") {
 			existingExtraArgs.sourceMaps = attachArgs.sourceMaps;
 		}
+
 		existingExtraArgs.sourceMapPathOverrides =
 			this.getSourceMapPathOverrides(
 				attachArgs.cwd,
@@ -238,9 +245,11 @@ export class JsDebugConfigAdapter {
 		if (attachArgs.skipFiles) {
 			existingExtraArgs.skipFiles = attachArgs.skipFiles;
 		}
+
 		if (attachArgs.trace) {
 			existingExtraArgs.trace = attachArgs.trace;
 		}
+
 		if (attachArgs.attachTimeout) {
 			existingExtraArgs.timeout = attachArgs.attachTimeout;
 		}
@@ -288,8 +297,10 @@ export class JsDebugConfigAdapter {
 					sourceMapPathOverrides[pattern],
 					warnOnMissing,
 				);
+
 			resolvedOverrides[replacePattern] = replacePatternValue;
 		}
+
 		return resolvedOverrides;
 	}
 
@@ -319,6 +330,7 @@ export class JsDebugConfigAdapter {
 				),
 			);
 		}
+
 		return entry;
 	}
 }

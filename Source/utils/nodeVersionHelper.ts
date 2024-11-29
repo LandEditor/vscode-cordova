@@ -47,8 +47,11 @@ export class NodeVersionHelper {
 	 */
 	private static parseVersionString(versionString: string): {
 		nvsFormat: boolean;
+
 		remoteName: string;
+
 		semanticVersion: string;
+
 		arch: string;
 	} {
 		const versionRegex =
@@ -112,6 +115,7 @@ export class NodeVersionHelper {
 				if (process.platform !== "win32") {
 					bin = path.join(bin, "bin");
 				}
+
 				versionManagerName = "nvs";
 			} else {
 				throw ErrorHelper.getInternalError(
@@ -130,7 +134,9 @@ export class NodeVersionHelper {
 						InternalErrorCode.NvmWindowsNotFoundMessage,
 					);
 				}
+
 				bin = path.join(nvmHome, `v${config.runtimeVersion}`);
+
 				versionManagerName = "nvm-windows";
 			} else {
 				// macOS and linux
@@ -144,11 +150,13 @@ export class NodeVersionHelper {
 						nvmHome = nvmDir;
 					}
 				}
+
 				if (!nvmHome) {
 					throw ErrorHelper.getInternalError(
 						InternalErrorCode.NvmHomeNotFoundMessage,
 					);
 				}
+
 				bin = path.join(
 					nvmHome,
 					"versions",
@@ -156,6 +164,7 @@ export class NodeVersionHelper {
 					`v${config.runtimeVersion}`,
 					"bin",
 				);
+
 				versionManagerName = "nvm";
 			}
 		}
@@ -164,6 +173,7 @@ export class NodeVersionHelper {
 			if (!config.env) {
 				config.env = {};
 			}
+
 			if (process.platform === "win32") {
 				process.env.Path = `${bin};${process.env.Path}`;
 			} else {

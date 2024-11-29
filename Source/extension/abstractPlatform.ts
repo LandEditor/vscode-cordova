@@ -9,7 +9,9 @@ import { IGeneralPlatformOptions } from "./platformOptions";
 
 export default abstract class AbstractPlatform {
 	protected projectRoot: string;
+
 	protected runArguments: string[];
+
 	protected IonicDevServer: IonicDevServer;
 
 	constructor(
@@ -17,7 +19,9 @@ export default abstract class AbstractPlatform {
 		protected log: DebugConsoleLogger,
 	) {
 		this.projectRoot = platformOpts.projectRoot;
+
 		this.runArguments = this.getRunArguments();
+
 		this.IonicDevServer = platformOpts.ionicDevServer;
 	}
 
@@ -48,6 +52,7 @@ export default abstract class AbstractPlatform {
 							result = true;
 						} else {
 							const tokens = arg.split("=");
+
 							result =
 								tokens.length > 1
 									? tokens[1].trim()
@@ -62,6 +67,7 @@ export default abstract class AbstractPlatform {
 				if (result === undefined) {
 					return false;
 				}
+
 				return true;
 			}
 
@@ -91,10 +97,12 @@ export default abstract class AbstractPlatform {
 			for (const [i, runArgument] of runArguments.entries()) {
 				if (runArgument.includes(optName)) {
 					optIdx = i;
+
 					isComplexOpt = true;
 				}
 			}
 		}
+
 		if (optIdx > -1) {
 			if (binary || isComplexOpt) {
 				runArguments.splice(optIdx, 1);
@@ -119,14 +127,17 @@ export default abstract class AbstractPlatform {
 			for (const [i, runArgument] of runArguments.entries()) {
 				if (runArgument.includes(optName)) {
 					optIdx = i;
+
 					isComplexOpt = true;
 				}
 			}
 		}
+
 		if (optIdx > -1) {
 			if (isBinary && !value) {
 				runArguments.splice(optIdx, 1);
 			}
+
 			if (!isBinary) {
 				if (!isComplexOpt) {
 					runArguments[optIdx + 1] = value.toString();
@@ -138,6 +149,7 @@ export default abstract class AbstractPlatform {
 			if (isBinary && value) {
 				runArguments.push(optName);
 			}
+
 			if (!isBinary) {
 				if (!isComplexOpt) {
 					runArguments.push(optName, value.toString());

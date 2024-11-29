@@ -24,6 +24,7 @@ type TMSnippets = { [name: string]: TMSnippet };
 
 export class IonicCompletionProvider implements CompletionItemProvider {
 	public static HTML_DOCUMENT_SELECTOR: DocumentSelector = "html";
+
 	public static JS_DOCUMENT_SELECTOR: DocumentSelector = "javascript";
 
 	private snippetCompletions: CompletionItem[];
@@ -41,6 +42,7 @@ export class IonicCompletionProvider implements CompletionItemProvider {
 			const rawSnippets: TMSnippets = JSON.parse(
 				fs.readFileSync(this.completionsSource, "utf8"),
 			);
+
 			this.snippetCompletions = Object.keys(rawSnippets).map((name) =>
 				makeCompletionItem(rawSnippets[name]),
 			);
@@ -61,8 +63,11 @@ export class IonicCompletionProvider implements CompletionItemProvider {
 
 function makeCompletionItem(rawSnippet: TMSnippet): CompletionItem {
 	const item = new CompletionItem(rawSnippet.prefix);
+
 	item.documentation = rawSnippet.description;
+
 	item.kind = CompletionItemKind.Snippet;
+
 	item.insertText = new SnippetString(rawSnippet.body.join("\n"));
 
 	return item;

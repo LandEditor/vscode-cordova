@@ -249,11 +249,15 @@ export class CordovaDebugConfigProvider
 				const selected: string[] = configPicker.selectedItems.map(
 					(element) => element.label,
 				);
+
 				chosenConfigsEvent.properties.selectedItems = selected;
+
 				Telemetry.send(chosenConfigsEvent);
 
 				const launchConfig = this.gatherDebugScenarios(selected);
+
 				disposables.forEach((d) => d.dispose());
+
 				resolve(launchConfig);
 			};
 
@@ -279,13 +283,18 @@ export class CordovaDebugConfigProvider
 
 	private prepareDebugConfigPicker(): vscode.QuickPick<vscode.QuickPickItem> {
 		const debugConfigPicker = vscode.window.createQuickPick();
+
 		debugConfigPicker.canSelectMany = true;
+
 		debugConfigPicker.ignoreFocusOut = true;
+
 		debugConfigPicker.title = localize(
 			"PickDebugConfigurations",
 			"Pick debug configurations",
 		);
+
 		debugConfigPicker.items = this.pickConfig;
+
 		debugConfigPicker.selectedItems = [this.pickConfig[0]]; // the scenario "Debug Android on emulator" is selected by default
 		return debugConfigPicker;
 	}

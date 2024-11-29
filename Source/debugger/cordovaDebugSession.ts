@@ -116,13 +116,17 @@ export type DebugConsoleLogger = (
 
 export interface WebviewData {
 	devtoolsFrontendUrl: string;
+
 	title: string;
+
 	url: string;
+
 	webSocketDebuggerUrl: string;
 }
 
 export default class CordovaDebugSession extends LoggingDebugSession {
 	public static readonly CANCELLATION_ERROR_NAME = "tokenCanceled";
+
 	private static readonly STOP_COMMAND = "workbench.action.debug.stop"; // the command which simulates a click on the "Stop" button
 	private static readonly CDP_PROXY_HOST_ADDRESS = "127.0.0.1"; // localhost
 	private static CDP_PROXY_PORT: number;
@@ -130,24 +134,35 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 	private readonly pwaSessionName: PwaDebugType;
 
 	private isTelemetryInitialized: boolean = false;
+
 	private isSettingsInitialized: boolean = false; // used to prevent parameters re-initialization when attach is called from launch function
 	private attachedDeferred: DeferredPromise<void> =
 		new DeferredPromise<void>();
 
 	private workspaceManager: CordovaWorkspaceManager;
+
 	private cordovaCdpProxy: CordovaCDPProxy | null;
+
 	private vsCodeDebugSession: vscode.DebugSession;
+
 	private platform: AbstractPlatform | undefined;
+
 	private onDidTerminateDebugSessionHandler: vscode.Disposable;
+
 	private jsDebugConfigAdapter: JsDebugConfigAdapter =
 		new JsDebugConfigAdapter();
+
 	private debugSessionStatus: DebugSessionStatus = DebugSessionStatus.Active;
+
 	private cdpProxyErrorHandlerDescriptor?: vscode.Disposable;
+
 	private attachRetryCount: number = 2;
 
 	private cdpProxyLogLevel: LogLevel;
+
 	private cancellationTokenSource: vscode.CancellationTokenSource =
 		new vscode.CancellationTokenSource();
+
 	private outputLogger: DebugConsoleLogger = (
 		message: string,
 		error?: boolean | string,
@@ -157,6 +172,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		if (error === true) {
 			category = "stderr";
 		}
+
 		if (typeof error === "string") {
 			category = error;
 		}
@@ -166,6 +182,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		if (category === "stdout" || category === "stderr") {
 			newLine = "";
 		}
+
 		this.sendEvent(new OutputEvent(message + newLine, category));
 	};
 
@@ -174,7 +191,9 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		private sessionManager: CordovaSessionManager,
 	) {
 		super();
+
 		CordovaDebugSession.CDP_PROXY_PORT = generateRandomPortNumber();
+
 		this.vsCodeDebugSession = cordovaSession.getVSCodeDebugSession();
 
 		if (
@@ -190,6 +209,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		} else {
 			this.pwaSessionName = PwaDebugType.Chrome; // the name of Chrome debug session created by js-debug extension
 		}
+
 		this.onDidTerminateDebugSessionHandler =
 			vscode.debug.onDidTerminateDebugSession(
 				this.handleTerminateDebugSession.bind(this),
@@ -225,6 +245,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		];
 
 		this.sendResponse(response);
+
 		this.sendEvent(new InitializedEvent());
 	}
 
@@ -240,7 +261,9 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 					InternalErrorCode.CwdUndefined,
 				);
 			}
+
 			await this.initializeTelemetry(launchArgs.cwd);
+
 			await this.initializeSettings(launchArgs);
 
 			if (launchArgs.platform == "android") {
@@ -268,11 +291,13 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 					launchArgs.cwd,
 					CordovaProjectHelper.getInstalledPlugins(launchArgs.cwd),
 				);
+
 				generator.add(
 					"target",
 					CordovaDebugSession.getTargetType(launchArgs.target),
 					false,
 				);
+
 				generator.add(
 					"projectType",
 					TelemetryHelper.prepareProjectTypesTelemetry(
@@ -280,7 +305,9 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 					),
 					false,
 				);
+
 				generator.add("platform", launchArgs.platform, false);
+
 				this.outputLogger(
 					localize(
 						"LaunchingForPlatform",
@@ -290,18 +317,23 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 				);
 
 				const launchResult = await this.platform.launchApp();
+
 				Object.assign(launchArgs, launchResult);
 
 				await this.vsCodeDebugSession.customRequest(
 					"attach",
 					launchArgs,
 				);
+
 				this.sendResponse(response);
+
 				this.cordovaSession.setStatus(CordovaSessionStatus.Activated);
 			});
 		} catch (error) {
 			this.outputLogger(error.message || error, true);
+
 			await this.cleanUp();
+
 			this.terminateWithErrorResponse(error, response);
 		}
 	}
@@ -315,12 +347,15 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		const doAttach = async (attachArgs: ICordovaAttachRequestArgs) => {
 			try {
 				await this.initializeTelemetry(attachArgs.cwd);
+
 				await this.initializeSettings(attachArgs);
+
 				attachArgs.port = attachArgs.port || 9222;
 
 				if (!this.platform) {
 					this.platform = await this.resolvePlatform(attachArgs);
 				}
+
 				if (
 					this.platform instanceof AbstractMobilePlatform &&
 					!this.platform.target
@@ -331,6 +366,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						true,
 					);
 				}
+
 				const projectType = this.platform.getPlatformOpts().projectType;
 
 				await TelemetryHelper.generate("attach", async (generator) => {
@@ -340,11 +376,13 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 							attachArgs.cwd,
 						),
 					);
+
 					generator.add(
 						"target",
 						CordovaDebugSession.getTargetType(attachArgs.target),
 						false,
 					);
+
 					generator.add(
 						"projectType",
 						TelemetryHelper.prepareProjectTypesTelemetry(
@@ -352,6 +390,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						),
 						false,
 					);
+
 					generator.add("platform", attachArgs.platform, false);
 
 					const sourcemapPathTransformer =
@@ -363,6 +402,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 							attachArgs.ionicLiveReload,
 							attachArgs.address,
 						);
+
 					this.cordovaCdpProxy = new CordovaCDPProxy(
 						CordovaDebugSession.CDP_PROXY_HOST_ADDRESS,
 						CordovaDebugSession.CDP_PROXY_PORT,
@@ -370,9 +410,11 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 						projectType,
 						attachArgs,
 					);
+
 					this.cordovaCdpProxy.setApplicationTargetPort(
 						attachArgs.port,
 					);
+
 					await this.cordovaCdpProxy.createServer(
 						this.cdpProxyLogLevel,
 						this.cancellationTokenSource.token,
@@ -387,9 +429,11 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 					);
 
 					const attachResult = await this.platform.prepareForAttach();
+
 					this.outputLogger(
 						localize("AttachingToApp", "Attaching to app"),
 					);
+
 					this.outputLogger("", true); // Send blank message on stderr to include a divider between prelude and app starting
 					const processedAttachArgs = Object.assign(
 						{},
@@ -402,35 +446,45 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 							processedAttachArgs.webSocketDebuggerUrl,
 						);
 					}
+
 					this.cordovaCdpProxy.configureCDPMessageHandlerAccordingToProcessedAttachArgs(
 						processedAttachArgs,
 					);
+
 					this.cdpProxyErrorHandlerDescriptor =
 						this.cordovaCdpProxy.onError(async (err: Error) => {
 							if (this.attachRetryCount > 0) {
 								this.debugSessionStatus =
 									DebugSessionStatus.Reattaching;
+
 								this.attachRetryCount--;
+
 								await this.attachmentCleanUp();
+
 								this.outputLogger(
 									localize(
 										"ReattachingToApp",
 										"Failed attempt to attach to the app. Trying to reattach...",
 									),
 								);
+
 								void doAttach(attachArgs);
 							} else {
 								this.showError(err);
+
 								this.terminate();
+
 								this.cdpProxyErrorHandlerDescriptor?.dispose();
 							}
 						});
+
 					await this.establishDebugSession(processedAttachArgs);
 
 					this.debugSessionStatus = DebugSessionStatus.Attached;
 				});
 			} catch (error) {
 				this.outputLogger(error.message || error, true);
+
 				this.debugSessionStatus = DebugSessionStatus.AttachFailed;
 
 				throw error;
@@ -439,8 +493,11 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 
 		try {
 			await doAttach(attachArgs);
+
 			this.attachedDeferred.resolve();
+
 			this.sendResponse(response);
+
 			this.cordovaSession.setStatus(CordovaSessionStatus.Activated);
 		} catch (error) {
 			try {
@@ -457,6 +514,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		request?: DebugProtocol.Request,
 	): Promise<void> {
 		await this.cleanUp(args.restart);
+
 		this.debugSessionStatus = DebugSessionStatus.Stopped;
 
 		super.disconnectRequest(response, args, request);
@@ -528,12 +586,15 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 
 	private async cleanUp(restart?: boolean): Promise<void> {
 		await this.attachmentCleanUp();
+
 		this.platform = null;
 
 		this.cancellationTokenSource.cancel();
+
 		this.cancellationTokenSource.dispose();
 
 		this.onDidTerminateDebugSessionHandler.dispose();
+
 		this.sessionManager.terminate(
 			this.cordovaSession.getSessionId(),
 			!!restart,
@@ -551,6 +612,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 
 		if (this.cordovaCdpProxy) {
 			await this.cordovaCdpProxy.stopServer();
+
 			this.cordovaCdpProxy = null;
 		}
 	}
@@ -682,6 +744,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 			devServerTimeout,
 			cordovaExecutable,
 		);
+
 		ionicDevServer.onServerStop(() => this.stop());
 
 		const env = CordovaProjectHelper.getEnvArgument(args.env, args.envFile);
@@ -798,6 +861,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 
 		if (resolvedPlatform instanceof BrowserPlatform) {
 			resolvedPlatform.onBrowserStop(() => this.stop());
+
 			resolvedPlatform.onChangeSimulateViewport((viewportData) => {
 				this.changeSimulateViewport(viewportData).catch(() => {
 					this.outputLogger(
@@ -810,6 +874,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 				});
 			});
 		}
+
 		return resolvedPlatform;
 	}
 
@@ -853,6 +918,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 					),
 				);
 			}
+
 			this.isTelemetryInitialized = true;
 		}
 	}
@@ -865,9 +931,11 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 				CordovaWorkspaceManager.getWorkspaceManagerByProjectRootPath(
 					args.cwd,
 				);
+
 			logger.setup(
 				args.trace ? Logger.LogLevel.Verbose : Logger.LogLevel.Log,
 			);
+
 			this.cdpProxyLogLevel = args.trace
 				? LogLevel.Custom
 				: LogLevel.None;
@@ -882,6 +950,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 				} else {
 					args.target = TargetType.Emulator;
 				}
+
 				this.outputLogger(
 					`Parameter target is not set - ${args.target} will be used`,
 				);
@@ -911,7 +980,9 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 		if (error.name === CordovaDebugSession.CANCELLATION_ERROR_NAME) {
 			return;
 		}
+
 		const errorString = error.message || error.name || "Error";
+
 		this.sendErrorResponse(
 			response,
 			{ format: errorString, id: 1 },
@@ -931,6 +1002,7 @@ export default class CordovaDebugSession extends LoggingDebugSession {
 
 			return;
 		}
+
 		this.outputLogger(error.message, true);
 	}
 

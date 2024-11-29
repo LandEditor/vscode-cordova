@@ -35,10 +35,13 @@ export class AdbHelper {
 		"pidofNotFound",
 		"/system/bin/sh: pidof: not found",
 	);
+
 	private static readonly PS_FIELDS_SPLITTER_RE = /\s+(?:[RSIDZTW<NL]\s+)?/;
+
 	public static readonly AndroidSDKEmulatorPattern = /^emulator-\d{1,5}$/;
 
 	private childProcess: ChildProcess = new ChildProcess();
+
 	private adbExecutable: string = "";
 
 	constructor(projectRoot: string, logger?: OutputChannelLogger) {
@@ -76,6 +79,7 @@ export class AdbHelper {
 			if (pid && /^[0-9]+$/.test(pid.trim())) {
 				return pid.trim();
 			}
+
 			throw Error(AdbHelper.PIDOFF_NOT_FOUND_ERROR);
 		} catch (error) {
 			if (error.message !== AdbHelper.PIDOFF_NOT_FOUND_ERROR) {
@@ -101,6 +105,7 @@ export class AdbHelper {
 				if (fields.length < nameIdx) {
 					continue;
 				}
+
 				if (fields[nameIdx] === appPackageName) {
 					return fields[pidIdx];
 				}
@@ -140,11 +145,13 @@ export class AdbHelper {
 			if (fields[flagsIdx] !== "00010000" || fields[stIdx] !== "01") {
 				continue;
 			}
+
 			const pathField = fields[pathIdx];
 
 			if (pathField.length < 1 || pathField[0] !== "@") {
 				continue;
 			}
+
 			if (pathField.indexOf("_devtools_remote") === -1) {
 				continue;
 			}
@@ -232,6 +239,7 @@ export class AdbHelper {
 				emulatorsNames.splice(indexOfBlank, 1);
 			}
 		}
+
 		return emulatorsNames;
 	}
 
@@ -265,6 +273,7 @@ export class AdbHelper {
 					),
 				);
 			}
+
 			return null;
 		}
 
@@ -276,6 +285,7 @@ export class AdbHelper {
 				.replace(/\\\\/g, "\\")
 				.replace("\\:", ":");
 		}
+
 		if (logger) {
 			logger.log(
 				localize(
@@ -318,8 +328,10 @@ export class AdbHelper {
 				isOnline: match[2] === "device",
 				isVirtualTarget: AdbHelper.isVirtualTarget(match[1]),
 			});
+
 			match = regex.exec(input);
 		}
+
 		return result;
 	}
 
@@ -365,6 +377,7 @@ export class AdbHelper {
 					),
 				);
 			}
+
 			return null;
 		}
 
@@ -381,6 +394,7 @@ export class AdbHelper {
 						localPropertiesFilePath,
 					)}\n${e}\n${e.stack}`,
 				);
+
 				logger.log(
 					localize(
 						"UsingAndroidSDKLocationFromPATH",
@@ -388,8 +402,10 @@ export class AdbHelper {
 					),
 				);
 			}
+
 			return null;
 		}
+
 		return this.parseSdkLocation(fileContent, logger);
 	}
 }

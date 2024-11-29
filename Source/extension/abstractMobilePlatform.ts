@@ -25,6 +25,7 @@ export default abstract class AbstractMobilePlatform<
 		MobileTargetManager<Target> = MobileTargetManager<Target>,
 > extends AbstractPlatform {
 	protected targetManager: TargetManager;
+
 	protected _target?: Target;
 
 	get target(): Target | undefined {
@@ -49,13 +50,17 @@ export default abstract class AbstractMobilePlatform<
 
 		if (targetString.toLowerCase() === TargetType.Emulator) {
 			isAnyTarget = true;
+
 			isVirtualTarget = true;
 		} else if (targetString.toLowerCase() === TargetType.Device) {
 			isAnyTarget = true;
+
 			isVirtualTarget = false;
 		} else {
 			await this.targetManager.collectTargets();
+
 			collectTargetsCalled = true;
+
 			isVirtualTarget =
 				await this.targetManager.isVirtualTarget(targetString);
 		}
@@ -71,6 +76,7 @@ export default abstract class AbstractMobilePlatform<
 			this.platformOpts.target = isVirtualTarget
 				? TargetType.Emulator
 				: TargetType.Device;
+
 			this.runArguments = this.getRunArguments();
 		};
 
@@ -105,24 +111,28 @@ export default abstract class AbstractMobilePlatform<
 						targetString,
 					),
 				);
+
 				this.log(
 					localize(
 						"ContinueWithCordovaCliWorkflow",
 						"Continue using standard Cordova CLI workflow.",
 					),
 				);
+
 				cleanupTargetModifications();
 			} else {
 				this.addTargetToRunArgs(this._target);
 			}
 		} catch (error) {
 			this.log(error);
+
 			this.log(
 				localize(
 					"ContinueWithCordovaCliWorkflow",
 					"Continue using standard Cordova CLI workflow.",
 				),
 			);
+
 			cleanupTargetModifications();
 		}
 
@@ -139,6 +149,7 @@ export default abstract class AbstractMobilePlatform<
 				(await this.getTargetFromRunArgs()) ||
 				(await this.getFirstAvailableOnlineTarget());
 		}
+
 		return this._target;
 	}
 
@@ -191,6 +202,7 @@ export default abstract class AbstractMobilePlatform<
 
 	protected addTargetToRunArgs(target: Target): void {
 		this.platformOpts.target = target.id;
+
 		this.runArguments = this.getRunArguments();
 	}
 }

@@ -12,9 +12,13 @@ import {
 
 export abstract class SafariCDPMessageHandlerBase extends CDPMessageHandlerBase {
 	protected targetId: string;
+
 	protected isTargeted: boolean;
+
 	protected iOSAppPackagePath: string;
+
 	protected isBackcompatConfigured: boolean;
+
 	protected customMessageLastId: number;
 
 	constructor(
@@ -23,13 +27,18 @@ export abstract class SafariCDPMessageHandlerBase extends CDPMessageHandlerBase 
 		options: HandlerOptions,
 	) {
 		super(sourcemapPathTransformer, projectType, options);
+
 		this.targetId = "";
+
 		this.customMessageLastId = 0;
+
 		this.isTargeted = true;
+
 		this.isBackcompatConfigured = false;
 	}
 
 	protected abstract fixSourcemapLocation(reqParams: any): any;
+
 	protected abstract fixSourcemapRegexp(reqParams: any): any;
 
 	protected processDeprecatedConsoleMessage(event: any): any {
@@ -66,6 +75,7 @@ export abstract class SafariCDPMessageHandlerBase extends CDPMessageHandlerBase 
 	protected configureTargetForIWDPCommunication(): void {
 		try {
 			this.sendCustomRequestToAppTarget(CDP_API_NAMES.CONSOLE_ENABLE, {});
+
 			this.sendCustomRequestToAppTarget(
 				CDP_API_NAMES.DEBUGGER_SET_BREAKPOINTS_ACTIVE,
 				{

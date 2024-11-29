@@ -31,7 +31,9 @@ interface Window {
 		successCallback: (entry: Entry) => void,
 		errorCallback?: (error: FileError) => void,
 	): void;
+
 	TEMPORARY: number;
+
 	PERSISTENT: number;
 }
 
@@ -58,6 +60,7 @@ interface Entry {
 	fullPath: string;
 	/** The file system on which the entry resides. */
 	fileSystem: FileSystem;
+
 	nativeURL: string;
 	/**
 	 * Look up metadata about this entry.
@@ -329,7 +332,9 @@ interface FileWriter extends FileSaver {
 /* FileWriter states */
 declare var FileWriter: {
 	INIT: number;
+
 	WRITING: number;
+
 	DONE: number;
 };
 
@@ -340,17 +345,29 @@ interface FileError {
 
 declare var FileError: {
 	new (code: number): FileError;
+
 	NOT_FOUND_ERR: number;
+
 	SECURITY_ERR: number;
+
 	ABORT_ERR: number;
+
 	NOT_READABLE_ERR: number;
+
 	ENCODING_ERR: number;
+
 	NO_MODIFICATION_ALLOWED_ERR: number;
+
 	INVALID_STATE_ERR: number;
+
 	SYNTAX_ERR: number;
+
 	INVALID_MODIFICATION_ERR: number;
+
 	QUOTA_EXCEEDED_ERR: number;
+
 	TYPE_MISMATCH_ERR: number;
+
 	PATH_EXISTS_ERR: number;
 };
 

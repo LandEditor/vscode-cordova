@@ -32,6 +32,7 @@ export class CordovaSimulateTelemetry {
 			telemetryEvent,
 			generator.getTelemetryProperties(),
 		);
+
 		Telemetry.send(telemetryEvent);
 	}
 }

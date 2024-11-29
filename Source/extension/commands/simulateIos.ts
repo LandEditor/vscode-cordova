@@ -7,6 +7,7 @@ import { launchSimulateCommand, selectProject } from "./commandUtil";
 
 export class SimulateIos {
 	static codeName = "cordova.simulate.ios";
+
 	static createHandler = () => {
 		return selectProject().then((project) => {
 			return launchSimulateCommand(project.workspaceRoot.uri.fsPath, {

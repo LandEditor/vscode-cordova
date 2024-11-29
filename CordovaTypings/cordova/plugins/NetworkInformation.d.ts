@@ -29,6 +29,7 @@ interface Document {
 		connectionStateCallback: () => any,
 		useCapture?: boolean,
 	): void;
+
 	addEventListener(
 		type: "offline",
 		connectionStateCallback: () => any,
@@ -58,11 +59,18 @@ interface Connection {
 
 declare var Connection: {
 	UNKNOWN: string;
+
 	ETHERNET: string;
+
 	WIFI: string;
+
 	CELL_2G: string;
+
 	CELL_3G: string;
+
 	CELL_4G: string;
+
 	CELL: string;
+
 	NONE: string;
 };

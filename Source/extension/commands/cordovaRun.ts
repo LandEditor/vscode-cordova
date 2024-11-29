@@ -6,6 +6,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class CordovaRun {
 	static codeName = "cordova.run";
+
 	static createHandler = () =>
 		commandWrapper(CordovaCommandHelper.executeCordovaCommand, ["run"]);
 }

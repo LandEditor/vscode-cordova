@@ -27,6 +27,7 @@ export enum IonicDevServerStatus {
 
 interface SeverOutput {
 	serverOut: string;
+
 	serverErr: string;
 }
 
@@ -37,19 +38,25 @@ export default class IonicDevServer {
 	);
 
 	private static readonly ERROR_REGEX: RegExp = /error:.*/i;
+
 	private static readonly ANSI_REGEX: RegExp =
 		/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
 
 	public ionicDevServerUrls: string[] | undefined;
+
 	private ionicLivereloadProcess: child_process.ChildProcess;
 
 	private isIonic4: boolean;
+
 	private serverReady: boolean = false;
+
 	private appReady: boolean = false;
+
 	private appReadyTimeout: number;
 
 	private serverStopEventEmitter: EventEmitter<Error | undefined> =
 		new EventEmitter();
+
 	public readonly onServerStop = this.serverStopEventEmitter.event;
 
 	constructor(
@@ -68,11 +75,14 @@ export default class IonicDevServer {
 				),
 			);
 		}
+
 		this.isIonic4 = CordovaProjectHelper.isIonicCliVersionGte(
 			projectRoot,
 			"4.0.0",
 		);
+
 		this.serverReadyTimeout = serverReadyTimeout | 60000;
+
 		this.appReadyTimeout = serverReadyTimeout | 120000;
 	}
 
@@ -94,6 +104,7 @@ export default class IonicDevServer {
 				this.devServerAddress,
 			);
 		}
+
 		if (this.devServerPort) {
 			AbstractPlatform.setRunArgument(
 				runArguments,
@@ -105,6 +116,7 @@ export default class IonicDevServer {
 		const command =
 			this.cordovaExecutable ||
 			CordovaProjectHelper.getCliCommand(this.projectRoot);
+
 		this.ionicLivereloadProcess = cordovaStartCommand(
 			command,
 			runArguments,
@@ -140,8 +152,11 @@ export default class IonicDevServer {
 						!this.serverReady
 					) {
 						clearTimeout(rejectTimeout);
+
 						this.serverReady = true;
+
 						this.log("Building and deploying app");
+
 						rejectTimeout = setTimeout(() => {
 							reject(
 								localize(
@@ -156,7 +171,9 @@ export default class IonicDevServer {
 						this.serverReady
 					) {
 						clearTimeout(rejectTimeout);
+
 						this.appReady = true;
+
 						resolve(serverUrls);
 					}
 				};
@@ -191,6 +208,7 @@ export default class IonicDevServer {
 						}
 					},
 				);
+
 				this.ionicLivereloadProcess.on("exit", () => {
 					this.ionicLivereloadProcess = null;
 
@@ -223,6 +241,7 @@ export default class IonicDevServer {
 					if (!this.serverReady && !this.appReady) {
 						// We are already debugging; disconnect the session
 						this.log(exitMessage, true);
+
 						this.serverStopEventEmitter.fire(error);
 
 						throw error;
@@ -231,7 +250,9 @@ export default class IonicDevServer {
 						reject(error);
 					}
 				});
+
 				this.ionicLivereloadProcess.stdout.on("data", outputHandler);
+
 				this.ionicLivereloadProcess.stderr.on(
 					"data",
 					(data: Buffer) => {
@@ -239,6 +260,7 @@ export default class IonicDevServer {
 							// Ionic 4 writes all logs to stderr completely ignoring stdout
 							outputHandler(data);
 						}
+
 						errorOutputHandler(data);
 					},
 				);
@@ -295,6 +317,7 @@ export default class IonicDevServer {
 		data: Buffer,
 	): void {
 		output.serverOut += data.toString();
+
 		this.log(data.toString(), "stdout");
 
 		// Listen for the server to be ready. We check for the "Running dev server:  http://localhost:<port>/" and "dev server running: http://localhost:<port>/" strings to decide that.
@@ -361,11 +384,14 @@ export default class IonicDevServer {
 					const urls = externalUrls[1]
 						.split(", ")
 						.map((x) => x.trim());
+
 					serverUrls.push(...urls);
 				}
+
 				this.devServerPort = CordovaProjectHelper.getPortFromURL(
 					serverUrls[0],
 				);
+
 				resolve(IonicDevServerStatus.AppReady, serverUrls);
 			}
 		}
@@ -386,6 +412,7 @@ To get the list of addresses run "ionic cordova run PLATFORM --livereload" (wher
 
 			while (match) {
 				addresses.push(match[1]);
+
 				match = addressRegex.exec(output.serverOut);
 			}
 

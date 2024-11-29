@@ -23,6 +23,7 @@ export class ChromeCordovaCDPMessageHandler extends ChromeCDPMessageHandlerBase 
 
 		if (options.simulatePort) {
 			this.applicationPortPart = `:${options.simulatePort}`;
+
 			this.isSimulate = true;
 		} else {
 			this.isSimulate = false;
@@ -84,6 +85,7 @@ export class ChromeCordovaCDPMessageHandler extends ChromeCDPMessageHandlerBase 
 				reqParams.url = `file://${absoluteSourcePath}`;
 			}
 		}
+
 		return reqParams;
 	}
 }

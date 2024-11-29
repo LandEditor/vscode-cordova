@@ -36,19 +36,25 @@ export function execCommand(
 		let stderr = "";
 
 		let stdout = "";
+
 		proc.stderr.on("data", (data: Buffer) => {
 			stderr += data.toString();
 		});
+
 		proc.stdout.on("data", (data: Buffer) => {
 			stdout += data.toString();
 		});
+
 		proc.on("error", (err: Error) => {
 			reject(err);
 		});
+
 		proc.on("close", (code: number) => {
 			if (code !== 0) {
 				errorLogger(stderr);
+
 				errorLogger(stdout);
+
 				reject(
 					new Error(
 						localize(
@@ -60,6 +66,7 @@ export function execCommand(
 					),
 				);
 			}
+
 			resolve(stdout);
 		});
 	});
@@ -114,11 +121,14 @@ export function cordovaRunCommand(
 					) {
 						skipCommandReject = true;
 					}
+
 					return;
 				}
 			}
+
 			outputLogger && outputLogger(data.toString(), "stderr");
 		});
+
 		cordovaProcess.stdout.on("data", (data: Buffer) => {
 			const str = data
 				.toString()
@@ -130,17 +140,21 @@ export function cordovaRunCommand(
 				if (str.includes(message)) {
 					if (!isShown[message]) {
 						isShown[message] = true;
+
 						outputLogger && outputLogger(str, "stdout");
 					}
+
 					return;
 				}
 			}
+
 			outputLogger && outputLogger(str, "stdout");
 
 			if (isIonicProject && str.includes("LAUNCH SUCCESS")) {
 				resolve([output, stderr]);
 			}
 		});
+
 		cordovaProcess.on("exit", (exitCode) => {
 			if (exitCode && !skipCommandReject) {
 				reject(
@@ -158,6 +172,7 @@ export function cordovaRunCommand(
 				resolve([output, stderr]);
 			}
 		});
+
 		cordovaProcess.on("error", (error) => {
 			reject(error);
 		});

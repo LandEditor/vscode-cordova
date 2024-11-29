@@ -56,8 +56,11 @@ interface Window {
  */
 interface InAppBrowser extends Window {
 	onloadstart: (type: InAppBrowserEvent) => void;
+
 	onloadstop: (type: InAppBrowserEvent) => void;
+
 	onloaderror: (type: InAppBrowserEvent) => void;
+
 	onexit: (type: InAppBrowserEvent) => void;
 	// addEventListener overloads
 	/**

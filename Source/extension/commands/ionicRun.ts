@@ -6,6 +6,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class IonicRun {
 	static codeName = "ionic.run";
+
 	static createHandler = () =>
 		commandWrapper(CordovaCommandHelper.executeCordovaCommand, [
 			"run",

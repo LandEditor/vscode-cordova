@@ -12,12 +12,16 @@ export enum CordovaSessionStatus {
 
 export class CordovaSession {
 	private sessionId: string;
+
 	private vsCodeDebugSession: DebugSession;
+
 	private status: CordovaSessionStatus;
 
 	constructor(vsCodeDebugSession: DebugSession) {
 		this.sessionId = uuidv4();
+
 		this.vsCodeDebugSession = vsCodeDebugSession;
+
 		this.status = CordovaSessionStatus.NotActivated;
 	}
 

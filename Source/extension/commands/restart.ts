@@ -7,6 +7,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class Restart {
 	static codeName = "cordova.restart";
+
 	static createHandler = () =>
 		commandWrapper(CordovaCommandHelper.restartCordovaDebugging, [
 			new CordovaSessionManager(),

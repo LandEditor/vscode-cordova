@@ -22,6 +22,7 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 		options: HandlerOptions,
 	) {
 		super(sourcemapPathTransformer, projectType, options);
+
 		this.Ionic3EvaluateErrorMessage = "process not defined";
 
 		if (options.ionicLiveReload) {
@@ -56,7 +57,9 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 			event.method === CDP_API_NAMES.RUNTIME_ENABLE
 		) {
 			this.configureTargetForIWDPCommunication();
+
 			this.configureDebuggerForIWDPCommunication();
+
 			this.isBackcompatConfigured = true;
 		}
 
@@ -84,10 +87,13 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 					dispatchDirection,
 				};
 			}
+
 			if (event.method === CDP_API_NAMES.TARGET_TARGET_CREATED) {
 				this.targetId = event.params.targetInfo.targetId;
+
 				communicationPreparationsDone = true;
 			}
+
 			if (
 				event.method ===
 				CDP_API_NAMES.TARGET_DISPATCH_MESSAGE_FROM_TARGET
@@ -115,6 +121,7 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 			if (event.result.properties) {
 				event.result = { result: event.result.properties };
 			}
+
 			this.fixIonic3RuntimeEvaluateErrorResponse(event);
 		}
 
@@ -138,6 +145,7 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 		) {
 			reqParams.url = "";
 		}
+
 		return reqParams;
 	}
 
@@ -148,8 +156,10 @@ export class SafariIonicCDPMessageHandler extends SafariCDPMessageHandlerBase {
 
 		if (foundStrings && foundStrings[1]) {
 			const uriPart = foundStrings[1].split("\\\\").join("\\/");
+
 			reqParams.urlRegex = `ionic:\\/\\/${this.applicationServerAddress}${this.applicationPortPart}\\/${uriPart}`;
 		}
+
 		return reqParams;
 	}
 

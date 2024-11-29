@@ -70,6 +70,7 @@ export function activate(context: vscode.ExtensionContext): void {
 		);
 
 		const configProvider = new CordovaDebugConfigProvider();
+
 		EXTENSION_CONTEXT.subscriptions.push(
 			vscode.debug.registerDebugConfigurationProvider(
 				"cordova",
@@ -78,6 +79,7 @@ export function activate(context: vscode.ExtensionContext): void {
 		);
 
 		const cordovaFactory = new CordovaSessionManager();
+
 		EXTENSION_CONTEXT.subscriptions.push(
 			vscode.debug.registerDebugAdapterDescriptorFactory(
 				"cordova",
@@ -91,15 +93,19 @@ export function activate(context: vscode.ExtensionContext): void {
 
 		if (workspaceFolders) {
 			registerCordovaCommands();
+
 			workspaceFolders.forEach((folder: vscode.WorkspaceFolder) => {
 				onFolderAdded(folder);
 			});
 		}
+
 		activateExtensionEvent.properties["cordova.workspaceFoldersCount"] =
 			workspaceFolders.length;
+
 		Telemetry.send(activateExtensionEvent);
 	} catch (e) {
 		activateExtensionEvent.properties["cordova.error"] = true;
+
 		Telemetry.send(activateExtensionEvent);
 
 		throw e;
@@ -134,6 +140,7 @@ export function createAdditionalWorkspaceFolder(
 			index: COUNT_WORKSPACE_FOLDERS + 1,
 		};
 	}
+
 	return null;
 }
 
@@ -156,6 +163,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 	const cordovaProjectTypeEvent = TelemetryHelper.createTelemetryEvent(
 		"cordova.projectType",
 	);
+
 	TelemetryHelper.determineProjectTypes(workspaceRoot)
 		.then((projType) => {
 			cordovaProjectTypeEvent.properties.projectType =
@@ -176,9 +184,13 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 		false /* ignoreChangeEvents*/,
 		false /* ignoreDeleteEvents*/,
 	);
+
 	watcher.onDidChange(() => updatePluginTypeDefinitions(workspaceRoot));
+
 	watcher.onDidDelete(() => updatePluginTypeDefinitions(workspaceRoot));
+
 	watcher.onDidCreate(() => updatePluginTypeDefinitions(workspaceRoot));
+
 	EXTENSION_CONTEXT.subscriptions.push(watcher);
 
 	const simulator: PluginSimulator = new PluginSimulator();
@@ -187,6 +199,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 		new CordovaWorkspaceManager(simulator, folder);
 
 	ProjectsStorage.addFolder(folder, workspaceManager);
+
 	COUNT_WORKSPACE_FOLDERS++;
 
 	// extensionServer takes care of disposing the simulator instance
@@ -234,6 +247,7 @@ export function onFolderAdded(folder: vscode.WorkspaceFolder): void {
 				path.join("ionic", "ionic.d.ts"),
 			]);
 		}
+
 		TsdHelper.installTypings(
 			CordovaProjectHelper.getOrCreateTypingsTargetPath(workspaceRoot),
 			ionicTypings,
@@ -357,7 +371,9 @@ function addPluginTypeDefinitions(
 			// If we do not know the plugin, collect it anonymously for future prioritisation
 			const unknownPluginEvent =
 				TelemetryHelper.createTelemetryEvent("unknownPlugin");
+
 			unknownPluginEvent.setPiiProperty("plugin", pluginName);
+
 			Telemetry.send(unknownPluginEvent);
 
 			return false;
@@ -437,6 +453,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 		} catch (e) {}
 
 		const pluginTypingsJson = getPluginTypingsJson() || {};
+
 		installedPlugins = installedPlugins.filter((pluginId) => {
 			// plugins with `forceInstallTypings` flag don't have typings on NPM yet,
 			// so we still need to install these even if they present in 'node_modules'
@@ -473,6 +490,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 			if (err) {
 				// ignore
 			}
+
 			if (cordovaTypeDefs) {
 				currentTypeDefs = cordovaTypeDefs.map((typeDef) =>
 					getRelativeTypeDefinitionFilePath(
@@ -508,6 +526,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 						installedPlugins,
 						currentTypeDefs,
 					);
+
 					removePluginTypeDefinitions(
 						cordovaProjectRoot,
 						currentTypeDefs,
@@ -521,6 +540,7 @@ function updatePluginTypeDefinitions(cordovaProjectRoot: string): void {
 
 async function registerCordovaCommands() {
 	const commands = await import("./commands/commands");
+
 	Object.values(commands).forEach((it) => {
 		EXTENSION_CONTEXT.subscriptions.push(register(it));
 	});

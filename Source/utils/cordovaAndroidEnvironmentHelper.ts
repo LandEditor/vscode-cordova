@@ -40,9 +40,11 @@ export class CordovaAndroidEnvironmentHelper {
 
 							return reject(error);
 						}
+
 						logger.log(
 							`Java JDK: ${stderr.match(/version "([\d.]+)"/)[1]}`,
 						);
+
 						resolve();
 					},
 				);
@@ -61,6 +63,7 @@ export class CordovaAndroidEnvironmentHelper {
 						if (error) {
 							logger.log(`Android SDK not found: ${stderr}`);
 						}
+
 						logger.log(`Android SDK: ${stdout.trim()}`);
 
 						const platformsDir = path.join(sdkPath, "platforms");
@@ -80,6 +83,7 @@ export class CordovaAndroidEnvironmentHelper {
 								"Android SDK platforms directory not found.",
 							);
 						}
+
 						resolve();
 					},
 				);
@@ -97,9 +101,11 @@ export class CordovaAndroidEnvironmentHelper {
 
 							return reject(error);
 						}
+
 						logger.log(
 							`Gradle: ${stdout.match(/Gradle (\d+\.\d+(\.\d+)?)/)[1]}`,
 						);
+
 						resolve();
 					},
 				);
@@ -120,9 +126,11 @@ export class CordovaAndroidEnvironmentHelper {
 
 							return reject(error);
 						}
+
 						logger.log(
 							`Plugman: ${stdout.match(/plugman@(\d+\.\d+\.\d+)/)[1]}`,
 						);
+
 						resolve();
 					},
 				);

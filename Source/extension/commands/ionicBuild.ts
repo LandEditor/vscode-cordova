@@ -6,6 +6,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class IonicBuild {
 	static codeName = "ionic.build";
+
 	static createHandler = () =>
 		commandWrapper(CordovaCommandHelper.executeCordovaCommand, [
 			"build",

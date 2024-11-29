@@ -11,6 +11,7 @@ export class ConfigurationReader {
 		if (this.isArray(value)) {
 			return value;
 		}
+
 		throw ErrorHelper.getInternalError(
 			InternalErrorCode.ExpectedArrayValue,
 			value,
@@ -23,6 +24,7 @@ export class ConfigurationReader {
 
 	public static parseXmlToJson(value: any): any {
 		let jsonContent;
+
 		parseString(value, function (err, result) {
 			jsonContent = result;
 		});

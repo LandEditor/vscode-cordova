@@ -47,10 +47,12 @@ declare namespace PhonegapPluginPush {
 			event: "registration",
 			callback: (response: RegistrationEventResponse) => any,
 		): void;
+
 		off(
 			event: "notification",
 			callback: (response: NotificationEventResponse) => any,
 		): void;
+
 		off(event: "error", callback: (response: Error) => any): void;
 		/**
 		 * As stated in the example, you will have to store your event handler if you are planning to remove it.
@@ -223,15 +225,19 @@ declare namespace PhonegapPluginPush {
 
 	interface CategoryAction {
 		yes?: CategoryActionData;
+
 		no?: CategoryActionData;
+
 		maybe?: CategoryActionData;
 	}
 
 	interface CategoryActionData {
 		callback: string;
+
 		title: string;
 
 		foreground: boolean;
+
 		destructive: boolean;
 	}
 
@@ -289,13 +295,17 @@ declare namespace PhonegapPluginPush {
 		 * Will be true if the application is started by clicking on the push notification, false if the app is already started. (Android/iOS only)
 		 */
 		coldstart?: boolean;
+
 		collapse_key?: string;
+
 		from?: string;
+
 		notId?: string;
 	}
 
 	interface PushNotificationStatic {
 		init(options: InitOptions): PushNotification;
+
 		new (options: InitOptions): PushNotification;
 	}
 }

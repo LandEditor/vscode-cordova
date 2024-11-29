@@ -11,6 +11,7 @@ import { InternalErrorCode } from "./internalErrorCode";
 
 export class ErrorHelper {
 	public static ERROR_STRINGS = ERROR_STRINGS;
+
 	public static getInternalError(
 		errorCode: InternalErrorCode,
 		...optionalArgs: any[]

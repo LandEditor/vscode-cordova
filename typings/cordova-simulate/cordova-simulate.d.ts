@@ -5,6 +5,7 @@ declare module "cordova-simulate" {
 	function simulate(
 		opts: simulate.SimulateOptions,
 	): Promise<simulate.Simulator>;
+
 	module simulate {
 		interface PropertyDictionary {
 			[propName: string]: any;
@@ -12,18 +13,29 @@ declare module "cordova-simulate" {
 
 		export interface SimulateOptions {
 			platform?: string;
+
 			target?: string;
+
 			port?: number;
+
 			dir?: string;
+
 			simhostui?: string;
+
 			livereload?: boolean;
+
 			livereloaddelay?: number;
 
 			forceprepare?: boolean;
+
 			telemetry?: TelemetryModule;
+
 			simulationpath?: string;
+
 			corsproxy?: boolean;
+
 			lang?: string;
+
 			spaurlrewrites?: boolean;
 		}
 
@@ -37,17 +49,23 @@ declare module "cordova-simulate" {
 
 		export interface ResizeViewportData {
 			width: number;
+
 			height: number;
 		}
 
 		export class Simulator {
 			constructor(opts: SimulateOptions);
+
 			startSimulation(): Promise<void>;
+
 			stopSimulation(): Promise<void>;
 
 			simHostUrl(): string;
+
 			appUrl(): string;
+
 			urlRoot(): string;
+
 			isRunning(): boolean;
 		}
 

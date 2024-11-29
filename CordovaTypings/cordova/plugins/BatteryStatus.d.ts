@@ -8,7 +8,9 @@
 
 interface Window {
 	onbatterystatus: (type: BatteryStatusEvent) => void;
+
 	onbatterycritical: (type: BatteryStatusEvent) => void;
+
 	onbatterylow: (type: BatteryStatusEvent) => void;
 	/**
 	 * Adds a listener for an event from the BatteryStatus plugin.

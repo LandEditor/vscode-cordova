@@ -30,12 +30,18 @@ const localize = nls.loadMessageBundle();
 export class CordovaCommandHelper {
 	private static CORDOVA_CMD_NAME: string =
 		os.platform() === "win32" ? "cordova.cmd" : "cordova";
+
 	private static IONIC_CMD_NAME: string =
 		os.platform() === "win32" ? "ionic.cmd" : "ionic";
+
 	private static CORDOVA_TELEMETRY_EVENT_NAME: string = "cordovaCommand";
+
 	private static IONIC_TELEMETRY_EVENT_NAME: string = "ionicCommand";
+
 	private static CORDOVA_DISPLAY_NAME: string = "Cordova";
+
 	private static IONIC_DISPLAY_NAME: string = "Ionic";
+
 	private static readonly RESTART_SESSION_COMMAND: string =
 		"workbench.action.debug.restart";
 
@@ -54,7 +60,9 @@ export class CordovaCommandHelper {
 		if (useIonic) {
 			telemetryEventName =
 				CordovaCommandHelper.IONIC_TELEMETRY_EVENT_NAME;
+
 			cliCommandName = CordovaCommandHelper.IONIC_CMD_NAME;
+
 			cliDisplayName = CordovaCommandHelper.IONIC_DISPLAY_NAME;
 		}
 
@@ -123,10 +131,12 @@ export class CordovaCommandHelper {
 											"########### FINISHED EXECUTING: checkEnvironment ###########",
 										),
 									);
+
 									resolve({});
 								})
 								.catch((err) => {
 									logger.append(`Error: ${err.message}`);
+
 									reject(err);
 								});
 					} else {
@@ -134,6 +144,7 @@ export class CordovaCommandHelper {
 							cwd: projectRoot,
 							env,
 						});
+
 						process.on("error", (err: any) => {
 							// ENOENT error will be thrown if no Cordova.cmd or ionic.cmd is found
 							if (err.code === "ENOENT") {
@@ -147,6 +158,7 @@ export class CordovaCommandHelper {
 									),
 								);
 							}
+
 							reject(err);
 						});
 
@@ -171,6 +183,7 @@ export class CordovaCommandHelper {
 
 								process.stdout.on("data", (e: string) => {
 									const match = e.match(/\d+\.\d+\.\d+/);
+
 									logger.log(`Plugman: ${match[0]}`);
 								});
 
@@ -182,6 +195,7 @@ export class CordovaCommandHelper {
 											commandToExecute,
 										),
 									);
+
 									resolve({});
 								});
 							} else {
@@ -192,6 +206,7 @@ export class CordovaCommandHelper {
 										commandToExecute,
 									),
 								);
+
 								resolve({});
 							}
 						});
@@ -226,6 +241,7 @@ export class CordovaCommandHelper {
 			switch (cordovaDebugSession.getStatus()) {
 				case CordovaSessionStatus.Activated:
 					cordovaDebugSession.setStatus(CordovaSessionStatus.Pending);
+
 					commands.executeCommand(
 						CordovaCommandHelper.RESTART_SESSION_COMMAND,
 						undefined,
@@ -239,6 +255,7 @@ export class CordovaCommandHelper {
 
 				case CordovaSessionStatus.NotActivated:
 					cordovaDebugSession.setStatus(CordovaSessionStatus.Pending);
+
 					commands.executeCommand(
 						CordovaCommandHelper.RESTART_SESSION_COMMAND,
 					);
@@ -304,6 +321,7 @@ export class CordovaCommandHelper {
 		useIonic: boolean,
 	): Promise<string> {
 		let platforms = CordovaProjectHelper.getInstalledPlatforms(projectRoot);
+
 		platforms = CordovaCommandHelper.filterAvailablePlatforms(platforms);
 
 		return new Promise((resolve, reject) => {
@@ -338,6 +356,7 @@ export class CordovaCommandHelper {
 					// eslint-disable-next-line
 					return resolve(platforms[0]);
 				}
+
 				throw ErrorHelper.getInternalError(
 					InternalErrorCode.CouldNotFindAnyPlatformInstalled,
 				);

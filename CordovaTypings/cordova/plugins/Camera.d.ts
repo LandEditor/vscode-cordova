@@ -122,8 +122,11 @@ interface CameraPopoverHandle {
  */
 interface CameraPopoverOptions {
 	x: number;
+
 	y: number;
+
 	width: number;
+
 	height: number;
 	/**
 	 * Direction the arrow on the popover should point. Defined in Camera.PopoverArrowDirection
@@ -141,33 +144,49 @@ declare var Camera: {
 	// Camera constants, defined in Camera plugin
 	DestinationType: {
 		DATA_URL: number;
+
 		FILE_URI: number;
+
 		NATIVE_URI: number;
 	};
+
 	Direction: {
 		BACK: number;
+
 		FRONT: number;
 	};
+
 	EncodingType: {
 		JPEG: number;
+
 		PNG: number;
 	};
+
 	MediaType: {
 		PICTURE: number;
+
 		VIDEO: number;
+
 		ALLMEDIA: number;
 	};
+
 	PictureSourceType: {
 		PHOTOLIBRARY: number;
+
 		CAMERA: number;
+
 		SAVEDPHOTOALBUM: number;
 	};
 	// Used only on iOS
 	PopoverArrowDirection: {
 		ARROW_UP: number;
+
 		ARROW_DOWN: number;
+
 		ARROW_LEFT: number;
+
 		ARROW_RIGHT: number;
+
 		ARROW_ANY: number;
 	};
 };

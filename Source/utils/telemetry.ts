@@ -38,7 +38,9 @@ export namespace Telemetry {
 
 	class ExtensionTelemetryReporter implements ITelemetryReporter {
 		private extensionId: string;
+
 		private extensionVersion: string;
+
 		private appInsightsKey: string;
 
 		constructor(
@@ -48,7 +50,9 @@ export namespace Telemetry {
 			projectRoot: string,
 		) {
 			this.extensionId = extensionId;
+
 			this.extensionVersion = extensionVersion;
+
 			this.appInsightsKey = key;
 		}
 
@@ -70,24 +74,34 @@ export namespace Telemetry {
 
 	class TelemetryUtils {
 		public static USERTYPE_INTERNAL: string = "Internal";
+
 		public static USERTYPE_EXTERNAL: string = "External";
+
 		public static userType: string;
+
 		public static sessionId: string;
+
 		public static optInCollectedForCurrentSession: boolean;
 
 		private static initDeferred: DeferredPromise<any> =
 			new DeferredPromise<any>();
 
 		private static userId: string;
+
 		private static telemetrySettings: ITelemetrySettings = null;
+
 		private static TELEMETRY_SETTINGS_FILENAME: string =
 			"VSCodeTelemetrySettings.json";
+
 		private static APPINSIGHTS_INSTRUMENTATIONKEY: string =
 			"AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217"; // Matches vscode telemetry key
 		private static REGISTRY_SQMCLIENT_NODE: string =
 			"\\SOFTWARE\\Microsoft\\SQMClient";
+
 		private static REGISTRY_USERID_VALUE: string = "UserId";
+
 		private static INTERNAL_DOMAIN_SUFFIX: string = "microsoft.com";
+
 		private static INTERNAL_USER_ENV_VAR: string = "TACOINTERNAL";
 
 		private static get telemetrySettingsFile(): string {
@@ -110,6 +124,7 @@ export namespace Telemetry {
 			if (initOptions.isExtensionProcess) {
 				const TelemetryReporter =
 					require("vscode-extension-telemetry").default;
+
 				Telemetry.reporter = new TelemetryReporter(
 					Telemetry.appName,
 					appVersion,
@@ -126,10 +141,13 @@ export namespace Telemetry {
 
 			TelemetryUtils.getUserId().then(function (userId: string): void {
 				TelemetryUtils.userId = userId;
+
 				TelemetryUtils.userType = TelemetryUtils.getUserType();
 
 				isOptedIn = TelemetryUtils.getTelemetryOptInSetting();
+
 				TelemetryUtils.saveSettings();
+
 				TelemetryUtils.initDeferred.resolve(undefined);
 			});
 
@@ -170,6 +188,7 @@ export namespace Telemetry {
 			/* tslint:disable:no-bitwise */
 			for (let a = 0; a < 4; a++) {
 				tmp = (4294967296 * Math.random()) | 0;
+
 				oct +=
 					hexValues[tmp & 0xf] +
 					hexValues[(tmp >> 4) & 0xf] +
@@ -219,6 +238,7 @@ export namespace Telemetry {
 											.length,
 								)
 						: null;
+
 					userType =
 						domain === TelemetryUtils.INTERNAL_DOMAIN_SUFFIX
 							? TelemetryUtils.USERTYPE_INTERNAL
@@ -303,9 +323,11 @@ export namespace Telemetry {
 
 						return uniqueId;
 					}
+
 					return fallback();
 				});
 			}
+
 			return Promise.resolve(fallback());
 		}
 
@@ -323,6 +345,7 @@ export namespace Telemetry {
 					return id;
 				});
 			}
+
 			TelemetryUtils.telemetrySettings.userId = userId;
 
 			return Promise.resolve(userId);
@@ -335,12 +358,15 @@ export namespace Telemetry {
 	export class TelemetryEvent {
 		private static PII_HASH_KEY: string =
 			"959069c9-9e93-4fa1-bf16-3f8120d7db0c";
+
 		public name: string;
+
 		public properties: ITelemetryProperties;
 		// private eventId: string;
 
 		constructor(name: string, properties?: ITelemetryProperties) {
 			this.name = name;
+
 			this.properties = properties || {};
 			// this.eventId = TelemetryUtils.generateGuid();
 		}
@@ -368,10 +394,12 @@ export namespace Telemetry {
 	 */
 	export class TelemetryActivity extends TelemetryEvent {
 		private startTime: [number, number];
+
 		private endTime: [number, number];
 
 		constructor(name: string, properties?: ITelemetryProperties) {
 			super(name, properties);
+
 			this.start();
 		}
 
@@ -392,6 +420,7 @@ export namespace Telemetry {
 
 	export interface ITelemetryInitOptions {
 		isExtensionProcess: boolean;
+
 		projectRoot: string;
 	}
 
@@ -420,6 +449,7 @@ export namespace Telemetry {
 				if (event instanceof TelemetryActivity) {
 					(<TelemetryActivity>event).end();
 				}
+
 				TelemetryUtils.addCommonProperties(event);
 
 				try {
@@ -479,9 +509,13 @@ export namespace Telemetry {
 
 	interface ITelemetrySettings {
 		[settingKey: string]: any;
+
 		userId?: string;
+
 		machineId?: string;
+
 		optIn?: boolean;
+
 		userType?: string;
 	}
 
@@ -507,11 +541,13 @@ export namespace Telemetry {
 		if (!reporter) {
 			const TelemetryReporter =
 				require("vscode-extension-telemetry").default;
+
 			Telemetry.reporterDictionary[extensionId] = new TelemetryReporter(
 				extensionId,
 				extensionVersion,
 				appInsightsKey,
 			);
+
 			reporter = Telemetry.reporterDictionary[extensionId];
 		}
 

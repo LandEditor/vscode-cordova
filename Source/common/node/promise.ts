@@ -3,12 +3,15 @@
 
 export class DeferredPromise<T> {
 	private resolveSelf: (value: T | PromiseLike<T>) => void;
+
 	private rejectSelf: (reason?: any) => void;
+
 	private _promise: Promise<T>;
 
 	constructor() {
 		this._promise = new Promise<T>((resolve, reject) => {
 			this.resolveSelf = resolve;
+
 			this.rejectSelf = reject;
 		});
 	}
@@ -40,6 +43,7 @@ export function waitUntil<T>(
 			rejectTimeout = setTimeout(() => {
 				// eslint-disable-next-line @typescript-eslint/no-use-before-define
 				cleanup();
+
 				resolve(null);
 			}, timeout);
 		}
@@ -48,6 +52,7 @@ export function waitUntil<T>(
 			if (rejectTimeout) {
 				clearTimeout(rejectTimeout);
 			}
+
 			if (сheckInterval) {
 				clearInterval(сheckInterval);
 			}
@@ -59,11 +64,14 @@ export function waitUntil<T>(
 
 				if (result) {
 					cleanup();
+
 					resolve(result);
 				}
+
 				return !!result;
 			} catch (err) {
 				cleanup();
+
 				reject(err);
 
 				return false;

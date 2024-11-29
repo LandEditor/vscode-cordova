@@ -37,9 +37,11 @@ export abstract class MobileTargetManager<T extends MobileTarget> {
 		if (target === TargetType.Device) {
 			return false;
 		}
+
 		if (target === TargetType.Emulator) {
 			return true;
 		}
+
 		throw ErrorHelper.getInternalError(
 			InternalErrorCode.CouldNotRecognizeTargetType,
 			target,
@@ -52,6 +54,7 @@ export abstract class MobileTargetManager<T extends MobileTarget> {
 		if (!this.targets) {
 			await this.collectTargets();
 		}
+
 		return filter ? this.targets.filter(filter) : this.targets;
 	}
 
@@ -80,11 +83,13 @@ export abstract class MobileTargetManager<T extends MobileTarget> {
 					"Select target device for launch application",
 				),
 			};
+
 			result = await window.showQuickPick(
 				targetList.map((target) => target?.name || target?.id),
 				quickPickOptions,
 			);
 		}
+
 		return result
 			? targetList.find(
 					(target) => target.name === result || target.id === result,

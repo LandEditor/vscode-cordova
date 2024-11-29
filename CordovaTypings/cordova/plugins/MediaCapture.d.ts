@@ -116,16 +116,22 @@ interface CaptureError {
 	 *         The requested capture operation is not supported.
 	 */
 	code: number;
+
 	message: string;
 }
 
 declare var CaptureError: {
 	/** Constructor for CaptureError  */
 	new (code: number, message: string): CaptureError;
+
 	CAPTURE_INTERNAL_ERR: number;
+
 	CAPTURE_APPLICATION_BUSY: number;
+
 	CAPTURE_INVALID_ARGUMENT: number;
+
 	CAPTURE_NO_MEDIA_FILES: number;
+
 	CAPTURE_NOT_SUPPORTED: number;
 };
 

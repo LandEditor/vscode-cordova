@@ -34,6 +34,7 @@ export class ProjectsStorage {
 		} else {
 			key = workspaceFolder.uri.fsPath.toLowerCase();
 		}
+
 		delete this.projectsCache[key];
 	}
 }

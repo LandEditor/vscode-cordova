@@ -30,6 +30,7 @@ export function selectProject(): Promise<CordovaWorkspaceManager> {
 	} else if (keys.length === 1) {
 		return Promise.resolve(ProjectsStorage.projectsCache[keys[0]]);
 	}
+
 	return Promise.reject(
 		new Error(
 			localize("NoCordovaProjectIsFound", "No Cordova project is found"),
@@ -61,6 +62,7 @@ export function launchSimulateCommand(
 					},
 					false,
 				);
+
 				generator.add(
 					"projectType",
 					TelemetryHelper.prepareProjectTypesTelemetry(projectType),

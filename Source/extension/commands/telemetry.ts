@@ -8,6 +8,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class Telemetry {
 	static codeName = "cordova.telemetry";
+
 	static createHandler = () => {
 		window.showQuickPick(["On", "Off"]).then((value) => {
 			commandWrapper(CordovaCommandHelper.executeCordovaCommand, [

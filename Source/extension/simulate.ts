@@ -47,9 +47,13 @@ export class PluginSimulator implements vscode.Disposable {
 	private registration: vscode.Disposable;
 
 	private simulator: CordovaSimulate.Simulator;
+
 	private simulationInfo: SimulationInfo;
+
 	private readonly CORDOVA_SIMULATE_PACKAGE = "cordova-simulate";
+
 	private simulatePackage: typeof CordovaSimulate;
+
 	private packageInstallProc: cp.ChildProcess | null = null;
 
 	public async simulate(
@@ -58,6 +62,7 @@ export class PluginSimulator implements vscode.Disposable {
 		projectType: ProjectType,
 	): Promise<any> {
 		await this.launchServer(fsPath, simulateOptions, projectType);
+
 		await this.launchSimHost(simulateOptions.target);
 
 		return await this.launchAppHost(simulateOptions.target);
@@ -77,6 +82,7 @@ export class PluginSimulator implements vscode.Disposable {
 			const error = ErrorHelper.getInternalError(
 				InternalErrorCode.LaunchSimHostBeforeStartSimulationServer,
 			);
+
 			TelemetryHelper.sendErrorEvent(
 				"LaunchSimHostBeforeStartSimulationServer",
 				error,
@@ -84,6 +90,7 @@ export class PluginSimulator implements vscode.Disposable {
 
 			throw error;
 		}
+
 		const simulate = await this.getPackage();
 
 		return await simulate.launchBrowser(
@@ -136,6 +143,7 @@ export class PluginSimulator implements vscode.Disposable {
 			})
 			.then(() => {
 				const simulateTelemetryWrapper = new CordovaSimulateTelemetry();
+
 				simulateOptions.telemetry = simulateTelemetryWrapper;
 
 				this.simulator = new this.simulatePackage.Simulator(
@@ -159,6 +167,7 @@ export class PluginSimulator implements vscode.Disposable {
 							CordovaProjectHelper.isIonicCliVersionGte3(
 								workspaceFolder.uri.fsPath,
 							);
+
 						command = `ionic${isIonicCliVersionGte3 ? " cordova" : ""}`;
 					}
 
@@ -168,6 +177,7 @@ export class PluginSimulator implements vscode.Disposable {
 						command,
 						platform,
 					);
+
 					TelemetryHelper.sendErrorEvent(
 						"CouldntFindPlatformInProject",
 						error,
@@ -181,6 +191,7 @@ export class PluginSimulator implements vscode.Disposable {
 						const error = ErrorHelper.getInternalError(
 							InternalErrorCode.ErrorStartingTheSimulation,
 						);
+
 						TelemetryHelper.sendErrorEvent(
 							"ErrorStartingTheSimulation",
 							error,
@@ -203,6 +214,7 @@ export class PluginSimulator implements vscode.Disposable {
 					) {
 						this.simulationInfo.appHostUrl = `${this.simulationInfo.appHostUrl}?ionicplatform=${simulateOptions.platform}`;
 					}
+
 					return this.simulationInfo;
 				});
 			});
@@ -211,6 +223,7 @@ export class PluginSimulator implements vscode.Disposable {
 	public dispose(): void {
 		if (this.registration) {
 			this.registration.dispose();
+
 			this.registration = null;
 		}
 
@@ -219,6 +232,7 @@ export class PluginSimulator implements vscode.Disposable {
 				() => {},
 				() => {},
 			);
+
 			this.simulator = null;
 		}
 	}
@@ -232,6 +246,7 @@ export class PluginSimulator implements vscode.Disposable {
 			const simulate = customRequire(
 				this.CORDOVA_SIMULATE_PACKAGE,
 			) as typeof CordovaSimulate;
+
 			this.simulatePackage = simulate;
 
 			return Promise.resolve(this.simulatePackage);
@@ -274,6 +289,7 @@ export class PluginSimulator implements vscode.Disposable {
 						this.simulatePackage = customRequire(
 							this.CORDOVA_SIMULATE_PACKAGE,
 						);
+
 						resolve(this.simulatePackage);
 					} else {
 						OutputChannelLogger.getMainChannel().log(
@@ -282,6 +298,7 @@ export class PluginSimulator implements vscode.Disposable {
 								"Error while installing cordova-simulate dependency to the extension",
 							),
 						);
+
 						reject(
 							localize(
 								"ErrorWhileInstallingCordovaSimulateDep",
@@ -298,6 +315,7 @@ export class PluginSimulator implements vscode.Disposable {
 
 					if (now - lastDotTime > 1500) {
 						lastDotTime = now;
+
 						OutputChannelLogger.getMainChannel().append(".");
 					}
 				};
@@ -313,6 +331,7 @@ export class PluginSimulator implements vscode.Disposable {
 				const packageCheck = setInterval(() => {
 					if (this.simulatePackage) {
 						clearInterval(packageCheck);
+
 						resolve(this.simulatePackage);
 					}
 				}, 1000);

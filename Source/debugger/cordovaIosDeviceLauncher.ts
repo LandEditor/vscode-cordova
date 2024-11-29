@@ -27,15 +27,19 @@ const localize = nls.loadMessageBundle();
 
 export class CordovaIosDeviceLauncher {
 	private static nativeDebuggerProxyInstance: child_process.ChildProcess;
+
 	private static webDebuggerProxyInstance: child_process.ChildProcess;
 
 	public static cleanup(): void {
 		if (CordovaIosDeviceLauncher.nativeDebuggerProxyInstance) {
 			CordovaIosDeviceLauncher.nativeDebuggerProxyInstance.kill("SIGHUP");
+
 			CordovaIosDeviceLauncher.nativeDebuggerProxyInstance = null;
 		}
+
 		if (CordovaIosDeviceLauncher.webDebuggerProxyInstance) {
 			CordovaIosDeviceLauncher.webDebuggerProxyInstance.kill();
+
 			CordovaIosDeviceLauncher.webDebuggerProxyInstance = null;
 		}
 	}
@@ -53,6 +57,7 @@ export class CordovaIosDeviceLauncher {
 						InternalErrorCode.UnableToFindXCodeProjFile,
 					);
 				}
+
 				const xcodeprojfile = xcodeprojfiles[0];
 
 				const projectName = /^(.*)\.xcodeproj/.exec(xcodeprojfile)[1];
@@ -79,6 +84,7 @@ export class CordovaIosDeviceLauncher {
 						),
 					);
 				}
+
 				return plist.CFBundleIdentifier;
 			});
 	}
@@ -99,6 +105,7 @@ export class CordovaIosDeviceLauncher {
 						[proxyPort.toString()],
 						{ shell: true },
 					);
+
 				CordovaIosDeviceLauncher.nativeDebuggerProxyInstance.on(
 					"error",
 					function (err: any): void {
@@ -124,6 +131,7 @@ export class CordovaIosDeviceLauncher {
 	): Promise<void> {
 		if (CordovaIosDeviceLauncher.webDebuggerProxyInstance) {
 			CordovaIosDeviceLauncher.webDebuggerProxyInstance.kill();
+
 			CordovaIosDeviceLauncher.webDebuggerProxyInstance = null;
 		}
 
@@ -153,6 +161,7 @@ export class CordovaIosDeviceLauncher {
 				child_process.spawn("ios_webkit_debug_proxy", iwdpArgs, {
 					shell: true,
 				});
+
 			CordovaIosDeviceLauncher.webDebuggerProxyInstance.on(
 				"error",
 				function () {
@@ -184,6 +193,7 @@ export class CordovaIosDeviceLauncher {
 						InternalErrorCode.UnableToStartiDeviceInstaller,
 					);
 				}
+
 				throw err;
 			})
 			.then((stdout: string) => {
@@ -197,6 +207,7 @@ export class CordovaIosDeviceLauncher {
 				}
 
 				const list: any[] = pl.parse(fs.readFileSync(filename, "utf8"));
+
 				fs.unlinkSync(filename);
 
 				for (let i = 0; i < list.length; ++i) {
@@ -321,6 +332,7 @@ export class CordovaIosDeviceLauncher {
 			if (!record.includes(simId)) {
 				continue;
 			}
+
 			const webinspectorSocketRegexp =
 				/\s+(\S+com\.apple\.webinspectord_sim\.socket)/;
 
@@ -329,6 +341,7 @@ export class CordovaIosDeviceLauncher {
 			if (!match) {
 				return null;
 			}
+
 			return match[1]; // /private/tmp/com.apple.launchd.ZY99hRfFoa/com.apple.webinspectord_sim.socket
 		}
 
@@ -346,9 +359,11 @@ export class CordovaIosDeviceLauncher {
 
 			return new Promise((resolve, reject) => {
 				let stdout = "";
+
 				imagemounter.stdout.on("data", function (data: any): void {
 					stdout += data.toString();
 				});
+
 				imagemounter.on("close", function (code: number): void {
 					if (code !== 0) {
 						if (stdout.includes("Error:")) {
@@ -376,6 +391,7 @@ export class CordovaIosDeviceLauncher {
 						resolve();
 					}
 				});
+
 				imagemounter.on("error", function (err: any): void {
 					reject(err);
 				});
@@ -440,6 +456,7 @@ export class CordovaIosDeviceLauncher {
 							resolve(path);
 						}
 					});
+
 					find.on("close", function (): void {
 						reject(
 							localize(

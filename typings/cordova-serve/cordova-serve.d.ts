@@ -4,6 +4,7 @@
 declare module "cordova-serve" {
 	export interface LaunchBrowserOptions {
 		target: string;
+
 		url: string;
 	}
 

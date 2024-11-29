@@ -47,9 +47,13 @@ interface Database {
 		errorCallback?: (error: SqlError) => void,
 		successCallback?: () => void,
 	): void;
+
 	name: string;
+
 	version: string;
+
 	displayName: string;
+
 	size: number;
 }
 
@@ -89,28 +93,39 @@ declare var SqlTransaction: {
 
 interface SqlResultSet {
 	insertId: number;
+
 	rowsAffected: number;
+
 	rows: SqlResultSetRowList;
 }
 
 interface SqlResultSetRowList {
 	length: number;
+
 	item(index: number): Object;
 }
 
 interface SqlError {
 	code: number;
+
 	message: string;
 }
 
 declare var SqlError: {
 	// Error code constants from http://www.w3.org/TR/webdatabase/#sqlerror
 	UNKNOWN_ERR: number;
+
 	DATABASE_ERR: number;
+
 	VERSION_ERR: number;
+
 	TOO_LARGE_ERR: number;
+
 	QUOTA_ERR: number;
+
 	SYNTAX_ERR: number;
+
 	CONSTRAINT_ERR: number;
+
 	TIMEOUT_ERR: number;
 };

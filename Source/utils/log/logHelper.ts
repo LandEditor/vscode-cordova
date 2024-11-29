@@ -34,6 +34,7 @@ function padZeroes(minDesiredLength: number, numberToPad: string): string {
 	if (numberToPad.length >= minDesiredLength) {
 		return numberToPad;
 	}
+
 	return String("0".repeat(minDesiredLength) + numberToPad).slice(
 		-minDesiredLength,
 	);

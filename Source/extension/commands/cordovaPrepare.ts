@@ -6,6 +6,7 @@ import { commandWrapper } from "./commandUtil";
 
 export class CordovaPrepare {
 	static codeName = "cordova.prepare";
+
 	static createHandler = () =>
 		commandWrapper(CordovaCommandHelper.executeCordovaCommand, ["prepare"]);
 }

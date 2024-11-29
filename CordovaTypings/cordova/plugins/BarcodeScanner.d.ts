@@ -23,6 +23,7 @@ interface PhonegapBarcodeScannerSuccessResult {
 	text: string;
 
 	format: string;
+
 	cancelled: boolean;
 }
 
@@ -35,8 +36,11 @@ interface PhonegapBarcodeScanner {
 	 */
 	Encode: {
 		TEXT_TYPE: number;
+
 		EMAIL_TYPE: number;
+
 		PHONE_TYPE: number;
+
 		SMS_TYPE: number;
 	};
 

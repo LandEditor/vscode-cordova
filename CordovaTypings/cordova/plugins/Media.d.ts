@@ -15,9 +15,13 @@ declare var Media: {
 	): Media;
 	//Media statuses
 	MEDIA_NONE: number;
+
 	MEDIA_STARTING: number;
+
 	MEDIA_RUNNING: number;
+
 	MEDIA_PAUSED: number;
+
 	MEDIA_STOPPED: number;
 };
 
@@ -82,5 +86,6 @@ interface Media {
  */
 interface IosPlayOptions {
 	numberOfLoops?: number;
+
 	playAudioWhenScreenIsLocked?: boolean;
 }

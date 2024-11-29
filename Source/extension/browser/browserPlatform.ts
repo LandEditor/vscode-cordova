@@ -37,17 +37,21 @@ const localize = nls.loadMessageBundle();
 
 export default class BrowserPlatform extends AbstractPlatform {
 	public static readonly CHROME_DATA_DIR = "chrome_sandbox_dir";
+
 	public static readonly EDGE_DATA_DIR = "edge_sandbox_dir"; // The directory to use for the sandboxed Chrome instance that gets launched to debug the app
 
 	private simulateDebugHost: SocketIOClient.Socket;
+
 	private browserProc: child_process.ChildProcess;
 
 	private browserStopEventEmitter: EventEmitter<Error | undefined> =
 		new EventEmitter();
+
 	public readonly onBrowserStop = this.browserStopEventEmitter.event;
 
 	private changeSimulateViewportEventEmitter: EventEmitter<simulate.ResizeViewportData> =
 		new EventEmitter();
+
 	public readonly onChangeSimulateViewport =
 		this.changeSimulateViewportEventEmitter.event;
 
@@ -76,6 +80,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 
 				throw errorMessage;
 			}
+
 			const serveRunArgs = this.getServeRunArguments();
 
 			const devServersUrls =
@@ -83,6 +88,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 					serveRunArgs,
 					this.platformOpts.env,
 				);
+
 			this.platformOpts.url = devServersUrls[0];
 		} else {
 			const simulatorOptions = this.convertBrowserOptionToSimulateArgs(
@@ -95,15 +101,20 @@ export default class BrowserPlatform extends AbstractPlatform {
 					simulatorOptions,
 					this.platformOpts.projectType,
 				);
+
 			await this.connectSimulateDebugHost(simulateInfo);
+
 			await this.platformOpts.pluginSimulator.launchSimHost(
 				this.platformOpts.target == TargetType.Electron
 					? TargetType.Chrome
 					: this.platformOpts.target,
 			);
+
 			this.platformOpts.simulatePort =
 				CordovaProjectHelper.getPortFromURL(simulateInfo.appHostUrl);
+
 			this.platformOpts.url = simulateInfo.appHostUrl;
+
 			devServerPort = this.IonicDevServer.getDevServerPort();
 		}
 
@@ -133,6 +144,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 					execa,
 				);
 		}
+
 		const browserPath = (await browserFinder.findAll())[0];
 
 		if (browserPath) {
@@ -144,23 +156,30 @@ export default class BrowserPlatform extends AbstractPlatform {
 					stdio: ["ignore"],
 				},
 			);
+
 			this.browserProc.unref();
+
 			this.browserProc.on("error", (err) => {
 				const errMsg = localize(
 					"BrowserError",
 					"Browser error: {0}",
 					err.message,
 				);
+
 				this.log(errMsg, true);
+
 				this.browserStopEventEmitter.fire(err);
 			});
+
 			this.browserProc.once("exit", (code: number) => {
 				const exitMessage = localize(
 					"BrowserExit",
 					"Browser has been closed with exit code: {0}",
 					code,
 				);
+
 				this.log(exitMessage);
+
 				this.browserStopEventEmitter.fire();
 			});
 		}
@@ -181,15 +200,18 @@ export default class BrowserPlatform extends AbstractPlatform {
 			if (this.platformOpts.target === TargetType.Chrome) {
 				this.setChromeExitTypeNormal();
 			}
+
 			this.browserProc = null;
 		}
 		// Close the simulate debug-host socket if necessary
 		if (this.simulateDebugHost) {
 			this.simulateDebugHost.close();
+
 			this.simulateDebugHost = null;
 		}
 
 		this.browserStopEventEmitter.dispose();
+
 		this.changeSimulateViewportEventEmitter.dispose();
 	}
 
@@ -233,6 +255,7 @@ export default class BrowserPlatform extends AbstractPlatform {
 					true,
 				);
 			}
+
 			if (noDefaultBrowserCheck) {
 				BrowserPlatform.removeRunArgument(
 					runArguments,
@@ -240,24 +263,28 @@ export default class BrowserPlatform extends AbstractPlatform {
 					true,
 				);
 			}
+
 			if (remoteDebuggingPort) {
 				BrowserPlatform.setRunArgument(
 					args,
 					"--remote-debugging-port",
 					remoteDebuggingPort,
 				);
+
 				BrowserPlatform.removeRunArgument(
 					runArguments,
 					"--remote-debugging-port",
 					false,
 				);
 			}
+
 			if (userDataDir) {
 				BrowserPlatform.setRunArgument(
 					args,
 					"--user-data-dir",
 					userDataDir,
 				);
+
 				BrowserPlatform.removeRunArgument(
 					runArguments,
 					"--user-data-dir",
@@ -267,9 +294,11 @@ export default class BrowserPlatform extends AbstractPlatform {
 
 			args.push(...runArguments);
 		}
+
 		if (this.platformOpts.url) {
 			args.push(this.platformOpts.url);
 		}
+
 		return args;
 	}
 
@@ -284,8 +313,11 @@ export default class BrowserPlatform extends AbstractPlatform {
 			const browserPrefs = JSON.parse(
 				fs.readFileSync(preferencesPath, "utf8"),
 			);
+
 			console.log(browserPrefs);
+
 			browserPrefs.profile.exit_type = "normal";
+
 			fs.writeFileSync(preferencesPath, JSON.stringify(browserPrefs));
 		} catch {
 			// Just ignore possible errors
@@ -319,18 +351,22 @@ export default class BrowserPlatform extends AbstractPlatform {
 		return new Promise<void>((resolve, reject) => {
 			const simulateConnectErrorHandler = (err: any): void => {
 				this.log("Error connecting to the simulated app.", err);
+
 				reject(err);
 			};
 
 			this.simulateDebugHost = io.connect(simulateInfo.urlRoot);
+
 			this.simulateDebugHost.on(
 				"connect_error",
 				simulateConnectErrorHandler,
 			);
+
 			this.simulateDebugHost.on(
 				"connect_timeout",
 				simulateConnectErrorHandler,
 			);
+
 			this.simulateDebugHost.on("connect", () => {
 				this.simulateDebugHost.on(
 					"resize-viewport",
@@ -338,9 +374,11 @@ export default class BrowserPlatform extends AbstractPlatform {
 						this.changeSimulateViewportEventEmitter.fire(data);
 					},
 				);
+
 				this.simulateDebugHost.emit("register-debug-host", {
 					handlers: ["resize-viewport"],
 				});
+
 				resolve();
 			});
 		});
@@ -352,14 +390,23 @@ export default class BrowserPlatform extends AbstractPlatform {
 		const result: simulate.SimulateOptions = {};
 
 		result.platform = browserOption.platform;
+
 		result.target = browserOption.target;
+
 		result.port = browserOption.simulatePort;
+
 		result.livereload = browserOption.livereload;
+
 		result.forceprepare = browserOption.forcePrepare;
+
 		result.simulationpath = browserOption.simulateTempDir;
+
 		result.corsproxy = browserOption.corsProxy;
+
 		result.livereloaddelay = browserOption.livereloadDelay;
+
 		result.spaurlrewrites = browserOption.spaUrlRewrites;
+
 		result.lang = vscode.env.language;
 
 		return result;

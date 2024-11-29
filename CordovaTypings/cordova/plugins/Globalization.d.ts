@@ -208,6 +208,7 @@ interface GlobalizationDatePattern {
 
 interface GlobalizationDateNameOptions {
 	type?: string;
+
 	item?: string;
 }
 
@@ -266,7 +267,10 @@ interface GlobalizationError {
 /** An object representing a error from the Globalization API. */
 declare var GlobalizationError: {
 	UNKNOWN_ERROR: number;
+
 	FORMATTING_ERROR: number;
+
 	PARSING_ERROR: number;
+
 	PATTERN_ERROR: number;
 };

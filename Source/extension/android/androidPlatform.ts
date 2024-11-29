@@ -41,6 +41,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		"android",
 		"AndroidManifest.xml",
 	);
+
 	private static readonly ANDROID_MANIFEST_PATH_8 = path.join(
 		"platforms",
 		"android",
@@ -57,7 +58,9 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		protected log: DebugConsoleLogger,
 	) {
 		super(platformOpts, log);
+
 		this.adbHelper = new AdbHelper(platformOpts.projectRoot);
+
 		this.targetManager = new AndroidTargetManager(this.adbHelper);
 	}
 
@@ -100,10 +103,12 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 			const error = ErrorHelper.getInternalError(
 				InternalErrorCode.ErrorRunningAndroid,
 			);
+
 			TelemetryHelper.sendErrorEvent("ErrorRunningAndroid", error);
 
 			throw error;
 		}
+
 		return {};
 	}
 
@@ -133,6 +138,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 
 		// Configure port forwarding to the app
 		this.log(localize("ForwardingDebugPort", "Forwarding debug port"));
+
 		await this.adbHelper.forwardTcpPortForDevToolsAbstractName(
 			target.id,
 			this.platformOpts.port.toString(),
@@ -168,6 +174,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 						? "--emulator"
 						: "--device",
 				);
+
 				args.push(`--target=${this.platformOpts.target}`);
 			}
 
@@ -203,6 +210,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 				});
 			}
 		}
+
 		return undefined;
 	}
 
@@ -250,6 +258,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		} catch (error) {
 			throw error;
 		}
+
 		const parsedConfigFile = elementtree.XML(
 			cordovaConfigContents.toString(),
 		);
@@ -259,6 +268,7 @@ export default class AndroidPlatform extends AbstractMobilePlatform<
 		if (parsedConfigFile.attrib[packageIdKey]) {
 			return parsedConfigFile.attrib[packageIdKey];
 		}
+
 		throw localize(
 			"NoPackageNameFound",
 			"Cannot find project package name from AndroidManifest.xml and config.xml",

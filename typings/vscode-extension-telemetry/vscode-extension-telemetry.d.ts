@@ -1,11 +1,17 @@
 declare module "vscode-extension-telemetry" {
 	export default class TelemetryReporter {
 		private extensionId;
+
 		private extensionVersion;
+
 		private appInsightsClient;
+
 		private commonProperties;
+
 		private static SQM_KEY;
+
 		private static REGISTRY_USERID_VALUE;
+
 		private static REGISTRY_MACHINEID_VALUE;
 
 		/**
@@ -15,10 +21,15 @@ declare module "vscode-extension-telemetry" {
 		 * @param {string} key The application insights key
 		 */
 		constructor(extensionId: string, extensionVersion: string, key: string);
+
 		private setupAIClient(client);
+
 		private loadVSCodeCommonProperties(machineId, sessionId, version);
+
 		private loadCommonProperties();
+
 		private addCommonProperties(properties);
+
 		private getWinRegKeyData(key, name, hive, callback);
 
 		/**

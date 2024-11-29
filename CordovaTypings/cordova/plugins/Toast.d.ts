@@ -74,9 +74,13 @@ interface Toast {
 	 */
 	optionsBuilder(): {
 		withMessage(string): ToastOptions;
+
 		withDuration(string): ToastOptions;
+
 		withPosition(string): ToastOptions;
+
 		withAddPixelsY(string): ToastOptions;
+
 		build(): ToastOptions;
 	};
 

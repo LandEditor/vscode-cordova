@@ -137,9 +137,14 @@ declare var FileTransferError: {
 		body?: any,
 		exception?: any,
 	): FileTransferError;
+
 	FILE_NOT_FOUND_ERR: number;
+
 	INVALID_URL_ERR: number;
+
 	CONNECTION_ERR: number;
+
 	ABORT_ERR: number;
+
 	NOT_MODIFIED_ERR: number;
 };

@@ -10,10 +10,12 @@ import { TelemetryHelper } from "./telemetryHelper";
 
 export class TsdHelper {
 	private static CORDOVA_TYPINGS_FOLDERNAME = "CordovaTypings";
+
 	private static CORDOVA_TYPINGS_PATH = findFileInFolderHierarchy(
 		__dirname,
 		TsdHelper.CORDOVA_TYPINGS_FOLDERNAME,
 	);
+
 	private static USER_TYPINGS_FOLDERNAME = "typings";
 
 	/**

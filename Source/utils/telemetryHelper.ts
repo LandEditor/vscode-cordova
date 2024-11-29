@@ -22,6 +22,7 @@ nls.config({
 
 export interface ITelemetryPropertyInfo {
 	value: any;
+
 	isPii: boolean;
 }
 
@@ -39,10 +40,15 @@ export interface IExternalTelemetryProvider {
 
 export interface ISimulateTelemetryProperties {
 	platform?: string;
+
 	target: string;
+
 	port: number;
+
 	simulatePort?: number;
+
 	livereload?: boolean;
+
 	livereloadDelay?: number;
 
 	forcePrepare?: boolean;
@@ -58,13 +64,18 @@ interface IHasErrorCode {
 
 export abstract class TelemetryGeneratorBase {
 	protected telemetryProperties: ICommandTelemetryProperties = {};
+
 	private componentName: string;
+
 	private currentStepStartTime: [number, number];
+
 	private currentStep: string = "initialStep";
+
 	private errorIndex: number = -1; // In case we have more than one error (We start at -1 because we increment it before using it)
 
 	constructor(componentName: string) {
 		this.componentName = componentName;
+
 		this.currentStepStartTime = process.hrtime();
 	}
 
@@ -145,11 +156,14 @@ export abstract class TelemetryGeneratorBase {
 	public step(name: string): TelemetryGeneratorBase {
 		// First we finish measuring this step time, and we send a telemetry event for this step
 		this.finishTime(this.currentStep, this.currentStepStartTime);
+
 		this.sendCurrentStep();
 
 		// Then we prepare to start gathering information about the next step
 		this.currentStep = name;
+
 		this.telemetryProperties = {};
+
 		this.currentStepStartTime = process.hrtime();
 
 		return this;
@@ -181,6 +195,7 @@ export abstract class TelemetryGeneratorBase {
 			telemetryEvent,
 			this.telemetryProperties,
 		);
+
 		this.sendTelemetryEvent(telemetryEvent);
 	}
 
@@ -237,6 +252,7 @@ export abstract class TelemetryGeneratorBase {
 
 	private finishTime(name: string, startTime: [number, number]): void {
 		const endTime: [number, number] = process.hrtime(startTime);
+
 		this.add(
 			this.combine(name, "time"),
 			String(endTime[0] * 1000 + endTime[1] / 1000000),
@@ -311,6 +327,7 @@ export class TelemetryHelper {
 			if (val) {
 				relProjType[key] = val;
 			}
+
 			return relProjType;
 		}, {});
 
@@ -318,6 +335,7 @@ export class TelemetryHelper {
 			relevantProjectTypes[
 				`isIonic${relevantProjectTypes.ionicMajorVersion}`
 			] = true;
+
 			delete relevantProjectTypes.ionicMajorVersion;
 		}
 
@@ -403,6 +421,7 @@ export class TelemetryHelper {
 				const pluginFileJsonContents = fs
 					.readFileSync(pluginFilePath, "utf8")
 					.toString();
+
 				pluginFileJson = JSON.parse(pluginFileJsonContents);
 			} catch (error) {
 				console.error(error);
@@ -419,9 +438,11 @@ export class TelemetryHelper {
 		}
 
 		const newPlugins: string[] = new Array<string>();
+
 		pluginsList.forEach((plugin) => {
 			if (pluginsFileList.indexOf(plugin) < 0) {
 				newPlugins.push(plugin);
+
 				pluginsFileList.push(plugin);
 			}
 		});
@@ -444,6 +465,7 @@ export class TelemetryHelper {
 		const pluginEvent = new Telemetry.TelemetryEvent("plugins", {
 			plugins: JSON.stringify(pluginDetails),
 		});
+
 		Telemetry.send(pluginEvent);
 
 		// Write out new list of previousPlugins
@@ -530,12 +552,14 @@ export class TelemetryHelper {
 		errorDescription?: string,
 	): void {
 		const event = TelemetryHelper.createTelemetryEvent(eventName);
+
 		TelemetryHelper.addTelemetryEventErrorProperty(
 			event,
 			error,
 			errorDescription,
 			"",
 		);
+
 		Telemetry.send(event);
 	}
 }

@@ -29,22 +29,27 @@ export class AndroidTarget extends MobileTarget {
 		if (!objCopy.name) {
 			objCopy.name = objCopy.id;
 		}
+
 		super(objCopy);
 	}
 }
 
 export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 	private static readonly EMULATOR_COMMAND = "emulator";
+
 	private static readonly EMULATOR_AVD_START_COMMAND = "-avd";
 
 	private static readonly EMULATOR_START_TIMEOUT = 120;
 
 	private adbHelper: AdbHelper;
+
 	private childProcess: ChildProcess;
 
 	constructor(adbHelper: AdbHelper) {
 		super();
+
 		this.adbHelper = adbHelper;
+
 		this.childProcess = new ChildProcess();
 	}
 
@@ -58,6 +63,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 			) {
 				return true;
 			}
+
 			const onlineTarget =
 				await this.adbHelper.findOnlineTargetById(target);
 
@@ -66,6 +72,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 			} else if ((await this.adbHelper.getAvdsNames()).includes(target)) {
 				return true;
 			}
+
 			throw Error();
 		} catch {
 			throw ErrorHelper.getInternalError(
@@ -101,6 +108,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 		if (!targetType || targetType === TargetType.Emulator) {
 			const emulatorsNames: string[] =
 				await this.adbHelper.getAvdsNames();
+
 			targetList.push(
 				...emulatorsNames.map((name) => {
 					return { name, isOnline: false, isVirtualTarget: true };
@@ -123,6 +131,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 
 				if (emulatorTarget) {
 					emulatorTarget.isOnline = true;
+
 					emulatorTarget.id = device.id;
 				}
 			} else if (
@@ -161,6 +170,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 				},
 				true,
 			);
+
 			emulatorProcess.outcome.catch((error) => {
 				if (
 					process.platform == "win32" &&
@@ -174,17 +184,20 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 						),
 					);
 				}
+
 				reject(
 					new Error(
 						`Virtual device launch finished with an exception: ${error}`,
 					),
 				);
 			});
+
 			emulatorProcess.spawnedProcess.unref();
 
 			const rejectTimeout = setTimeout(() => {
 				// eslint-disable-next-line @typescript-eslint/no-use-before-define
 				cleanup();
+
 				reject(
 					new Error(
 						`Virtual device launch finished with an exception: ${localize(
@@ -208,7 +221,9 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 
 					if (onlineAvdName === emulatorTarget.name) {
 						emulatorTarget.id = connectedDevices[i].id;
+
 						emulatorTarget.isOnline = true;
+
 						this.logger.log(
 							localize(
 								"EmulatorLaunched",
@@ -218,6 +233,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 						);
 						// eslint-disable-next-line @typescript-eslint/no-use-before-define
 						cleanup();
+
 						resolve(
 							new AndroidTarget(
 								<IDebuggableMobileTarget>emulatorTarget,
@@ -231,6 +247,7 @@ export class AndroidTargetManager extends MobileTargetManager<AndroidTarget> {
 
 			const cleanup = () => {
 				clearTimeout(rejectTimeout);
+
 				clearInterval(bootCheckInterval);
 			};
 		});

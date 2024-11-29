@@ -50,7 +50,9 @@ export class SafariCordovaCDPMessageHandler extends SafariCDPMessageHandlerBase 
 			event.method === CDP_API_NAMES.RUNTIME_ENABLE
 		) {
 			this.configureTargetForIWDPCommunication();
+
 			this.configureDebuggerForIWDPCommunication();
+
 			this.isBackcompatConfigured = true;
 		}
 
@@ -78,10 +80,13 @@ export class SafariCordovaCDPMessageHandler extends SafariCDPMessageHandlerBase 
 					dispatchDirection,
 				};
 			}
+
 			if (event.method === CDP_API_NAMES.TARGET_TARGET_CREATED) {
 				this.targetId = event.params.targetInfo.targetId;
+
 				communicationPreparationsDone = true;
 			}
+
 			if (
 				event.method ===
 				CDP_API_NAMES.TARGET_DISPATCH_MESSAGE_FROM_TARGET
@@ -139,8 +144,10 @@ export class SafariCordovaCDPMessageHandler extends SafariCDPMessageHandlerBase 
 				.join("\\/")
 				.split(".")
 				.join("\\.");
+
 			reqParams.urlRegex = `file:\\/\\/${fixedRemotePath}\\/www\\/${uriPart}`;
 		}
+
 		return reqParams;
 	}
 }

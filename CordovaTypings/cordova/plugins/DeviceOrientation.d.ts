@@ -67,6 +67,7 @@ interface CompassHeading {
 
 interface CompassOptions {
 	filter?: number;
+
 	frequency?: number;
 }
 
@@ -83,6 +84,8 @@ interface CompassError {
 declare var CompassError: {
 	/** Constructor for CompassError object */
 	new (code: number): CompassError;
+
 	COMPASS_INTERNAL_ERR: number;
+
 	COMPASS_NOT_SUPPORTED: number;
 };

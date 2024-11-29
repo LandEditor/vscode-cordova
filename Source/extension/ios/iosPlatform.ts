@@ -45,6 +45,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 		protected log: DebugConsoleLogger,
 	) {
 		super(platformOpts, log);
+
 		this.targetManager = new IOSTargetManager();
 	}
 
@@ -68,6 +69,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 			if (!this._target) {
 				this._target = await this.getPreferredTarget();
+
 				this.addTargetToRunArgs(this._target);
 			}
 		}
@@ -86,6 +88,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				this.platformOpts.iosDebugProxyPort,
 			);
 		}
+
 		return {};
 	}
 
@@ -136,6 +139,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 				// device.url is of the form 'localhost:port'
 				targetPort = parseInt(device.url.split(":")[1], 10);
+
 				iOSVersion = target.isVirtualTarget
 					? target.system
 					: device.deviceOSVersion;
@@ -143,6 +147,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				const error = ErrorHelper.getInternalError(
 					InternalErrorCode.UnableToFindiOSTargetDeviceOrSimulator,
 				);
+
 				TelemetryHelper.sendErrorEvent(
 					"UnableToFindiOSTargetDeviceOrSimulator",
 					error,
@@ -176,6 +181,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 					const error = ErrorHelper.getInternalError(
 						InternalErrorCode.UnableToFindTargetApp,
 					);
+
 					TelemetryHelper.sendErrorEvent(
 						"UnableToFindTargetApp",
 						error,
@@ -183,6 +189,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 					throw error;
 				}
+
 				const cordovaWebview = this.getCordovaWebview(
 					webViewsList,
 					iOSAppPackagePath,
@@ -192,6 +199,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 					const error = ErrorHelper.getInternalError(
 						InternalErrorCode.WebsocketDebuggerUrlIsEmpty,
 					);
+
 					TelemetryHelper.sendErrorEvent(
 						"WebsocketDebuggerUrlIsEmpty",
 						error,
@@ -199,6 +207,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 					throw error;
 				}
+
 				webSocketDebuggerUrl = cordovaWebview.webSocketDebuggerUrl;
 
 				if (this.IonicDevServer.ionicDevServerUrls) {
@@ -211,6 +220,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				const error = ErrorHelper.getInternalError(
 					InternalErrorCode.UnableToFindTargetApp,
 				);
+
 				TelemetryHelper.sendErrorEvent("UnableToFindTargetApp", error);
 
 				throw error;
@@ -242,6 +252,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 
 	public async stopAndCleanUp(): Promise<void> {
 		await super.stopAndCleanUp();
+
 		CordovaIosDeviceLauncher.cleanup();
 	}
 
@@ -286,6 +297,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				this.log(IonicDevServer.NO_LIVERELOAD_WARNING);
 			}
 		}
+
 		return args;
 	}
 
@@ -310,6 +322,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 				if (target) {
 					return new IOSTarget(target);
 				}
+
 				this.log(
 					localize(
 						"ThereIsNoIosTargetWithSuchUdid",
@@ -335,6 +348,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 		} else {
 			this.platformOpts.target = target.simIdentifier;
 		}
+
 		this.runArguments = this.getRunArguments();
 	}
 
@@ -357,12 +371,14 @@ export default class IosPlatform extends AbstractMobilePlatform<
 			if (webviewData.url.includes(iOSAppPackagePath)) {
 				return true;
 			}
+
 			if (
 				!this.platformOpts.ionicLiveReload &&
 				webviewData.url.startsWith("ionic://")
 			) {
 				return true;
 			}
+
 			if (this.IonicDevServer.ionicDevServerUrls) {
 				return (
 					this.IonicDevServer.ionicDevServerUrls.findIndex(
@@ -370,6 +386,7 @@ export default class IosPlatform extends AbstractMobilePlatform<
 					) >= 0
 				);
 			}
+
 			return false;
 		});
 
@@ -424,9 +441,11 @@ export default class IosPlatform extends AbstractMobilePlatform<
 		if (filtered.length > 0) {
 			return filtered[0];
 		}
+
 		const error = ErrorHelper.getInternalError(
 			InternalErrorCode.CouldNotFindiOSAppFile,
 		);
+
 		TelemetryHelper.sendErrorEvent("CouldNotFindiOSAppFile", error);
 
 		throw error;

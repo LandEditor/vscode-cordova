@@ -26,10 +26,12 @@ export function retryAsync<T>(
 			const cancelError = new Error(
 				CordovaDebugSession.CANCELLATION_ERROR_NAME,
 			);
+
 			cancelError.name = CordovaDebugSession.CANCELLATION_ERROR_NAME;
 
 			throw cancelError;
 		}
+
 		if (iteration < maxRetries) {
 			return delay(delayTime).then(() =>
 				retryAsync(
@@ -67,23 +69,28 @@ export function promiseGet(
 	return new Promise((resolve, reject) => {
 		const timeout = setTimeout(() => {
 			const err = new Error("Request timeout");
+
 			req.destroy(err); // eslint-disable-line
 			reject(err);
 		}, 9500);
 
 		const req = http.get(url, function (res) {
 			let responseString = "";
+
 			res.on("data", (data: Buffer) => {
 				responseString += data.toString();
 			});
+
 			res.on("end", () => {
 				clearTimeout(timeout);
+
 				resolve(responseString);
 			});
 		});
 
 		req.on("error", (err: Error) => {
 			clearTimeout(timeout);
+
 			reject(err);
 		});
 	});

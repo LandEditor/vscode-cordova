@@ -8,36 +8,51 @@ import { InternalErrorCode } from "../error/internalErrorCode";
 
 export interface IExecResult {
 	process: nodeChildProcess.ChildProcess;
+
 	outcome: Promise<string>;
 }
 
 export interface ISpawnResult {
 	spawnedProcess: nodeChildProcess.ChildProcess;
+
 	stdin: NodeJS.WritableStream;
+
 	stdout: NodeJS.ReadableStream;
+
 	stderr: NodeJS.ReadableStream;
+
 	outcome: Promise<void>;
 }
 
 interface IExecOptions {
 	cwd?: string;
+
 	stdio?: any;
+
 	env?: any;
+
 	encoding?: string;
+
 	timeout?: number;
+
 	maxBuffer?: number;
+
 	killSignal?: string;
 }
 
 interface ISpawnOptions {
 	cwd?: string;
+
 	stdio?: any;
+
 	env?: any;
+
 	detached?: boolean;
 }
 
 export class ChildProcess {
 	public static ERROR_TIMEOUT_MILLISECONDS = 300;
+
 	private childProcess: typeof nodeChildProcess;
 
 	constructor({ childProcess = nodeChildProcess } = {}) {
@@ -73,6 +88,7 @@ export class ChildProcess {
 					},
 				);
 			});
+
 			resolveRes({ process, outcome });
 		});
 	}
@@ -137,14 +153,17 @@ export class ChildProcess {
 								`\n\tSTDOUT: ${stdoutChunks[stdoutChunks.length - 1]}`,
 							);
 						}
+
 						if (stderrChunks.length > 0) {
 							details = details.concat(
 								`\n\tSTDERR: ${stderrChunks.join("\n\t")}`,
 							);
 						}
+
 						if (details === "") {
 							details = "STDOUT and STDERR are empty!";
 						}
+
 						reject(
 							ErrorHelper.getInternalError(
 								InternalErrorCode.CommandFailedWithDetails,

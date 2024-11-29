@@ -20,7 +20,9 @@ const localize = nls.loadMessageBundle();
 
 export interface IPluginDetails {
 	PluginId: string;
+
 	PluginType: string;
+
 	Version: string;
 }
 
@@ -40,17 +42,27 @@ export class ProjectType {
 
 export class CordovaProjectHelper {
 	private static PROJECT_TYPINGS_FOLDERNAME = "typings";
+
 	private static PROJECT_TYPINGS_PLUGINS_FOLDERNAME = "plugins";
+
 	private static PROJECT_TYPINGS_CORDOVA_FOLDERNAME = "cordova";
+
 	private static PROJECT_TYPINGS_CORDOVA_IONIC_FOLDERNAME = "cordova-ionic";
+
 	private static VSCODE_DIR: string = ".vscode";
+
 	private static PLATFORMS_PATH: string = "platforms";
+
 	private static PLUGINS_FETCH_FILENAME: string = "fetch.json";
+
 	private static CONFIG_XML_FILENAME: string = "config.xml";
+
 	private static PROJECT_PLUGINS_DIR: string = "plugins";
+
 	private static IONIC_PROJECT_FILE: string = "ionic.project";
 
 	private static CONFIG_IONIC_FILENAME: string = "ionic.config.json";
+
 	private static IONIC_LIB_DEFAULT_PATH: string = path.join(
 		"www",
 		"lib",
@@ -140,6 +152,7 @@ export class CordovaProjectHelper {
 			if (fs.lstatSync(dirPath).isDirectory()) {
 				fs.readdirSync(dirPath).forEach(function (file) {
 					const curPath = path.join(dirPath, file);
+
 					CordovaProjectHelper.deleteDirectoryRecursive(curPath);
 				});
 
@@ -374,6 +387,7 @@ export class CordovaProjectHelper {
 		if (!fs.existsSync(packageJsonPath)) {
 			return;
 		}
+
 		const packageJson = JSON.parse(
 			fs.readFileSync(packageJsonPath, "utf-8"),
 		);
@@ -405,6 +419,7 @@ export class CordovaProjectHelper {
 				) {
 					return 2;
 				}
+
 				if (
 					semver.gt(
 						ionicVersion,
@@ -426,6 +441,7 @@ export class CordovaProjectHelper {
 				) {
 					return 2;
 				}
+
 				if (
 					semver.ltr(
 						highestNotSupportedIonic3BetaVersion,
@@ -463,6 +479,7 @@ export class CordovaProjectHelper {
 				) {
 					return 4;
 				}
+
 				if (
 					CordovaProjectHelper.versionSatisfiesInterval(
 						ionicVersion,
@@ -472,6 +489,7 @@ export class CordovaProjectHelper {
 				) {
 					return 5;
 				}
+
 				if (
 					semver.gt(
 						ionicVersion,
@@ -493,6 +511,7 @@ export class CordovaProjectHelper {
 				) {
 					return 4;
 				}
+
 				if (
 					CordovaProjectHelper.versionRangeSatisfiesInterval(
 						ionicVersion,
@@ -502,6 +521,7 @@ export class CordovaProjectHelper {
 				) {
 					return 5;
 				}
+
 				if (
 					semver.ltr(
 						highestNotSupportedIonic6BetaVersion,
@@ -584,6 +604,7 @@ export class CordovaProjectHelper {
 				err,
 			);
 		}
+
 		return true;
 	}
 
@@ -626,6 +647,7 @@ export class CordovaProjectHelper {
 						) {
 							value = value.replace(/\\n/gm, "\n");
 						}
+
 						env[key] = value.replace(/(^["']|["']$)/g, "");
 					}
 				}
@@ -664,6 +686,7 @@ export class CordovaProjectHelper {
 		} else if (path.win32.isAbsolute(segments[0])) {
 			return path.win32.join(...segments);
 		}
+
 		return path.join(...segments);
 	}
 
@@ -724,6 +747,7 @@ export class CordovaProjectHelper {
 					"utf-8",
 				),
 			).devDependencies;
+
 			androidVersion = devDeps["cordova-android"].replace("^", "");
 		} catch {
 			return "";

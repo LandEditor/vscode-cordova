@@ -47,12 +47,14 @@ export class CDPMessageHandlerCreator {
 					handlerOptions,
 				);
 			}
+
 			return new ChromeCordovaCDPMessageHandler(
 				sourcemapPathTransformer,
 				projectType,
 				handlerOptions,
 			);
 		}
+
 		if (projectType.isIonic) {
 			return new SafariIonicCDPMessageHandler(
 				sourcemapPathTransformer,
@@ -60,6 +62,7 @@ export class CDPMessageHandlerCreator {
 				handlerOptions,
 			);
 		}
+
 		return new SafariCordovaCDPMessageHandler(
 			sourcemapPathTransformer,
 			projectType,
