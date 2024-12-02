@@ -704,7 +704,6 @@
 	"name": "cordova-tools",
 	"scripts": {
 		"build": "gulp build",
-		"prepare": "husky install",
 		"test-localization": "node ./test/localization/runTest.js"
 	}
 }
