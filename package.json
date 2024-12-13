@@ -1,24 +1,11 @@
 {
-	"activationEvents": [
-		"onDebugResolve:cordova",
-		"onDebugInitialConfigurations",
-		"onCommand:cordova.prepare",
-		"onCommand:cordova.build",
-		"onCommand:cordova.run",
-		"onCommand:ionic.prepare",
-		"onCommand:ionic.build",
-		"onCommand:ionic.run",
-		"onCommand:cordova.simulate.android",
-		"onCommand:cordova.simulate.ios",
-		"workspaceContains:config.xml",
-		"workspaceContains:ionic.config.json"
-	],
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"description": "%cordova.workspaceTrust.description%",
-			"supported": "limited"
-		},
-		"virtualWorkspaces": false
+	"name": "cordova-tools",
+	"displayName": "Cordova Tools",
+	"description": "%cordova.description%",
+	"main": "./src/extension/cordova-extension",
+	"scripts": {
+		"build": "gulp build",
+		"test-localization": "node ./test/localization/runTest.js"
 	},
 	"contributes": {
 		"breakpoints": [
@@ -653,95 +640,70 @@
 			]
 		}
 	},
+	"activationEvents": [
+		"onDebugResolve:cordova",
+		"onDebugInitialConfigurations",
+		"onCommand:cordova.prepare",
+		"onCommand:cordova.build",
+		"onCommand:cordova.run",
+		"onCommand:ionic.prepare",
+		"onCommand:ionic.build",
+		"onCommand:ionic.run",
+		"onCommand:cordova.simulate.android",
+		"onCommand:cordova.simulate.ios",
+		"workspaceContains:config.xml",
+		"workspaceContains:ionic.config.json"
+	],
 	"dependencies": {
-		"@mixer/parallel-prettier": "^2.0.2",
-		"@vscode/debugadapter": "^1.63.0",
 		"elementtree": "^0.1.6",
 		"execa": "^4.0.0",
-		"gulp-mocha": "^10.0.1",
 		"ip-address": "^9.0.5",
 		"net": "^1.0.2",
 		"plist": "^3.0.5",
 		"semver": "^6.3.1",
 		"socket.io-client": "2.4.0",
 		"uuid": "^9.0.0",
-		"vscode-cdp-proxy": "^0.2.0",
-		"vscode-debugprotocol": "^1.51.0",
-		"vscode-extension-telemetry": "0.4.5",
-		"vscode-js-debug-browsers": "^1.0.4",
-		"vscode-nls": "^4.1.2",
 		"winreg": "0.0.13",
 		"xml2js": "^0.6.2"
 	},
-	"description": "%cordova.description%",
 	"devDependencies": {
 		"@types/elementtree": "^0.1.0",
 		"@types/fancy-log": "^1.3.1",
-		"@types/mocha": "^8.0.3",
 		"@types/node": "^10.17.17",
 		"@types/rimraf": "^2.0.3",
 		"@types/semver": "^5.5.0",
 		"@types/sinon": "^10.0.12",
 		"@types/socket.io-client": "^1.4.36",
 		"@types/uuid": "^9.0.0",
-		"@types/vscode": "1.40.0",
-		"@typescript-eslint/eslint-plugin": "^6.15.0",
-		"@typescript-eslint/parser": "^6.15.0",
-		"@vscode/test-electron": "^2.3.8",
-		"@vscode/vsce": "^2.19.0",
 		"cordova-simulate": "^1.1.3",
 		"del": "^2.2.2",
 		"devtools-protocol": "0.0.760817",
-		"eslint": "^7.32.0",
-		"eslint-config-prettier": "^7.2.0",
-		"eslint-import-resolver-node": "^0.3.4",
-		"eslint-import-resolver-typescript": "^2.7.1",
-		"eslint-plugin-header": "^3.1.0",
-		"eslint-plugin-import": "^2.26.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"eslint-plugin-promise": "^4.3.1",
-		"eslint-plugin-unicorn": "^28.0.2",
 		"event-stream": "3.3.4",
 		"fancy-log": "^1.3.3",
 		"glob": "^7.2.0",
-		"gulp": "^5.0.0",
-		"gulp-filter": "^6.0.0",
-		"gulp-preprocess": "^4.0.2",
-		"gulp-sourcemaps": "^2.6.5",
-		"gulp-typescript": "^5.0.1",
-		"husky": "^8.0.1",
 		"minimist": "^1.2.6",
-		"mocha": "^11.0.1",
-		"mocha-junit-reporter": "^2.2.0",
-		"mocha-multi-reporters": "^1.5.1",
-		"mochawesome": "^7.1.3",
-		"prettier": "2.6.2",
 		"rimraf": "^2.7.1",
 		"should": "^13.2.1",
 		"sinon": "^9.1.0",
 		"ts-loader": "^8.1.0",
-		"typescript": "^3.8.3",
-		"vscode-nls-dev": "^4.0.4",
-		"webpack": "^5.94.0",
-		"webpack-bundle-analyzer": "^4.4.0",
 		"xcparse": "^0.0.3"
 	},
-	"displayName": "Cordova Tools",
 	"extensionDependencies": [
 		"ms-vscode.js-debug"
 	],
-	"extensionKind": [
-		"workspace"
-	],
+	"icon": "images/icon.png",
 	"galleryBanner": {
 		"color": "#feb943",
 		"theme": "dark"
 	},
-	"icon": "images/icon.png",
-	"main": "./src/extension/cordova-extension",
-	"name": "cordova-tools",
-	"scripts": {
-		"build": "gulp build",
-		"test-localization": "node ./test/localization/runTest.js"
-	}
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"description": "%cordova.workspaceTrust.description%",
+			"supported": "limited"
+		},
+		"virtualWorkspaces": false
+	},
+	"extensionKind": [
+		"workspace"
+	]
 }
