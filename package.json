@@ -2,6 +2,42 @@
 	"name": "cordova-tools",
 	"displayName": "Cordova Tools",
 	"description": "%cordova.description%",
+	"keywords": [
+		"cordova",
+		"ionic",
+		"multi-root ready"
+	],
+	"version": "2.7.0",
+	"private": true,
+	"publisher": "msjsdiag",
+	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#feb943",
+		"theme": "dark"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/vscode-cordova"
+	},
+	"bugs": "https://github.com/Microsoft/vscode-cordova/issues",
+	"license": "%cordova.license%",
+	"engines": {
+		"vscode": "^1.75.0"
+	},
+	"categories": [
+		"Debuggers",
+		"Snippets",
+		"Other"
+	],
+	"activationEvents": [
+		"onDebugResolve:cordova",
+		"onDebugInitialConfigurations",
+		"workspaceContains:config.xml",
+		"workspaceContains:ionic.config.json"
+	],
+	"extensionKind": [
+		"workspace"
+	],
 	"main": "./src/extension/cordova-extension",
 	"scripts": {
 		"build": "gulp build",
